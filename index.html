@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Favicon and PWA icons -->
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="apple-touch-icon" href="/icon-192.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#10b981" />
+
+  <!-- Primary Meta Tags -->
+  <title>AGHeal - Gestion de séances sportives</title>
+  <meta name="description"
+    content="Application de gestion de séances sportives et adhérents. Planifiez vos cours, gérez vos clients et simplifiez votre organisation." />
+  <meta name="author" content="Hylst - Geoffroy Streit" />
+  <meta name="keywords" content="gestion séances, sport, coach, adhérents, planning, fitness, santé" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://agheal.fr/" />
+  <meta property="og:title" content="AGHeal - Gestion de séances sportives" />
+  <meta property="og:description"
+    content="Application de gestion de séances sportives et adhérents. Planifiez vos cours, gérez vos clients." />
+  <meta property="og:image" content="/og-image.png" />
+  <meta property="og:locale" content="fr_FR" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@hylst" />
+  <meta name="twitter:title" content="AGHeal - Gestion de séances sportives" />
+  <meta name="twitter:description" content="Application de gestion de séances sportives et adhérents." />
+  <meta name="twitter:image" content="/og-image.png" />
+
+  <!-- PWA -->
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="AGHeal" />
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "AGHeal",
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": "Web",
+    "description": "Application de gestion de séances sportives et adhérents pour coachs et organisations",
+    "author": {
+      "@type": "Person",
+      "name": "Geoffroy Streit"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "EUR"
+    }
+  }
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
+</html>
