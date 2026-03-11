@@ -128,11 +128,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const signInWithGoogle = async () => {
-    toast({
-      variant: 'destructive',
-      title: 'Non disponible',
-      description: 'La connexion Google n\'est pas encore implémentée en local',
-    });
+    // Redirige vers l'endpoint OAuth de notre backend PHP
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8081/agheal-api/public';
+    window.location.href = `${apiUrl}/auth/google`;
   };
 
   const signOut = async () => {

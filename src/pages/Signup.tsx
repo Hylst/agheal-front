@@ -123,6 +123,7 @@ export default function Signup() {
               <Input
                 id="email"
                 type="email"
+                autoComplete="username"
                 placeholder="votre@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -134,6 +135,7 @@ export default function Signup() {
               <Input
                 id="password"
                 type="password"
+                autoComplete="new-password"
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -143,9 +145,9 @@ export default function Signup() {
             </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
-            <Button 
-              type="submit" 
-              className="w-full bg-gradient-accent shadow-accent hover:scale-105 transition-transform" 
+            <Button
+              type="submit"
+              className="w-full bg-gradient-accent shadow-accent hover:scale-105 transition-transform"
               disabled={loading || googleLoading}
             >
               {loading ? 'Inscription...' : 'S\'inscrire'}

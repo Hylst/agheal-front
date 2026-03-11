@@ -97,6 +97,7 @@ export default function Login() {
               <Input
                 id="email"
                 type="email"
+                autoComplete="username"
                 placeholder="votre@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -106,8 +107,8 @@ export default function Login() {
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Label htmlFor="password">Mot de passe</Label>
-                <Link 
-                  to="/reset-password" 
+                <Link
+                  to="/reset-password"
                   className="text-xs text-muted-foreground hover:text-primary transition-colors"
                 >
                   Mot de passe oublié ?
@@ -116,6 +117,7 @@ export default function Login() {
               <Input
                 id="password"
                 type="password"
+                autoComplete="current-password"
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -124,9 +126,9 @@ export default function Login() {
             </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
-            <Button 
-              type="submit" 
-              className="w-full shadow-primary hover:scale-105 transition-transform" 
+            <Button
+              type="submit"
+              className="w-full shadow-primary hover:scale-105 transition-transform"
               disabled={loading || googleLoading}
             >
               {loading ? 'Connexion...' : 'Se connecter'}

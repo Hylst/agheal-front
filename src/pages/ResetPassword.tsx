@@ -6,10 +6,12 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Link } from 'react-router-dom';
 import { Dumbbell, ArrowLeft } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { apiClient } from '@/integrations/api/client';
 
 export default function ResetPassword() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
+  const [sent, setSent] = useState(false);
   const { toast } = useToast();
 
   const handleRequestReset = async (e: React.FormEvent) => {
@@ -17,19 +19,19 @@ export default function ResetPassword() {
     setLoading(true);
 
     try {
-      // Pour l'instant, en local, on simule l'envoi
-      // TODO: Implémenter un endpoint PHP pour envoyer un mail de récupération
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const { error } = await apiClient.resetPassword(email);
+      if (error) throw new Error(error.message);
 
+      setSent(true);
       toast({
-        title: 'Information',
-        description: 'La réinitialisation de mot de passe sera disponible prochainement. Contactez l\'administrateur pour modifier votre mot de passe.',
+        title: 'Demande envoyée',
+        description: 'Si cet email existe, vous recevrez un lien de réinitialisation.',
       });
     } catch (error: any) {
       toast({
         variant: 'destructive',
         title: 'Erreur',
-        description: 'Une erreur est survenue',
+        description: error.message || 'Une erreur est survenue. Veuillez réessayer.',
       });
     } finally {
       setLoading(false);
@@ -47,7 +49,9 @@ export default function ResetPassword() {
           </div>
           <CardTitle className="text-2xl font-bold">Mot de passe oublié</CardTitle>
           <CardDescription className="text-base">
-            Cette fonctionnalité est temporairement désactivée en version locale.
+            {sent
+              ? 'Si cet email est enregistré, vous recevrez un lien sous peu.'
+              : 'Entrez votre email pour recevoir un lien de réinitialisation.'}
           </CardDescription>
         </CardHeader>
 
@@ -58,10 +62,12 @@ export default function ResetPassword() {
               <Input
                 id="email"
                 type="email"
+                autoComplete="email"
                 placeholder="votre@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                disabled={sent}
               />
             </div>
           </CardContent>
@@ -69,9 +75,9 @@ export default function ResetPassword() {
             <Button
               type="submit"
               className="w-full shadow-primary hover:scale-105 transition-transform"
-              disabled={loading}
+              disabled={loading || sent}
             >
-              {loading ? 'Envoi...' : 'Envoyer la demande'}
+              {loading ? 'Envoi...' : sent ? 'Email envoyé ✓' : 'Envoyer la demande'}
             </Button>
             <Link to="/login" className="text-sm text-muted-foreground hover:text-primary">
               <ArrowLeft className="w-4 h-4 inline mr-1" />
