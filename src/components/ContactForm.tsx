@@ -48,7 +48,8 @@ export const ContactForm = () => {
   const onSubmit = async (data: ContactFormValues) => {
     setIsSubmitting(true);
     try {
-      const response = await fetch('http://localhost:8081/agheal-api/public/contact', {
+      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8081/agheal-api/public";
+      const response = await fetch(`${apiUrl}/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

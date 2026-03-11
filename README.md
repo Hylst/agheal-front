@@ -147,15 +147,28 @@ FRONTEND_URL=http://localhost:5173
 
 ---
 
-## 🐛 Problèmes fréquents
+## 🌐 Déploiement Production (Coolify)
 
-| Problème | Cause | Solution |
-|---|---|---|
-| Page blanche sur :5173 | Frontend pas démarré | `npm run dev` |
-| Erreur "Erreur réseau" | WAMP pas démarré | Démarrer WAMP (icône verte) |
-| Erreur 401 | Token expiré ou pas connecté | Se reconnecter |
-| Icône WAMP ne répond plus | Processus bloqué | Gestionnaire des tâches → tuer wampmanager.exe + httpd.exe + mysqld.exe, puis relancer |
-| Port 8080 déjà utilisé | Conflit avec WAMP | Vite tourne sur 5173, c'est normal |
+L'application est déployée sur un VPS Hostinger géré par Coolify.
+
+| Composant | URL | Technologie |
+|-----------|-----|-------------|
+| **Frontend** | [https://agheal.hylst.fr](https://agheal.hylst.fr) | Nixpacks (React/Vite) |
+| **API Backend** | [https://api.agheal.hylst.fr](https://api.agheal.hylst.fr) | Docker (PHP 8.1 / Apache) |
+| **Base de données** | Réseau interne Coolify | MariaDB |
+
+### Variables d'environnement Production
+- **Frontend** : `VITE_API_URL=https://api.agheal.hylst.fr`
+- **Backend** : `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME` (configurés dans Coolify)
+
+---
+
+## 📂 Documentation Technique (`/docs`)
+
+Les documents de référence pour la conception sont :
+- [01_MCD_Merise.md](file:///d:/0CODE/AntiGravity/AGheal/docs/01_MCD_Merise.md) : Schéma de données complet.
+- [02_UML_Classes.md](file:///d:/0CODE/AntiGravity/AGheal/docs/02_UML_Classes.md) : Modèle objet et logique métier.
+- [03_UML_Use_Cases_Activites.md](file:///d:/0CODE/AntiGravity/AGheal/docs/03_UML_Use_Cases_Activites.md) : Processus et cas d'utilisation.
 
 ---
 
