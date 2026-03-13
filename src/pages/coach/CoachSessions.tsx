@@ -113,8 +113,8 @@ export default function CoachSessions() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto p-8">
-        <div className="flex items-center justify-between mb-8">
+      <div className="max-w-7xl mx-auto p-4 sm:p-8">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-8">
           <div>
             <Button
               variant="ghost"
@@ -127,7 +127,7 @@ export default function CoachSessions() {
             <h1 className="text-4xl font-bold text-foreground mb-2">Mes séances</h1>
             <p className="text-muted-foreground">Gérez vos séances et inscriptions</p>
           </div>
-          <Button onClick={() => navigate('/coach/sessions/new')} className="gap-2">
+          <Button onClick={() => navigate('/coach/sessions/new')} className="gap-2 w-full sm:w-auto">
             <Plus className="w-4 h-4" />
             Créer une séance
           </Button>
@@ -141,11 +141,11 @@ export default function CoachSessions() {
         ) : (
           <div className="space-y-4">
             {sessions.map((session) => (
-              <Card key={session.id} className="p-6 hover:shadow-md transition-shadow">
-                <div className="flex items-start justify-between">
+              <Card key={session.id} className="p-4 sm:p-6 hover:shadow-md transition-shadow">
+                <div className="flex items-start justify-between gap-2">
                   <div className="space-y-3 flex-1">
                     <div className="flex items-center gap-3 flex-wrap">
-                      <h3 className="text-xl font-bold text-foreground">{session.title}</h3>
+                      <h3 className="text-lg sm:text-xl font-bold text-foreground">{session.title}</h3>
                       {getStatusBadge(session.status)}
                       {session.session_types && (
                         <Badge variant="outline">{session.session_types.name}</Badge>

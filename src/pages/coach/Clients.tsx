@@ -215,7 +215,7 @@ export default function Clients() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-6xl mx-auto p-8">
+      <div className="max-w-6xl mx-auto p-4 sm:p-8">
         <div className="mb-8">
           <Button variant="ghost" onClick={() => navigate('/dashboard')} className="mb-4">
             <ArrowLeft className="w-4 h-4 mr-2" />
@@ -234,10 +234,10 @@ export default function Clients() {
 
         <Card>
           <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle>Liste des adhérents ({filteredClients.length})</CardTitle>
-              <div className="flex items-center gap-4">
-                <div className="w-48">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <CardTitle className="text-lg">Liste des adhérents ({filteredClients.length})</CardTitle>
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                <div className="w-full sm:w-48">
                   <Select value={statusFilter} onValueChange={setStatusFilter}>
                     <SelectTrigger>
                       <SelectValue placeholder="Filtrer par statut" />
@@ -249,7 +249,7 @@ export default function Clients() {
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="relative w-64">
+                <div className="relative w-full sm:w-64">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <Input
                     placeholder="Rechercher..."
@@ -262,6 +262,52 @@ export default function Clients() {
             </div>
           </CardHeader>
           <CardContent>
+            {/* Vue carte sur mobile */}
+            <div className="sm:hidden space-y-3">
+              {filteredClients.length === 0 && (
+                <p className="text-center py-8 text-muted-foreground">Aucun adhérent trouvé</p>
+              )}
+              {filteredClients.map((client) => (
+                <div key={client.id} className="border rounded-lg p-4 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Avatar className="w-9 h-9">
+                        {client.avatar_base64 && <AvatarImage src={client.avatar_base64} />}
+                        <AvatarFallback>{getInitials(client.first_name, client.last_name)}</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <p className="font-semibold text-sm">{client.first_name} {client.last_name}</p>
+                        {client.age && <p className="text-xs text-muted-foreground">{client.age} ans</p>}
+                      </div>
+                    </div>
+                    <div className="flex gap-1">
+                      <Button size="sm" variant="ghost" onClick={() => openClientDetail(client, false)}><Eye className="w-4 h-4" /></Button>
+                      <Button size="sm" variant="ghost" onClick={() => openClientDetail(client, true)}><Edit className="w-4 h-4" /></Button>
+                    </div>
+                  </div>
+                  <div className="text-xs text-muted-foreground space-y-1">
+                    <p>{client.email || '-'}</p>
+                    <p>{client.phone || '-'}</p>
+                  </div>
+                  <div className="flex flex-wrap gap-1 items-center">
+                    <Badge variant={client.statut_compte === 'actif' ? 'default' : 'destructive'} className={client.statut_compte === 'actif' ? 'bg-green-600 text-xs' : 'text-xs'}>
+                      {client.statut_compte === 'actif' ? 'Actif' : 'Bloqué'}
+                    </Badge>
+                    {!(client.roles?.includes('admin') || client.roles?.includes('coach')) && (
+                      <Badge variant={client.payment_status === 'a_jour' ? 'default' : 'secondary'} className={client.payment_status === 'a_jour' ? 'bg-green-600 text-xs' : 'text-xs'}>
+                        {client.payment_status === 'a_jour' ? 'À jour' : 'En attente'}
+                      </Badge>
+                    )}
+                    {getClientGroups(client.id).map(group => (
+                      <Badge key={group.id} variant="secondary" className="text-xs">{group.name}</Badge>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Tableau sur desktop */}
+            <div className="hidden sm:block overflow-x-auto">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -333,18 +379,10 @@ export default function Clients() {
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          onClick={() => openClientDetail(client, false)}
-                        >
+                        <Button size="sm" variant="ghost" onClick={() => openClientDetail(client, false)}>
                           <Eye className="w-4 h-4" />
                         </Button>
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          onClick={() => openClientDetail(client, true)}
-                        >
+                        <Button size="sm" variant="ghost" onClick={() => openClientDetail(client, true)}>
                           <Edit className="w-4 h-4" />
                         </Button>
                       </div>
@@ -360,12 +398,13 @@ export default function Clients() {
                 )}
               </TableBody>
             </Table>
+            </div>
           </CardContent>
         </Card>
 
         {/* Client Detail Dialog */}
         <Dialog open={!!selectedClient} onOpenChange={(open) => !open && closeDialog()}>
-          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-3">
                 {selectedClient && (
@@ -411,7 +450,7 @@ export default function Clients() {
                     <Label className="font-semibold">Informations administratives</Label>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <Label className="text-muted-foreground text-sm">Date d'inscription</Label>
                       <p className="font-medium">{formatDate(selectedClient.created_at)}</p>
@@ -466,7 +505,7 @@ export default function Clients() {
                 </div>
 
                 {/* Informations de contact */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <Label className="text-muted-foreground">Email</Label>
                     <p className="font-medium">{selectedClient.email || '-'}</p>
