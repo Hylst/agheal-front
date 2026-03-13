@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
 import { apiClient } from '@/integrations/api/client';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -31,10 +32,11 @@ type User = {
 
 export default function AdminUsers() {
   const navigate = useNavigate();
+  const { user: currentUser } = useAuth();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [actionUser, setActionUser] = useState<{ id: string; action: string } | null>(null);
+  const [actionUser, setActionUser] = useState<{ id: string; action: string; role?: string } | null>(null);
 
   useEffect(() => {
     fetchUsers();
@@ -80,26 +82,47 @@ export default function AdminUsers() {
   };
 
   const handleToggleRole = async (userId: string, role: 'admin' | 'coach' | 'adherent', hasRole: boolean) => {
+    // Sécurité : empêche de se retirer son propre rôle admin depuis l'UI
+    if (userId === currentUser?.id && role === 'admin' && hasRole) {
+      toast({
+        title: 'Action interdite',
+        description: 'Vous ne pouvez pas vous retirer votre propre rôle Administrateur.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    // Ouvre la modale de confirmation
+    setActionUser({
+      id: userId,
+      action: hasRole ? 'remove_role' : 'add_role',
+      role: role
+    });
+  };
+
+  const confirmToggleRole = async (userId: string, role: string, isRemoval: boolean) => {
     try {
-      if (hasRole) {
-        const { error } = await apiClient.removeUserRole(userId, role);
+      if (isRemoval) {
+        const { error } = await apiClient.removeUserRole(userId, role as any);
         if (error) throw new Error(error.message);
       } else {
-        const { error } = await apiClient.addUserRole(userId, role);
+        const { error } = await apiClient.addUserRole(userId, role as any);
         if (error) throw new Error(error.message);
       }
 
       toast({
         title: 'Rôle modifié',
-        description: `Le rôle ${role} a été ${hasRole ? 'retiré' : 'ajouté'}`,
+        description: `Le rôle ${role} a été ${isRemoval ? 'retiré' : 'ajouté'}`,
       });
       fetchUsers();
     } catch (error: any) {
       toast({
         title: 'Erreur',
-        description: 'Impossible de modifier le rôle',
+        description: error.message || 'Impossible de modifier le rôle',
         variant: 'destructive',
       });
+    } finally {
+      setActionUser(null);
     }
   };
 
@@ -184,6 +207,8 @@ export default function AdminUsers() {
                       variant="outline"
                       size="sm"
                       onClick={() => setActionUser({ id: user.id, action: isBlocked ? 'activate' : 'block' })}
+                      disabled={user.id === currentUser?.id}
+                      title={user.id === currentUser?.id ? "Vous ne pouvez pas bloquer votre propre compte" : ""}
                     >
                       {isBlocked ? (
                         <>
@@ -201,6 +226,8 @@ export default function AdminUsers() {
                       variant={isAdmin ? 'default' : 'outline'}
                       size="sm"
                       onClick={() => handleToggleRole(user.id, 'admin', isAdmin)}
+                      disabled={user.id === currentUser?.id}
+                      title={user.id === currentUser?.id ? "Vous ne pouvez pas modifier votre propre rôle Admin" : ""}
                     >
                       <Shield className="w-4 h-4 mr-1" />
                       Admin
@@ -223,12 +250,16 @@ export default function AdminUsers() {
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>
-                {actionUser?.action === 'block' ? 'Bloquer ce compte ?' : 'Activer ce compte ?'}
+                {actionUser?.action === 'block' && 'Bloquer ce compte ?'}
+                {actionUser?.action === 'activate' && 'Activer ce compte ?'}
+                {actionUser?.action === 'add_role' && 'Ajouter un rôle ?'}
+                {actionUser?.action === 'remove_role' && 'Retirer un rôle ?'}
               </AlertDialogTitle>
               <AlertDialogDescription>
-                {actionUser?.action === 'block'
-                  ? "L'utilisateur ne pourra plus s'inscrire aux séances."
-                  : "L'utilisateur pourra à nouveau s'inscrire aux séances."}
+                {actionUser?.action === 'block' && "L'utilisateur ne pourra plus s'inscrire aux séances."}
+                {actionUser?.action === 'activate' && "L'utilisateur pourra à nouveau s'inscrire aux séances."}
+                {actionUser?.action === 'add_role' && `Voulez-vous vraiment ajouter le rôle ${actionUser.role} à cet utilisateur ?`}
+                {actionUser?.action === 'remove_role' && `Voulez-vous vraiment retirer le rôle ${actionUser.role} à cet utilisateur ?`}
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
@@ -238,7 +269,11 @@ export default function AdminUsers() {
                   if (actionUser) {
                     const user = users.find((u) => u.id === actionUser.id);
                     if (user) {
-                      handleToggleStatus(actionUser.id, user.statut_compte);
+                      if (actionUser.action === 'add_role' || actionUser.action === 'remove_role') {
+                        confirmToggleRole(actionUser.id, actionUser.role!, actionUser.action === 'remove_role');
+                      } else {
+                        handleToggleStatus(actionUser.id, user.statut_compte);
+                      }
                     }
                   }
                 }}

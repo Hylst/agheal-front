@@ -1,0 +1,73 @@
+# Analyse et Migration AGHeal
+
+## Objectif
+Analyser le projet AGHeal, retirer les références à Lovable, et préparer la migration vers une infrastructure locale/Docker.
+
+---
+
+## Phase 1 : Retrait des références Lovable (Nettoyage)
+
+- [x] Rechercher les références "lovable" et "lov"
+- [x] Retirer `lovable-tagger` du [package.json](file:///d:/0CODE/AntiGravity/AGheal/package.json) (devDependencies)
+- [x] Supprimer l'import et l'usage dans [vite.config.ts](file:///d:/0CODE/AntiGravity/AGheal/vite.config.ts)
+- [x] Mettre à jour [index.html](file:///d:/0CODE/AntiGravity/AGheal/index.html) :
+  - [x] Changer le titre (actuellement un UUID)
+  - [x] Mettre à jour la meta description
+  - [x] Mettre à jour l'auteur
+  - [x] Remplacer les OG images
+  - [x] Remplacer le @Twitter/X handle
+- [x] Remplacer le [favicon.ico](file:///d:/0CODE/AntiGravity/AGheal/public/favicon.ico) (cœur Lovable → logo AGH)
+- [x] Supprimer `node_modules/lovable-tagger` (via `npm install` après modification)
+
+---
+
+## Phase 2 : PWA et SEO
+
+- [x] Créer [public/manifest.json](file:///d:/0CODE/AntiGravity/AGheal/public/manifest.json) (métadonnées PWA)
+- [x] Générer icônes PWA (192x192 et 512x512)
+- [x] Créer [public/sw.js](file:///d:/0CODE/AntiGravity/AGheal/public/sw.js) (Service Worker)
+- [x] Enregistrer le Service Worker dans [main.tsx](file:///d:/0CODE/AntiGravity/AGheal/src/main.tsx)
+- [x] Ajouter lien manifest dans [index.html](file:///d:/0CODE/AntiGravity/AGheal/index.html)
+- [x] Améliorer [public/robots.txt](file:///d:/0CODE/AntiGravity/AGheal/public/robots.txt)
+- [x] Créer [public/sitemap.xml](file:///d:/0CODE/AntiGravity/AGheal/public/sitemap.xml)
+- [x] Ajouter structured data (JSON-LD)
+
+---
+
+## Phase 4 : Dépannage WAMP et Environnement Local
+
+- [x] Diagnostiquer l'échec du démarrage des services WAMP
+- [x] Analyser les fichiers de logs (Apache, MySQL)
+- [x] Vérifier les permissions d'exécution (Mode Administrateur)
+- [x] Résoudre les conflits de ports restants (Port 8081)
+- [x] Créer la base de données et l'utilisateur (via mysql.exe CLI)
+- [x] Valider l'accès à Adminer et phpMyAdmin (bulldozer method)
+
+---
+
+## Phase 5 : Migration du schéma de base de données
+
+- [/] Préparer le script SQL de migration complet (PostgreSQL -> MySQL)
+- [ ] Exécuter le script via Adminer ou CLI
+- [ ] Vérifier la création des tables et triggers
+- [ ] Analyser les Edge Functions pour conversion PHP
+
+- [ ] Vérifier les références Supabase dans la documentation
+- [ ] Vérifier la cohérence [.env](file:///d:/0CODE/AntiGravity/AGheal/.env) vs documentation
+- [ ] Vérifier si des trackers externes sont présents
+- [ ] Analyser les Edge Functions Supabase
+
+---
+
+## Phase 3 : Documentation de migration (Revue)
+
+- [x] [MIGRATION-LOCAL.md](file:///d:/0CODE/AntiGravity/AGheal/MIGRATION-LOCAL.md) existe (1977 lignes, très complet)
+- [x] [MIGRATION-DOCKER-MYSQL.md](file:///d:/0CODE/AntiGravity/AGheal/MIGRATION-DOCKER-MYSQL.md) existe (1102 lignes, très complet)
+- [ ] Ajouter des notes sur la suppression de Lovable
+- [ ] Vérifier la cohérence des commandes avec l'infrastrucure actuelle
+
+---
+
+## Statut actuel
+- **Analyse** : Terminée
+- **Plan** : En cours de rédaction

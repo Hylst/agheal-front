@@ -9,6 +9,43 @@ Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/)
 
 ---
 
+## [1.4.0] - Mars 2026
+
+### ✨ Gestion de la Facturation & Abonnements
+- **Historisation automatique** : Création de la table `payments_history` et enregistrement des transactions lors du passage au statut "À jour".
+- **Visibilité Adhérent** : Affichage du statut de règlement et de la date de renouvellement sur le profil utilisateur.
+- **Alertes Proactives** : Bandeau d'alerte sur le Dashboard pour les règlements en attente.
+- **Filtres Coach** : Filtrage de la liste des clients par statut de paiement.
+- **Automatisation** : Script de rappel par email (7 jours avant échéance) et basculement automatique en "En attente" le jour J.
+
+### 🔐 Sécurité & Administration
+- **Prévention du "Lockout"** : Triggers SQL et contrôles applicatifs empêchant un admin de se retirer ses propres droits ou de se bloquer.
+- **Audit Logging** : Journalisation de toutes les actions administratives (changement de rôle, blocage) dans la table `logs`.
+- **UX Améliorée** : Ajout de boîtes de dialogue de confirmation pour les changements de rôles sensibles.
+
+### 🔧 Améliorations Techniques
+- Indexation de la base de données sur les dates de renouvellement pour optimiser les performances des scripts de rappel.
+
+---
+
+## [1.3.0] - Mars 2026
+
+### ✨ Ajouté
+
+- **Audit & Synchronisation Base de Données**
+  - Refonte totale du script `init.sql` pour correspondre à l'API PHP.
+  - Création de `init_trigger.sql` (Fonction UUIDv4 et Trigger d'auto-profiling).
+  - Script `cleanup.sql` pour une réinitialisation propre.
+  - Suppression des tables inutilisées (`maintenance_types`, `reminders`, `vehicles`, etc.).
+
+### 🔧 Modifié
+
+- **Déploiement Coolify**
+  - Correction des endpoints API pour forcer le HTTPS (SSL Mixed Content).
+  - Optimisation des variables d'environnement pour la connexion DB.
+
+---
+
 ## [1.2.1] - Février 2026
 
 ### ✨ Ajouté

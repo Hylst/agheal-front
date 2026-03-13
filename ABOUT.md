@@ -120,6 +120,24 @@ Ce champ est **privé** : l'adhérent ne le voit pas. Utilisez-le pour :
 
 ---
 
+### 💳 Gestion des règlements & Abonnements
+L'application simplifie le suivi administratif pour les coachs et les adhérents.
+
+| Acteur | Ce qu'il peut voir / faire |
+|--------|----------------------------|
+| **Adhérent** | Voit son statut (À jour / En attente) et sa date de renouvellement sur son profil. |
+| **Coach** | Met à jour le statut et la date de renouvellement. Chaque passage "À jour" est historisé. |
+| **Alertes** | Un bandeau orange apparaît sur le Dashboard si un règlement est en attente. |
+| **Emails** | Un rappel automatique est envoyé 7 jours avant l'échéance de l'abonnement. |
+
+### 🔐 Sécurité Administrative
+Pour éviter toute erreur critique :
+- **Auto-blocage** : Un administrateur ne peut pas se bloquer lui-même ni se retirer son propre rôle d'admin.
+- **Confirmation obligatoire** : Toute attribution d'un rôle "Coach" ou "Admin" nécessite une confirmation explicite.
+- **Journalisation** : Toutes les modifications de rôles ou de statuts sont enregistrées dans un journal d'audit (logs).
+
+---
+
 ## 👨‍👩‍👧‍👦 Gérer les Groupes
 
 ### Créer un groupe :

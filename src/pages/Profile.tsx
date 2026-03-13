@@ -192,36 +192,34 @@ export default function Profile() {
             )}
 
             {/* Informations administratives */}
-            {!isCoachOrAdmin && (
-              <div className="p-4 bg-muted/50 rounded-lg border">
-                <div className="flex items-center gap-2 mb-4">
-                  <CreditCard className="w-5 h-5 text-muted-foreground" />
-                  <h2 className="text-xl font-semibold">Informations administratives</h2>
-                </div>
-
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  <div>
-                    <Label className="text-muted-foreground text-sm">Date d'inscription</Label>
-                    <p className="font-medium">{formatDate(profile.created_at)}</p>
-                  </div>
-                  <div>
-                    <Label className="text-muted-foreground text-sm">Statut règlement</Label>
-                    <Badge
-                      variant={profile.payment_status === 'a_jour' ? 'default' : 'secondary'}
-                      className={profile.payment_status === 'a_jour' ? 'bg-green-600 mt-1' : 'mt-1'}
-                    >
-                      {profile.payment_status === 'a_jour' ? 'À jour' : 'En attente'}
-                    </Badge>
-                  </div>
-                  {profile.renewal_date && (
-                    <div>
-                      <Label className="text-muted-foreground text-sm">Date de renouvellement</Label>
-                      <p className="font-medium">{formatDate(profile.renewal_date)}</p>
-                    </div>
-                  )}
-                </div>
+            <div className="p-4 bg-muted/50 rounded-lg border">
+              <div className="flex items-center gap-2 mb-4">
+                <CreditCard className="w-5 h-5 text-muted-foreground" />
+                <h2 className="text-xl font-semibold">Informations administratives</h2>
               </div>
-            )}
+
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div>
+                  <Label className="text-muted-foreground text-sm">Date d'inscription</Label>
+                  <p className="font-medium">{formatDate(profile.created_at)}</p>
+                </div>
+                <div>
+                  <Label className="text-muted-foreground text-sm">Statut règlement</Label>
+                  <Badge
+                    variant={profile.payment_status === 'a_jour' ? 'default' : 'secondary'}
+                    className={profile.payment_status === 'a_jour' ? 'bg-green-600 mt-1' : 'mt-1'}
+                  >
+                    {profile.payment_status === 'a_jour' ? 'À jour' : 'En attente'}
+                  </Badge>
+                </div>
+                {profile.renewal_date && (
+                  <div>
+                    <Label className="text-muted-foreground text-sm">Date de renouvellement</Label>
+                    <p className="font-medium">{formatDate(profile.renewal_date)}</p>
+                  </div>
+                )}
+              </div>
+            </div>
 
             <div className="space-y-4">
               <div className="flex items-center gap-2 mb-4">

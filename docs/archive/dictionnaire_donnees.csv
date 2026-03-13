@@ -1,0 +1,34 @@
+Table;Colonne;Type;Description;Contrainte
+users;id;UUID;Identifiant unique du compte;PK
+users;email;VARCHAR(255);Email de connexion;UNIQUE, NOT NULL
+users;password_hash;VARCHAR(255);Mot de passe haché (Bcrypt);NOT NULL
+profiles;id;UUID;Même identifiant que l'utilisateur;PK, FK (users)
+profiles;first_name;VARCHAR(100);Prénom de l'utilisateur;
+profiles;last_name;VARCHAR(100);Nom de l'utilisateur;
+profiles;phone;VARCHAR(20);Numéro de téléphone;
+profiles;statut_compte;ENUM;Actif ou Suspendu;Default 'actif'
+user_roles;user_id;UUID;Lien vers l'utilisateur;PK, FK (users)
+user_roles;role;ENUM;Nom du rôle (admin, coach, adherent);PK
+sessions;id;UUID;Identifiant de la séance;PK
+sessions;title;VARCHAR(255);Titre de l'activité;NOT NULL
+sessions;date;DATE;Date de la séance;NOT NULL
+sessions;start_time;TIME;Heure de début;NOT NULL
+sessions;end_time;TIME;Heure de fin;NOT NULL
+sessions;location_id;UUID;Lien vers le lieu;FK (locations)
+sessions;type_id;UUID;Lien vers le type de séance;FK (session_types)
+sessions;status;ENUM;État (draft, published, cancelled);Default 'draft'
+locations;id;UUID;Identifiant du lieu;PK
+locations;name;VARCHAR(255);Nom du lieu (ex: Salle A);NOT NULL
+registrations;id;UUID;Identifiant de l'inscription;PK
+registrations;session_id;UUID;Lien vers la séance;FK (sessions)
+registrations;user_id;UUID;Lien vers le profil;FK (profiles)
+session_types;id;UUID;Identifiant du type;PK
+session_types;name;VARCHAR(255);Nom de l'activité (Pilates...);NOT NULL
+groups;id;UUID;Identifiant du groupe;PK
+groups;name;VARCHAR(255);Nom du groupe d'adhérents;NOT NULL
+user_groups;user_id;UUID;Membre du groupe;FK (profiles)
+user_groups;group_id;UUID;Lien vers le groupe;FK (groups)
+logs;id;UUID;Identifiant du log;PK
+logs;action;VARCHAR(255);Action effectuée;NOT NULL
+app_info;key;VARCHAR(255);Clé de configuration;PK
+app_info;value;TEXT;Valeur de la configuration;

@@ -169,6 +169,7 @@ Les documents de référence pour la conception sont :
 - [01_MCD_Merise.md](file:///d:/0CODE/AntiGravity/AGheal/docs/01_MCD_Merise.md) : Schéma de données complet.
 - [02_UML_Classes.md](file:///d:/0CODE/AntiGravity/AGheal/docs/02_UML_Classes.md) : Modèle objet et logique métier.
 - [03_UML_Use_Cases_Activites.md](file:///d:/0CODE/AntiGravity/AGheal/docs/03_UML_Use_Cases_Activites.md) : Processus et cas d'utilisation.
+- [use_cases.md](file:///d:/0CODE/AntiGravity/AGheal/use_cases.md) : Inventaire détaillé des fonctionnalités par rôle.
 
 ---
 

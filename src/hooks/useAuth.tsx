@@ -11,6 +11,8 @@ interface User {
   first_name?: string;
   last_name?: string;
   roles?: AppRole[];
+  payment_status?: string;
+  renewal_date?: string;
 }
 
 interface AuthContextType {

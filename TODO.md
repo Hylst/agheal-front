@@ -104,11 +104,14 @@ Liste des améliorations et fonctionnalités prévues pour les prochaines versio
 
 ## ✅ Terminé récemment
 
+- [x] Audit complet de la base de données et alignement avec l'API PHP (Mars 2026)
+- [x] Scripts d'initialisation et de nettoyage (`init.sql`, `init_trigger.sql`, `cleanup.sql`)
+- [x] Correction du SSL et des endpoints API sur Coolify
 - [x] Page Informations avec contenu éditorial
 - [x] Champs de communication modifiables (Admin/Coach)
 - [x] Préférences de notifications dans les paramètres
 - [x] Masquage du statut règlement pour coachs/admin
-- [x] Documentation complète (README, ABOUT, CHANGELOG)
+- [x] Documentation complète (README, ABOUT, CHANGELOG, REPRISE)
 
 ---
 

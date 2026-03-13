@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Calendar, Users, MapPin, LogOut, Settings, Dumbbell, CalendarPlus, FolderOpen, UserCheck, Info, History } from 'lucide-react';
+import { Calendar, Users, MapPin, LogOut, Settings, Dumbbell, CalendarPlus, FolderOpen, UserCheck, Info, History, AlertTriangle } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Link } from 'react-router-dom';
 import { SettingsModal } from '@/components/SettingsModal';
 
@@ -46,6 +47,16 @@ export default function Dashboard() {
             Tableau de bord {role === 'admin' ? 'administrateur' : role === 'coach' ? 'coach' : 'adhérent'}
           </p>
         </div>
+
+        {user?.payment_status === 'en_attente' && (
+          <Alert variant="destructive" className="mb-8 border-orange-500 bg-orange-500/10 text-orange-600 dark:text-orange-400">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertTitle>Règlement en attente</AlertTitle>
+            <AlertDescription>
+              Votre statut de paiement est actuellement "En attente". Veuillez régulariser votre situation auprès de votre coach pour continuer à profiter pleinement de toutes les fonctionnalités.
+            </AlertDescription>
+          </Alert>
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Card Séances */}

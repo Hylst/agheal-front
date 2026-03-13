@@ -60,6 +60,7 @@ export default function Clients() {
   const [paymentStatus, setPaymentStatus] = useState('en_attente');
   const [renewalDate, setRenewalDate] = useState('');
   const [saving, setSaving] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<string>('all');
 
   useEffect(() => {
     fetchData();
@@ -177,7 +178,9 @@ export default function Clients() {
 
   const filteredClients = clients.filter(client => {
     const fullName = `${client.first_name || ''} ${client.last_name || ''}`.toLowerCase();
-    return fullName.includes(searchTerm.toLowerCase());
+    const matchesSearch = fullName.includes(searchTerm.toLowerCase());
+    const matchesStatus = statusFilter === 'all' || client.payment_status === statusFilter;
+    return matchesSearch && matchesStatus;
   });
 
   const getInitials = (firstName: string | null, lastName: string | null) => {
@@ -232,14 +235,28 @@ export default function Clients() {
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle>Liste des adhérents ({filteredClients.length})</CardTitle>
-              <div className="relative w-64">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input
-                  placeholder="Rechercher..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-9"
-                />
+              <div className="flex items-center gap-4">
+                <div className="w-48">
+                  <Select value={statusFilter} onValueChange={setStatusFilter}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Filtrer par statut" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Tous les statuts</SelectItem>
+                      <SelectItem value="a_jour">À jour</SelectItem>
+                      <SelectItem value="en_attente">En attente</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="relative w-64">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Rechercher..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-9"
+                  />
+                </div>
               </div>
             </div>
           </CardHeader>
