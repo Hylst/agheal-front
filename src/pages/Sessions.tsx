@@ -24,6 +24,11 @@ type Session = {
   end_time: string;
   min_people: number;
   max_people: number;
+  min_people_blocking: number | boolean;
+  max_people_blocking: number | boolean;
+  equipment_coach: string | null;
+  equipment_clients: string | null;
+  equipment_location: string | null;
   status: string;
   session_types: { name: string } | null;
   locations: { name: string; address: string | null } | null;
@@ -445,19 +450,41 @@ export default function Sessions() {
                       </div>
                     </div>
                   )}
-                  <div className="flex items-center gap-3">
-                    <Users className="w-5 h-5 text-muted-foreground" />
-                    <div className="flex items-center gap-2">
-                      <span>
-                        {(selectedSession.registrations[0] as any)?.count || 0} / {selectedSession.max_people} participants
-                      </span>
-                      {getAvailabilityBadge(
-                        (selectedSession.registrations[0] as any)?.count || 0,
-                        selectedSession.max_people,
-                        selectedSession.min_people
-                      )}
+                  <div className="flex flex-col gap-1">
+                    <div className="flex items-center gap-3">
+                      <Users className="w-5 h-5 text-muted-foreground" />
+                      <div className="flex items-center gap-2">
+                        <span>
+                          {(selectedSession.registrations[0] as any)?.count || 0} / {selectedSession.max_people} participants
+                        </span>
+                        {getAvailabilityBadge(
+                          (selectedSession.registrations[0] as any)?.count || 0,
+                          selectedSession.max_people,
+                          selectedSession.min_people
+                        )}
+                      </div>
+                    </div>
+                    <div className="text-xs text-muted-foreground ml-8">
+                      Maximum : {selectedSession.max_people_blocking ? 'Strict' : 'Indicatif'} 
+                      {' • '}
+                      Minimum requis : {selectedSession.min_people} ({selectedSession.min_people_blocking ? 'Strict' : 'Indicatif'})
                     </div>
                   </div>
+                  
+                  {(selectedSession.equipment_coach || selectedSession.equipment_clients || selectedSession.equipment_location) && (
+                    <div className="mt-4 p-4 bg-muted rounded-lg space-y-2 text-sm">
+                      <h4 className="font-semibold text-foreground mb-2">Matériel & Équipement</h4>
+                      {selectedSession.equipment_coach && (
+                        <div><span className="font-medium">Coach :</span> {selectedSession.equipment_coach}</div>
+                      )}
+                      {selectedSession.equipment_clients && (
+                        <div><span className="font-medium">Adhérents :</span> {selectedSession.equipment_clients}</div>
+                      )}
+                      {selectedSession.equipment_location && (
+                        <div><span className="font-medium">Sur place :</span> {selectedSession.equipment_location}</div>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 <div className="pt-4 border-t">

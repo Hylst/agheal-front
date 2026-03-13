@@ -30,6 +30,11 @@ type Session = {
   end_time: string;
   min_people: number;
   max_people: number;
+  min_people_blocking: number | boolean;
+  max_people_blocking: number | boolean;
+  equipment_coach: string | null;
+  equipment_clients: string | null;
+  equipment_location: string | null;
   status: string;
   session_types: { name: string } | null;
   locations: { name: string } | null;
@@ -166,21 +171,42 @@ export default function CoachSessions() {
                           <span>{session.locations.name}</span>
                         </div>
                       )}
-                      <div className="flex items-center gap-2">
-                        <Users className="w-4 h-4" />
-                        <span>
-                          {session.registrations.length} / {session.max_people} inscrits
-                        </span>
+                      <div className="flex flex-col gap-0.5 mt-2">
+                        <div className="flex items-center gap-2">
+                          <Users className="w-4 h-4" />
+                          <span>
+                            {session.registrations.length} / {session.max_people} inscrits
+                          </span>
+                        </div>
+                        <div className="text-xs text-muted-foreground ml-6">
+                          Max : {session.max_people_blocking ? 'Strict' : 'Indicatif'} 
+                          {' • '}
+                          Min : {session.min_people} ({session.min_people_blocking ? 'Strict' : 'Indicatif'})
+                        </div>
                       </div>
                     </div>
                     {session.registrations.length > 0 && (
-                      <div className="text-sm">
+                      <div className="text-sm mt-2">
                         <p className="font-medium text-foreground mb-1">Participants :</p>
                         <p className="text-muted-foreground">
                           {session.registrations
                             .map((r) => `${r.profiles.first_name} ${r.profiles.last_name}`)
                             .join(', ')}
                         </p>
+                      </div>
+                    )}
+                    {(session.equipment_coach || session.equipment_clients || session.equipment_location) && (
+                      <div className="text-sm mt-4 p-3 bg-muted rounded-md space-y-1">
+                        <p className="font-semibold text-foreground mb-1">Matériel & Équipement :</p>
+                        {session.equipment_coach && (
+                          <div className="text-xs"><span className="font-medium">Coach :</span> {session.equipment_coach}</div>
+                        )}
+                        {session.equipment_clients && (
+                          <div className="text-xs"><span className="font-medium">Adhérents :</span> {session.equipment_clients}</div>
+                        )}
+                        {session.equipment_location && (
+                          <div className="text-xs"><span className="font-medium">Sur place :</span> {session.equipment_location}</div>
+                        )}
                       </div>
                     )}
                   </div>
