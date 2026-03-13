@@ -176,7 +176,7 @@ export default function Sessions() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto p-8">
+      <div className="max-w-7xl mx-auto p-4 sm:p-8">
         <div className="mb-8">
           <Button
             variant="ghost"
@@ -188,7 +188,7 @@ export default function Sessions() {
           </Button>
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-4xl font-bold text-foreground mb-2">Séances disponibles</h1>
+              <h1 className="text-2xl sm:text-4xl font-bold text-foreground mb-2">Séances disponibles</h1>
               <p className="text-muted-foreground">Inscrivez-vous aux séances proposées par nos coachs</p>
             </div>
             <div className="flex gap-2">
@@ -211,19 +211,19 @@ export default function Sessions() {
         </div>
 
         <Card className="p-4 mb-6">
-          <div className="flex items-center gap-4 flex-wrap">
-            <Filter className="w-5 h-5 text-muted-foreground" />
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:flex-wrap">
+            <Filter className="w-5 h-5 text-muted-foreground hidden sm:block" />
             <Input
               placeholder="Rechercher..."
               value={filter.search}
               onChange={(e) => setFilter({ ...filter, search: e.target.value })}
-              className="max-w-xs"
+              className="w-full sm:max-w-xs"
             />
             <Select
               value={filter.type || "all"}
               onValueChange={(value) => setFilter({ ...filter, type: value === "all" ? "" : value })}
             >
-              <SelectTrigger className="w-48">
+              <SelectTrigger className="w-full sm:w-48">
                 <SelectValue placeholder="Type de séance" />
               </SelectTrigger>
               <SelectContent>
@@ -239,7 +239,7 @@ export default function Sessions() {
               type="date"
               value={filter.date}
               onChange={(e) => setFilter({ ...filter, date: e.target.value })}
-              className="w-48"
+              className="w-full sm:w-48"
             />
           </div>
         </Card>
@@ -404,7 +404,7 @@ export default function Sessions() {
 
         {selectedSession && (
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-            <DialogContent className="max-w-2xl">
+            <DialogContent className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>{selectedSession.title}</DialogTitle>
               </DialogHeader>

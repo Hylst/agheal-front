@@ -153,7 +153,7 @@ export default function Groups() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-4xl mx-auto p-8">
+      <div className="max-w-4xl mx-auto p-4 sm:p-8">
         <div className="mb-8">
           <Button variant="ghost" onClick={() => navigate('/dashboard')} className="mb-4">
             <ArrowLeft className="w-4 h-4 mr-2" />
@@ -172,15 +172,16 @@ export default function Groups() {
 
         <Card>
           <CardHeader>
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <CardTitle>Liste des groupes ({groups.length})</CardTitle>
-              <Button onClick={() => openDialog()}>
+              <Button onClick={() => openDialog()} className="w-full sm:w-auto">
                 <Plus className="w-4 h-4 mr-2" />
                 Nouveau groupe
               </Button>
             </div>
           </CardHeader>
           <CardContent>
+            <div className="overflow-x-auto">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -252,6 +253,7 @@ export default function Groups() {
                 )}
               </TableBody>
             </Table>
+            </div>
           </CardContent>
         </Card>
 

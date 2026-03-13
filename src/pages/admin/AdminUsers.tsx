@@ -148,7 +148,7 @@ export default function AdminUsers() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto p-8">
+      <div className="max-w-7xl mx-auto p-4 sm:p-8">
         <div className="mb-8">
           <Button
             variant="ghost"
@@ -158,18 +158,18 @@ export default function AdminUsers() {
             <ArrowLeft className="w-4 h-4 mr-2" />
             Retour au Dashboard
           </Button>
-          <h1 className="text-4xl font-bold text-foreground mb-2">Gestion des utilisateurs</h1>
+          <h1 className="text-2xl sm:text-4xl font-bold text-foreground mb-2">Gestion des utilisateurs</h1>
           <p className="text-muted-foreground">Gérez les comptes, rôles et statuts</p>
         </div>
 
         <Card className="p-4 mb-6">
           <div className="flex items-center gap-2">
-            <Search className="w-5 h-5 text-muted-foreground" />
+            <Search className="w-5 h-5 text-muted-foreground flex-shrink-0" />
             <Input
               placeholder="Rechercher par nom ou téléphone..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="max-w-md"
+              className="w-full"
             />
           </div>
         </Card>
@@ -183,8 +183,8 @@ export default function AdminUsers() {
             const isBlocked = user.statut_compte === 'bloque';
 
             return (
-              <Card key={user.id} className="p-6">
-                <div className="flex items-start justify-between">
+              <Card key={user.id} className="p-4 sm:p-6">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between">
                   <div className="space-y-3 flex-1">
                     <div className="flex items-center gap-3 flex-wrap">
                       <h3 className="text-xl font-bold text-foreground">
@@ -202,7 +202,7 @@ export default function AdminUsers() {
                     {user.phone && <p className="text-sm text-muted-foreground">{user.phone}</p>}
                   </div>
 
-                  <div className="flex gap-2 ml-4 flex-wrap">
+                  <div className="flex flex-wrap gap-2 mt-3 sm:mt-0 sm:ml-4">
                     <Button
                       variant="outline"
                       size="sm"
@@ -211,15 +211,9 @@ export default function AdminUsers() {
                       title={user.id === currentUser?.id ? "Vous ne pouvez pas bloquer votre propre compte" : ""}
                     >
                       {isBlocked ? (
-                        <>
-                          <UserCheck className="w-4 h-4 mr-1" />
-                          Activer
-                        </>
+                        <><UserCheck className="w-4 h-4 mr-1" />Activer</>
                       ) : (
-                        <>
-                          <UserX className="w-4 h-4 mr-1" />
-                          Bloquer
-                        </>
+                        <><UserX className="w-4 h-4 mr-1" />Bloquer</>
                       )}
                     </Button>
                     <Button

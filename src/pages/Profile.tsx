@@ -141,7 +141,7 @@ export default function Profile() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-4xl mx-auto p-8">
+      <div className="max-w-4xl mx-auto p-4 sm:p-8">
         <div className="mb-8">
           <Button
             variant="ghost"
@@ -152,7 +152,7 @@ export default function Profile() {
             Retour au Dashboard
           </Button>
           <div className="flex items-center justify-between mb-2">
-            <h1 className="text-4xl font-bold text-foreground">Mon Profil</h1>
+            <h1 className="text-2xl sm:text-4xl font-bold text-foreground">Mon Profil</h1>
             {profile.statut_compte === 'bloque' && (
               <Badge variant="destructive" className="text-base">
                 <AlertCircle className="w-4 h-4 mr-1" />
@@ -340,11 +340,11 @@ export default function Profile() {
               )}
             </div>
 
-            <div className="flex gap-4 pt-4">
-              <Button type="submit" disabled={saving}>
+            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+              <Button type="submit" disabled={saving} className="w-full sm:w-auto">
                 {saving ? 'Enregistrement...' : 'Enregistrer'}
               </Button>
-              <Button type="button" variant="outline" onClick={() => navigate('/dashboard')}>
+              <Button type="button" variant="outline" onClick={() => navigate('/dashboard')} className="w-full sm:w-auto">
                 Annuler
               </Button>
             </div>

@@ -180,19 +180,19 @@ export default function Locations() {
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
           <MapPin className="w-8 h-8 text-primary" />
-          <h1 className="text-4xl font-bold text-foreground">Gestion des lieux</h1>
+          <h1 className="text-2xl sm:text-4xl font-bold text-foreground">Gestion des lieux</h1>
         </div>
         <p className="text-muted-foreground">Gérez les presets de lieux pour vos séances</p>
       </div>
 
       <div className="mb-6">
-        <Button onClick={() => handleOpenDialog()}>
+        <Button onClick={() => handleOpenDialog()} className="w-full sm:w-auto">
           <Plus className="w-4 h-4 mr-2" />
           Ajouter un lieu
         </Button>
       </div>
 
-      <div className="border rounded-lg">
+      <div className="border rounded-lg overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>

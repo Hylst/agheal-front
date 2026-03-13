@@ -80,7 +80,7 @@ export default function History() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-5xl mx-auto p-8">
+      <div className="max-w-5xl mx-auto p-4 sm:p-8">
         <div className="mb-8">
           <Button
             variant="ghost"
@@ -90,7 +90,7 @@ export default function History() {
             <ArrowLeft className="w-4 h-4 mr-2" />
             Retour au Dashboard
           </Button>
-          <h1 className="text-4xl font-bold text-foreground mb-2">Mes inscriptions</h1>
+          <h1 className="text-2xl sm:text-4xl font-bold text-foreground mb-2">Mes inscriptions</h1>
           <p className="text-muted-foreground">Historique et séances à venir</p>
         </div>
 
@@ -102,10 +102,10 @@ export default function History() {
           <div className="space-y-8">
             {upcomingSessions.length > 0 && (
               <div>
-                <h2 className="text-2xl font-bold text-foreground mb-4">Séances à venir</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-4">Séances à venir</h2>
                 <div className="space-y-4">
                   {upcomingSessions.map((registration) => (
-                    <Card key={registration.id} className="p-6 hover:shadow-md transition-shadow">
+                    <Card key={registration.id} className="p-4 sm:p-6 hover:shadow-md transition-shadow">
                       <div className="flex items-start justify-between">
                         <div className="space-y-3 flex-1">
                           <div className="flex items-center gap-3">
@@ -152,10 +152,10 @@ export default function History() {
 
             {pastSessions.length > 0 && (
               <div>
-                <h2 className="text-2xl font-bold text-foreground mb-4">Séances passées</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-foreground mb-4">Séances passées</h2>
                 <div className="space-y-4">
                   {pastSessions.map((registration) => (
-                    <Card key={registration.id} className="p-6 opacity-75">
+                    <Card key={registration.id} className="p-4 sm:p-6 opacity-75">
                       <div className="flex items-start justify-between">
                         <div className="space-y-3 flex-1">
                           <div className="flex items-center gap-3">
