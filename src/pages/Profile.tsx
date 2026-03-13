@@ -204,7 +204,7 @@ export default function Profile() {
                   <p className="font-medium">{formatDate(profile.created_at)}</p>
                 </div>
                 <div>
-                  <Label className="text-muted-foreground text-sm">Statut règlement</Label>
+                  <Label className="text-muted-foreground text-sm mr-2">Statut règlement</Label>
                   <Badge
                     variant={profile.payment_status === 'a_jour' ? 'default' : 'secondary'}
                     className={profile.payment_status === 'a_jour' ? 'bg-green-600 mt-1' : 'mt-1'}

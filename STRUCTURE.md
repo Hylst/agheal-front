@@ -125,7 +125,7 @@ Composants React réutilisables :
 | `NavLink.tsx` | Lien de navigation |
 | `ProtectedRoute.tsx` | Protection des routes selon le rôle |
 | `SettingsModal.tsx` | Modal des paramètres |
-| `AvatarUpload.tsx` | Upload d'avatar |
+| `AvatarUpload.tsx` | Upload d'avatar (Redimensionnement 128x128 + Compression JPEG 0.9) |
 | `ContactForm.tsx` | Formulaire de contact |
 
 ### `/src/components/ui/`
