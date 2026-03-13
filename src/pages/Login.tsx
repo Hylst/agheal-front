@@ -41,12 +41,12 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-hero p-4">
       <Card className="w-full max-w-md shadow-primary">
         <CardHeader className="space-y-3 text-center">
-          <div className="flex justify-center mb-2">
-            <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-primary overflow-hidden">
+          <div className="flex justify-center mb-4">
+            <div className="w-40 h-40 bg-white rounded-3xl flex items-center justify-center shadow-primary overflow-hidden border-2 border-white">
               <img 
                 src="/assets/AGHEAL_logo.webp" 
                 alt="AGHeal Logo" 
-                className="w-full h-full object-contain p-2"
+                className="w-full h-full object-contain p-1"
               />
             </div>
           </div>
