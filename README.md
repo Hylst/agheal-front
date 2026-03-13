@@ -1,5 +1,7 @@
 # AGHeal — Application de gestion de séances sportives
 
+> **Version actuelle : 1.5.1** | [Voir le CHANGELOG](./CHANGELOG.md) | [Voir le TODO](./TODO.md)
+
 ## 🧭 Architecture — Expliqué simplement
 
 L'application est composée de **3 morceaux distincts** qui tournent en même temps :
@@ -111,7 +113,8 @@ C:\wamp64\www\agheal-api\        ← Backend PHP (API REST)
 ├── src/Config/database.php      ← Configuration de connexion DB
 ├── mysql/                       ← Scripts SQL (création, migration)
 │   ├── init.sql                 ← Créer les tables
-│   └── migrate-from-supabase.sql ← Importer les utilisateurs
+│   ├── init_trigger.sql         ← Triggers UUID et auto-profiling
+│   └── seed_demo_data.sql       ← Données de démonstration
 └── .env                         ← Config DB (DB_HOST, DB_USER, DB_PASS)
 ```
 
@@ -173,4 +176,17 @@ Les documents de référence pour la conception sont :
 
 ---
 
-*Documentation maintenue par Geoffroy Streit - 2025*
+## 📱 Responsive Mobile
+
+L'application est optimisée pour smartphone et tablette :
+- Design **mobile-first** avec Tailwind CSS (breakpoints `sm`, `md`, `lg`)
+- **Clients** : vue en **cartes** sur mobile, tableau sur desktop
+- **Filtres** : empilés verticalement sur mobile
+- **Modals** : hauteur max `90vh`, contenu scrollable
+- **Boutons d'action** : `full-width` sur mobile
+- **Tableaux** : scrollables horizontalement sur mobile
+- **Navigation** : titres et boutons réduits sur petits écrans
+
+---
+
+*Documentation maintenue par Geoffroy Streit - 2026*

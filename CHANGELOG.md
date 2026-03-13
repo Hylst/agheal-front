@@ -9,6 +9,52 @@ Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/)
 
 ---
 
+## [1.5.1] - Mars 2026
+
+### 🎨 Responsive Mobile — Audit Complet
+
+- **Toutes les pages** : Padding adaptatif `p-4 sm:p-8` sur l'ensemble des vues
+- **Titres adaptatifs** : `text-2xl` sur mobile → `text-4xl` sur desktop (`h1`, `h2`)
+- **Dashboard** : Bouton "Déconnexion" — texte masqué sur mobile, icône seule conservée
+- **SettingsModal** : Hauteur plafonnée à `90vh`, contenu scrollable, boutons sticky full-width
+- **Clients** : Vue en **cartes** sur mobile (tableau masqué), filtres empilés verticalement
+- **CoachSessions** : Header en colonne, bouton "Créer une séance" full-width mobile
+- **Groups** : CardHeader en colonne, tableau horizontal scrollable
+- **Locations** : Titre adaptatif, bouton "Ajouter" full-width, tableau scrollable
+- **AdminUsers** : Boutons rôles/statut passent sous le nom de l'utilisateur sur mobile
+- **Profile** : Boutons Enregistrer/Annuler full-width sur mobile
+- **Sessions** : Filtres empilés, boutons vue (Liste/Calendrier) icône seule sur mobile, modal scrollable
+- **History** : Cartes padding réduit, titres h2 adaptatifs
+
+---
+
+## [1.5.0] - Mars 2026
+
+### 🐛 Correctifs — Activités & Séances
+
+- **Lieu par défaut** : Correction de la non-persistance lors de la création ou modification d'une activité (type UUID mal converti avec `parseInt`)
+- **Mise à jour des séances** : Les modifications (titre, lieu, type) sont maintenant reflétées immédiatement après enregistrement
+- **Backend** : Types des IDs corrigés de `int` → `string` dans les contrôleurs `SessionController`, `LocationController`, `GroupController`, `SessionTypeController`
+- **Frontend** : Suppression des `parseInt()` sur les champs UUID dans `Activities.tsx` et `Schedule.tsx`
+- **Pré-sélection** : Lieu et type par défaut de l'activité sont maintenant pré-remplis lors de la création d'une séance
+
+### 🔐 Sécurité & Rôles
+
+- **Profil (Admin/Coach)** : Statistut de règlement masqué dans les modals et fiches clients pour les comptes Admin et Coach
+
+### 🎨 UI — Animations & Page Login
+
+- **Login** : Zoom ×2 au survol du logo AGheal
+- **Page /information** : Effets de survol améliorés sur les blocs (zoom, highlight, shadow), logo AGheal intégré en bas de page
+
+### 🔧 Nettoyage Codebase
+
+- Fichiers Supabase obsolètes déplacés dans un dossier `archive/`
+- Script `migrate-from-supabase.sql` supprimé
+- Warning de type dans `Database.php::lastInsertId()` corrigé
+
+---
+
 ## [1.4.0] - Mars 2026
 
 ### ✨ Gestion de la Facturation & Abonnements
