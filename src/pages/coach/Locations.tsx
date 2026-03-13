@@ -192,7 +192,42 @@ export default function Locations() {
         </Button>
       </div>
 
-      <div className="border rounded-lg overflow-x-auto">
+      {/* Vue cartes — mobile uniquement */}
+      <div className="sm:hidden space-y-3 mb-6">
+        {locations.length === 0 ? (
+          <p className="text-center py-8 text-muted-foreground border rounded-lg">Aucun lieu enregistré</p>
+        ) : (
+          locations.map((location) => (
+            <div key={location.id} className="border rounded-lg p-4 space-y-2">
+              <div className="flex items-start justify-between gap-2">
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold">{location.name}</p>
+                  {location.address && (
+                    <p className="text-sm text-muted-foreground">{location.address}</p>
+                  )}
+                  {location.notes && (
+                    <p className="text-xs text-muted-foreground line-clamp-2 mt-1">{location.notes}</p>
+                  )}
+                </div>
+                <MapPin className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-1" />
+              </div>
+              <div className="flex gap-2 pt-1">
+                <Button size="sm" variant="outline" onClick={() => handleOpenDialog(location)} className="flex-1">
+                  <Pencil className="w-3 h-3 mr-1" />Éditer
+                </Button>
+                {role === 'admin' && (
+                  <Button size="sm" variant="outline" onClick={() => handleDeleteClick(location)} className="text-destructive flex-1">
+                    <Trash2 className="w-3 h-3 mr-1" />Supprimer
+                  </Button>
+                )}
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Vue tableau — sm+ */}
+      <div className="hidden sm:block border rounded-lg overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>

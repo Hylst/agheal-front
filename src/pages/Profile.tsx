@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { User, Phone, FileText, ArrowLeft, AlertCircle, Info, Users, Calendar, CreditCard } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -290,54 +291,109 @@ export default function Profile() {
                 />
               </div>
 
-              <div className="flex items-center gap-2 mb-4">
-                <FileText className="w-5 h-5 text-muted-foreground" />
-                <h2 className="text-xl font-semibold">Informations de santé</h2>
+              {/* ====== MOBILE : sections secondaires en Accordion ====== */}
+              <div className="sm:hidden mt-4">
+                <Accordion type="multiple" className="w-full">
+                  <AccordionItem value="sante">
+                    <AccordionTrigger className="text-base font-semibold">
+                      <span className="flex items-center gap-2">
+                        <FileText className="w-4 h-4 text-muted-foreground" />
+                        Informations de santé
+                      </span>
+                    </AccordionTrigger>
+                    <AccordionContent className="pt-2">
+                      <Label htmlFor="remarks_health_m">Remarques santé / Contre-indications</Label>
+                      <Textarea
+                        id="remarks_health_m"
+                        value={profile.remarks_health || ''}
+                        onChange={(e) => setProfile({ ...profile, remarks_health: e.target.value })}
+                        placeholder="Informations importantes concernant votre santé..."
+                        rows={4}
+                      />
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="precisions">
+                    <AccordionTrigger className="text-base font-semibold">
+                      <span className="flex items-center gap-2">
+                        <Info className="w-4 h-4 text-muted-foreground" />
+                        Précisions utiles
+                      </span>
+                    </AccordionTrigger>
+                    <AccordionContent className="pt-2">
+                      <Label htmlFor="additional_info_m">Informations complémentaires</Label>
+                      <Textarea
+                        id="additional_info_m"
+                        value={profile.additional_info || ''}
+                        onChange={(e) => setProfile({ ...profile, additional_info: e.target.value })}
+                        placeholder="Autres informations que vous souhaitez partager..."
+                        rows={3}
+                      />
+                    </AccordionContent>
+                  </AccordionItem>
+                  {userGroups.length > 0 && (
+                    <AccordionItem value="groupes">
+                      <AccordionTrigger className="text-base font-semibold">
+                        <span className="flex items-center gap-2">
+                          <Users className="w-4 h-4 text-muted-foreground" />
+                          Mes groupes
+                        </span>
+                      </AccordionTrigger>
+                      <AccordionContent className="pt-2">
+                        <div className="flex flex-wrap gap-2">
+                          {userGroups.map((group) => (
+                            <Badge key={group.id} variant="secondary" className="text-sm">{group.name}</Badge>
+                          ))}
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  )}
+                </Accordion>
               </div>
 
-              <div>
-                <Label htmlFor="remarks_health">Remarques santé / Contre-indications</Label>
-                <Textarea
-                  id="remarks_health"
-                  value={profile.remarks_health || ''}
-                  onChange={(e) => setProfile({ ...profile, remarks_health: e.target.value })}
-                  placeholder="Informations importantes concernant votre santé..."
-                  rows={4}
-                />
-              </div>
-
-              <div className="flex items-center gap-2 mb-4">
-                <Info className="w-5 h-5 text-muted-foreground" />
-                <h2 className="text-xl font-semibold">Précisions utiles</h2>
-              </div>
-
-              <div>
-                <Label htmlFor="additional_info">Informations complémentaires</Label>
-                <Textarea
-                  id="additional_info"
-                  value={profile.additional_info || ''}
-                  onChange={(e) => setProfile({ ...profile, additional_info: e.target.value })}
-                  placeholder="Autres informations que vous souhaitez partager..."
-                  rows={3}
-                />
-              </div>
-
-              {/* Groupes assignés */}
-              {userGroups.length > 0 && (
-                <div className="border-t pt-4">
-                  <div className="flex items-center gap-2 mb-4">
-                    <Users className="w-5 h-5 text-muted-foreground" />
-                    <h2 className="text-xl font-semibold">Mes groupes</h2>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {userGroups.map((group) => (
-                      <Badge key={group.id} variant="secondary" className="text-sm">
-                        {group.name}
-                      </Badge>
-                    ))}
-                  </div>
+              {/* ====== DESKTOP : sections secondaires classiques (sm+) ====== */}
+              <div className="hidden sm:block">
+                <div className="flex items-center gap-2 mb-4">
+                  <FileText className="w-5 h-5 text-muted-foreground" />
+                  <h2 className="text-xl font-semibold">Informations de santé</h2>
                 </div>
-              )}
+                <div>
+                  <Label htmlFor="remarks_health">Remarques santé / Contre-indications</Label>
+                  <Textarea
+                    id="remarks_health"
+                    value={profile.remarks_health || ''}
+                    onChange={(e) => setProfile({ ...profile, remarks_health: e.target.value })}
+                    placeholder="Informations importantes concernant votre santé..."
+                    rows={4}
+                  />
+                </div>
+                <div className="flex items-center gap-2 mb-4 mt-6">
+                  <Info className="w-5 h-5 text-muted-foreground" />
+                  <h2 className="text-xl font-semibold">Précisions utiles</h2>
+                </div>
+                <div>
+                  <Label htmlFor="additional_info">Informations complémentaires</Label>
+                  <Textarea
+                    id="additional_info"
+                    value={profile.additional_info || ''}
+                    onChange={(e) => setProfile({ ...profile, additional_info: e.target.value })}
+                    placeholder="Autres informations que vous souhaitez partager..."
+                    rows={3}
+                  />
+                </div>
+                {userGroups.length > 0 && (
+                  <div className="border-t pt-4 mt-6">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Users className="w-5 h-5 text-muted-foreground" />
+                      <h2 className="text-xl font-semibold">Mes groupes</h2>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {userGroups.map((group) => (
+                        <Badge key={group.id} variant="secondary" className="text-sm">{group.name}</Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4">

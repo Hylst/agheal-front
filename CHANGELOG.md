@@ -9,7 +9,25 @@ Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/)
 
 ---
 
+## [1.5.2] - Mars 2026
+
+### 📱 Responsive Mobile — Suite
+
+- **Groups** : Vue en **cartes** sur mobile (tableau conservé sur sm+) — nom, détails, compteur membres, boutons Éditer/Supprimer full-width
+- **Locations** : Vue en **cartes** sur mobile (tableau conservé sur sm+) — nom, adresse, notes, icône MapPin, boutons action full-width
+- **Profile** : Sections "Informations de santé", "Précisions utiles" et "Mes groupes" regroupées dans un **Accordion repliable** sur mobile (affichage linéaire classique conservé sur sm+)
+- **Toast/Notifications** : Positionnement en **bas de l'écran** sur mobile (`bottom-16`, au-dessus de la barre de navigation), conservé en bas-droite sur desktop
+
+### 🧭 Navigation Mobile
+
+- **MobileNav** : Nouveau composant de navigation bas de page (`fixed bottom-0`) — icônes + labels, indicateur de page active
+- **Dashboard** : Carousel horizontal natif (`snap-x`, `overflow-x-auto`) pour tuiles sur mobile, grille `grid-cols-2/3` conservée sur desktop
+- **AlertDialogs** : Tous les modaux de confirmation patché `max-h-[90vh] overflow-y-auto` pour compatibilité mobile
+
+---
+
 ## [1.5.1] - Mars 2026
+
 
 ### 🎨 Responsive Mobile — Audit Complet
 

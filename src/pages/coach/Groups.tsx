@@ -181,7 +181,60 @@ export default function Groups() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="overflow-x-auto">
+            {/* Vue cartes — mobile uniquement */}
+            <div className="sm:hidden space-y-3">
+              {groups.length === 0 ? (
+                <p className="text-center py-8 text-muted-foreground">Aucun groupe créé</p>
+              ) : (
+                groups.map((group) => (
+                  <div key={group.id} className="border rounded-lg p-4 space-y-2">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold truncate">{group.name}</p>
+                        {group.details && (
+                          <p className="text-sm text-muted-foreground line-clamp-2">{group.details}</p>
+                        )}
+                      </div>
+                      <Badge variant="secondary" className="gap-1 flex-shrink-0">
+                        <Users className="w-3 h-3" />
+                        {group.member_count ?? 0}
+                      </Badge>
+                    </div>
+                    <div className="flex gap-2 pt-1">
+                      <Button size="sm" variant="outline" onClick={() => openDialog(group)} className="flex-1">
+                        <Edit className="w-3 h-3 mr-1" />Éditer
+                      </Button>
+                      {role === 'admin' && (
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button size="sm" variant="outline" className="text-destructive flex-1">
+                              <Trash2 className="w-3 h-3 mr-1" />Supprimer
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent className="max-h-[90vh] overflow-y-auto">
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Supprimer le groupe ?</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                Cette action est irréversible. Le groupe "{group.name}" sera définitivement supprimé.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Annuler</AlertDialogCancel>
+                              <AlertDialogAction onClick={() => handleDelete(group)} className="bg-destructive text-destructive-foreground">
+                                Supprimer
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      )}
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+
+            {/* Vue tableau — sm+ */}
+            <div className="hidden sm:block overflow-x-auto">
             <Table>
               <TableHeader>
                 <TableRow>
