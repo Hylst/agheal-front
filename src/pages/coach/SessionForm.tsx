@@ -167,14 +167,14 @@ export default function SessionForm() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-4xl mx-auto p-8">
+      <div className="max-w-4xl mx-auto p-4 sm:p-8">
         <Button variant="ghost" onClick={() => navigate('/coach/sessions')} className="mb-6 gap-2">
           <ArrowLeft className="w-4 h-4" />
           Retour
         </Button>
 
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-foreground mb-2">
+          <h1 className="text-2xl sm:text-4xl font-bold text-foreground mb-2">
             {isEdit ? 'Modifier la séance' : 'Créer une séance'}
           </h1>
           <p className="text-muted-foreground">Remplissez les informations de la séance</p>
@@ -202,7 +202,7 @@ export default function SessionForm() {
               />
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="type_id">Type de séance *</Label>
                 <Select value={formData.type_id} onValueChange={(value) => setFormData({ ...formData, type_id: value })}>
@@ -236,7 +236,7 @@ export default function SessionForm() {
               </div>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
                 <Label htmlFor="date">Date *</Label>
                 <Input
@@ -269,7 +269,7 @@ export default function SessionForm() {
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8 border-t pt-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-t pt-6">
               <div className="space-y-4">
                 <Label htmlFor="min_people">Minimum participants *</Label>
                 <div className="flex gap-4 items-center">
@@ -369,7 +369,7 @@ export default function SessionForm() {
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="equipment_coach" className="text-muted-foreground">Matériel coach (Optionnel)</Label>
                   <Input
@@ -419,8 +419,8 @@ export default function SessionForm() {
               </Select>
             </div>
 
-            <div className="flex gap-4">
-              <Button type="submit" disabled={saving}>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button type="submit" disabled={saving} className="w-full sm:w-auto">
                 {saving ? (
                   <>
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
@@ -430,7 +430,7 @@ export default function SessionForm() {
                   isEdit ? 'Mettre à jour' : 'Créer la séance'
                 )}
               </Button>
-              <Button type="button" variant="outline" onClick={() => navigate('/coach/sessions')}>
+              <Button type="button" variant="outline" onClick={() => navigate('/coach/sessions')} className="w-full sm:w-auto">
                 Annuler
               </Button>
             </div>

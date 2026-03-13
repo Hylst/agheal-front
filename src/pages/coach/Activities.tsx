@@ -144,7 +144,7 @@ export default function Activities() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto p-8">
+      <div className="max-w-7xl mx-auto p-4 sm:p-8">
         <div className="mb-8">
           <Button
             variant="ghost"
@@ -154,19 +154,19 @@ export default function Activities() {
             <ArrowLeft className="w-4 h-4 mr-2" />
             Retour au Dashboard
           </Button>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h1 className="text-4xl font-bold text-foreground mb-2">Activités</h1>
+              <h1 className="text-2xl sm:text-4xl font-bold text-foreground mb-2">Activités</h1>
               <p className="text-muted-foreground">Gérer les types de séances</p>
             </div>
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
               <DialogTrigger asChild>
-                <Button onClick={() => handleOpenDialog()}>
+                <Button onClick={() => handleOpenDialog()} className="w-full sm:w-auto">
                   <Plus className="w-4 h-4 mr-2" />
                   Ajouter une activité
                 </Button>
               </DialogTrigger>
-              <DialogContent>
+              <DialogContent className="max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                   <DialogTitle>
                     {selectedType ? "Modifier l'activité" : 'Nouvelle activité'}
@@ -225,7 +225,7 @@ export default function Activities() {
           </div>
         </div>
 
-        <Card>
+        <Card className="overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
