@@ -54,12 +54,20 @@ export default function SessionForm() {
 
   const fetchSessionTypes = async () => {
     const { data } = await apiClient.getSessionTypes();
-    setSessionTypes((data as any)?.session_types || data || []);
+    const fetchedTypes = (data as any)?.session_types || data || [];
+    setSessionTypes(fetchedTypes);
+    if (!isEdit && fetchedTypes.length > 0) {
+      setFormData(prev => ({ ...prev, type_id: prev.type_id || fetchedTypes[0].id.toString() }));
+    }
   };
 
   const fetchLocations = async () => {
     const { data } = await apiClient.getLocations();
-    setLocations((data as any)?.locations || data || []);
+    const fetchedLocations = (data as any)?.locations || data || [];
+    setLocations(fetchedLocations);
+    if (!isEdit && fetchedLocations.length > 0) {
+      setFormData(prev => ({ ...prev, location_id: prev.location_id || fetchedLocations[0].id.toString() }));
+    }
   };
 
   const fetchSession = async () => {
