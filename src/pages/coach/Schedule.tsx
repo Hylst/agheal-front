@@ -119,10 +119,10 @@ export default function Schedule() {
 
     try {
       const baseSession = {
-        type_id: parseInt(formData.type_id),
+        type_id: formData.type_id || null,
         title: formData.title,
         description: formData.description || null,
-        location_id: formData.location_id ? parseInt(formData.location_id) : null,
+        location_id: formData.location_id || null,
         start_time: formData.start_time,
         end_time: formData.end_time,
         capacity: parseInt(formData.max_people),

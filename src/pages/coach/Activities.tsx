@@ -98,7 +98,7 @@ export default function Activities() {
       const data = {
         name: formData.name.trim(),
         description: formData.description.trim() || null,
-        default_location_id: formData.default_location_id ? parseInt(formData.default_location_id) : null,
+        default_location_id: formData.default_location_id || null,
       };
 
       if (selectedType) {
