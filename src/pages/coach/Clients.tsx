@@ -13,7 +13,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { ArrowLeft, Search, Users, Edit, Eye, Calendar, CreditCard } from 'lucide-react';
+import { ArrowLeft, Search, Users, Edit, Eye, CreditCard } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
 import { format } from 'date-fns';
@@ -62,6 +62,8 @@ export default function Clients() {
   const [renewalDate, setRenewalDate] = useState('');
   const [saving, setSaving] = useState(false);
   const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [groupFilter, setGroupFilter] = useState<string>('all');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
   useEffect(() => {
     fetchData();
@@ -177,12 +179,23 @@ export default function Clients() {
     }
   };
 
-  const filteredClients = clients.filter(client => {
-    const fullName = `${client.first_name || ''} ${client.last_name || ''}`.toLowerCase();
-    const matchesSearch = fullName.includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter === 'all' || client.payment_status === statusFilter;
-    return matchesSearch && matchesStatus;
-  });
+  const filteredClients = clients
+    .filter(client => {
+      const fullName = `${client.first_name || ''} ${client.last_name || ''}`.toLowerCase();
+      const matchesSearch = fullName.includes(searchTerm.toLowerCase())
+        || (client.email || '').toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesStatus = statusFilter === 'all' || client.payment_status === statusFilter;
+      const matchesGroup = groupFilter === 'all'
+        || (groupFilter === 'none'
+          ? (userGroups[client.id] || []).length === 0
+          : (userGroups[client.id] || []).includes(Number(groupFilter)));
+      return matchesSearch && matchesStatus && matchesGroup;
+    })
+    .sort((a, b) => {
+      const nameA = `${a.last_name || ''} ${a.first_name || ''}`.toLowerCase();
+      const nameB = `${b.last_name || ''} ${b.first_name || ''}`.toLowerCase();
+      return sortOrder === 'asc' ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
+    });
 
   const getInitials = (firstName: string | null, lastName: string | null) => {
     return `${firstName?.charAt(0) || ''}${lastName?.charAt(0) || ''}`.toUpperCase() || '?';
@@ -234,13 +247,31 @@ export default function Clients() {
 
         <Card>
           <CardHeader>
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <CardTitle className="text-lg">Liste des adhérents ({filteredClients.length})</CardTitle>
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                <div className="w-full sm:w-48">
+            <div className="flex flex-col gap-3">
+              {/* Titre + compteur */}
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-lg">Liste des adhérents ({filteredClients.length})</CardTitle>
+                {/* Bouton tri A→Z / Z→A */}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setSortOrder(o => o === 'asc' ? 'desc' : 'asc')}
+                  className="gap-1.5 text-xs"
+                  title={sortOrder === 'asc' ? 'Tri A→Z (cliquer pour inverser)' : 'Tri Z→A (cliquer pour inverser)'}
+                >
+                  {sortOrder === 'asc'
+                    ? <>⇧ A→Z</>
+                    : <>⇩ Z→A</>
+                  }
+                </Button>
+              </div>
+              {/* Barre de filtres */}
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:flex-wrap">
+                {/* Filtre statut paiement */}
+                <div className="flex-1 min-w-[140px]">
                   <Select value={statusFilter} onValueChange={setStatusFilter}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Filtrer par statut" />
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Statut" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="all">Tous les statuts</SelectItem>
@@ -249,15 +280,42 @@ export default function Clients() {
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="relative w-full sm:w-64">
+                {/* Filtre groupe */}
+                <div className="flex-1 min-w-[140px]">
+                  <Select value={groupFilter} onValueChange={setGroupFilter}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Groupe" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Tous les groupes</SelectItem>
+                      <SelectItem value="none">Sans groupe</SelectItem>
+                      {groups.map(g => (
+                        <SelectItem key={g.id} value={String(g.id)}>{g.name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                {/* Recherche texte */}
+                <div className="relative flex-[2] min-w-[180px]">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <Input
-                    placeholder="Rechercher..."
+                    placeholder="Nom, email..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-9"
+                    className="pl-9 w-full"
                   />
                 </div>
+                {/* Bouton reset filtres (si actifs) */}
+                {(statusFilter !== 'all' || groupFilter !== 'all' || searchTerm) && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => { setStatusFilter('all'); setGroupFilter('all'); setSearchTerm(''); }}
+                    className="text-muted-foreground text-xs whitespace-nowrap"
+                  >
+                    × Réinitialiser
+                  </Button>
+                )}
               </div>
             </div>
           </CardHeader>

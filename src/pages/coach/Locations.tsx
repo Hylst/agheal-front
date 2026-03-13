@@ -127,15 +127,25 @@ export default function Locations() {
       if (editingLocation) {
         const { error } = await apiClient.updateLocation(editingLocation.id as any, payload);
         if (error) throw new Error(error.message);
+        // Mise à jour optimiste : modifier directement dans le state
+        setLocations(prev =>
+          prev.map(loc =>
+            loc.id === editingLocation.id
+              ? { ...loc, ...payload }
+              : loc
+          )
+        );
         toast({ title: 'Lieu modifié', description: 'Le lieu a été modifié avec succès' });
       } else {
-        const { error } = await apiClient.createLocation({ ...payload, created_by: user?.id });
+        const { data, error } = await apiClient.createLocation({ ...payload, created_by: user?.id });
         if (error) throw new Error(error.message);
+        // Ajouter le nouveau lieu dans le state (avec les données retournées par l'API)
+        const newLoc = (data as any)?.location || (data as any) || { ...payload, id: Date.now().toString(), created_at: new Date().toISOString(), created_by: user?.id ?? null };
+        setLocations(prev => [...prev, newLoc]);
         toast({ title: 'Lieu créé', description: 'Le lieu a été créé avec succès' });
       }
 
       handleCloseDialog();
-      fetchLocations();
     } catch (error: any) {
       toast({ variant: 'destructive', title: 'Erreur', description: error.message });
     } finally {
@@ -153,10 +163,11 @@ export default function Locations() {
     try {
       const { error } = await apiClient.deleteLocation(deletingLocation.id as any);
       if (error) throw new Error(error.message);
+      // Retrait optimiste du state
+      setLocations(prev => prev.filter(loc => loc.id !== deletingLocation.id));
       toast({ title: 'Lieu supprimé', description: 'Le lieu a été supprimé avec succès' });
       setIsDeleteDialogOpen(false);
       setDeletingLocation(null);
-      fetchLocations();
     } catch (error: any) {
       toast({ variant: 'destructive', title: 'Erreur', description: error.message });
     }
