@@ -218,7 +218,7 @@ const Information = () => {
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold text-primary">Nos valeurs</h3>
                 <div className="grid gap-4 md:grid-cols-3">
-                  <Card className="bg-muted/50">
+                  <Card className="bg-muted/50 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-muted/80 hover:border-primary/30">
                     <CardContent className="pt-4">
                       <h4 className="font-semibold mb-2">Accessible à tous</h4>
                       <p className="text-sm text-muted-foreground">
@@ -226,7 +226,7 @@ const Information = () => {
                       </p>
                     </CardContent>
                   </Card>
-                  <Card className="bg-muted/50">
+                  <Card className="bg-muted/50 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-muted/80 hover:border-primary/30">
                     <CardContent className="pt-4">
                       <h4 className="font-semibold mb-2">Bienveillance</h4>
                       <p className="text-sm text-muted-foreground">
@@ -234,7 +234,7 @@ const Information = () => {
                       </p>
                     </CardContent>
                   </Card>
-                  <Card className="bg-muted/50">
+                  <Card className="bg-muted/50 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-muted/80 hover:border-primary/30">
                     <CardContent className="pt-4">
                       <h4 className="font-semibold mb-2">Plaisir et progression</h4>
                       <p className="text-sm text-muted-foreground">
@@ -274,7 +274,7 @@ const Information = () => {
               </p>
 
               <div className="grid gap-4 md:grid-cols-2">
-                <Card className="border-l-4 border-l-primary">
+                <Card className="border-l-4 border-l-primary transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10 hover:border-l-8">
                   <CardContent className="pt-4">
                     <div className="flex items-center gap-2 mb-2">
                       <Dumbbell className="h-5 w-5 text-primary" />
@@ -287,7 +287,7 @@ const Information = () => {
                   </CardContent>
                 </Card>
 
-                <Card className="border-l-4 border-l-primary">
+                <Card className="border-l-4 border-l-primary transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10 hover:border-l-8">
                   <CardContent className="pt-4">
                     <div className="flex items-center gap-2 mb-2">
                       <TreePine className="h-5 w-5 text-primary" />
@@ -300,7 +300,7 @@ const Information = () => {
                   </CardContent>
                 </Card>
 
-                <Card className="border-l-4 border-l-primary">
+                <Card className="border-l-4 border-l-primary transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10 hover:border-l-8">
                   <CardContent className="pt-4">
                     <div className="flex items-center gap-2 mb-2">
                       <RefreshCw className="h-5 w-5 text-primary" />
@@ -313,7 +313,7 @@ const Information = () => {
                   </CardContent>
                 </Card>
 
-                <Card className="border-l-4 border-l-primary">
+                <Card className="border-l-4 border-l-primary transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10 hover:border-l-8">
                   <CardContent className="pt-4">
                     <div className="flex items-center gap-2 mb-2">
                       <Home className="h-5 w-5 text-primary" />
@@ -326,7 +326,7 @@ const Information = () => {
                   </CardContent>
                 </Card>
 
-                <Card className="border-l-4 border-l-primary md:col-span-2">
+                <Card className="border-l-4 border-l-primary md:col-span-2 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10 hover:border-l-8">
                   <CardContent className="pt-4">
                     <div className="flex items-center gap-2 mb-2">
                       <Armchair className="h-5 w-5 text-primary" />
@@ -520,6 +520,14 @@ const Information = () => {
               )}
             </CardContent>
           </Card>
+        </div>
+
+        <div className="mt-16 mb-8 flex justify-center">
+          <img 
+            src="/assets/AGHEAL_logo.webp" 
+            alt="AGHeal Logo" 
+            className="w-48 h-48 object-contain opacity-80 hover:opacity-100 transition-opacity duration-500 hover:scale-110 drop-shadow-lg"
+          />
         </div>
       </div>
     </div>

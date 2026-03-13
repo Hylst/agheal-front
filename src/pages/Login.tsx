@@ -42,7 +42,7 @@ export default function Login() {
       <Card className="w-full max-w-md shadow-primary">
         <CardHeader className="space-y-3 text-center">
           <div className="flex justify-center mb-4">
-            <div className="w-40 h-40 bg-white rounded-3xl flex items-center justify-center shadow-primary overflow-hidden border-2 border-white">
+            <div className="w-40 h-40 bg-white rounded-3xl flex items-center justify-center shadow-primary overflow-hidden border-2 border-white group relative z-10 transition-all duration-500 hover:scale-[2] hover:shadow-2xl hover:z-50 cursor-crosshair">
               <img 
                 src="/assets/AGHEAL_logo.webp" 
                 alt="AGHeal Logo" 
