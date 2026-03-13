@@ -200,7 +200,8 @@ Client HTTP pour l'API PHP :
 | `groups` | Groupes d'adhérents |
 | `user_groups` | Affectation adhérent ↔ groupe |
 | `app_info` | Paramètres éditoriaux de l'application |
-| `logs` | Journal d'activité |
+| `logs` | Journal d'activité (Audit Administratif) |
+| `payments_history` | Historique des règlements (Passage à "À jour") |
 | `password_resets` | Tokens de réinitialisation |
 | `refresh_tokens` | Tokens de refresh JWT |
 

@@ -111,7 +111,10 @@ Liste des améliorations et fonctionnalités prévues pour les prochaines versio
 - [x] Champs de communication modifiables (Admin/Coach)
 - [x] Préférences de notifications dans les paramètres
 - [x] Masquage du statut règlement pour coachs/admin
-- [x] Documentation complète (README, ABOUT, CHANGELOG, REPRISE)
+- [x] **Gestion de la facturation et historisation** (Mars 2026)
+- [x] **Sécurité administrative et Audit Logs** (Mars 2026)
+- [x] **Automatisation des rappels par email (J-7)** (Mars 2026)
+- [x] Documentation complète (README, ABOUT, CHANGELOG, STRUCTURE)
 
 ---
 

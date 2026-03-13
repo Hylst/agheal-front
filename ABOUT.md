@@ -40,7 +40,8 @@ Après connexion, vous arrivez sur le **Tableau de bord**. C'est la page central
 | **Planification** | Créer de nouvelles séances |
 | **Clients** | Gérer les fiches des adhérents |
 | **Lieux** | Gérer les emplacements des séances |
-| **Groupes** | Organiser les adhérents en groupes |
+| **Alertes** | Indicateur orange si règlement en attente |
+| **Profil** | Consulter ses infos administratives |
 | **Informations** | Page d'information publique |
 
 ---
