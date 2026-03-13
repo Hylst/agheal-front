@@ -9,6 +9,16 @@ Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/)
 
 ---
 
+## [1.5.3] - Mars 2026
+
+### 🐛 Bug Fixes & Refactoring
+
+- **Backend / Séances** : Correction de la désinscription à une séance (Erreur 500 corrigée due au nommage `{id}` vs `$sessionId`).
+- **Frontend / Séances** : Affichage correct du nombre total d'inscrits dans la vue détaillée d'une séance (correction du compteur bloqué à 1 lié à l'agrégation SQL).
+- **Coach / Lieux** : Mise à jour immédiate (optimistic UI) lors de la modification ou suppression d'un lieu (corrige le bug d'affichage persistant).
+- **Coach / Clients** : Refonte du composant avec ajout du tri (alphabétique/inverse), filtre par groupe, et recherche unifiée intégrant les e-mails + bouton Reset.
+- **Dépendances** : Audit de code et nettoyage intensif. Suppression de 19 paquets NPM (ex: supabase, recharts, radix-ui inexploités) et de 19 composants Wrappers orphelins. Build testé avec succès.
+
 ## [1.5.2] - Mars 2026
 
 ### 📱 Responsive Mobile — Suite

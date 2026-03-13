@@ -159,6 +159,14 @@ export default function Sessions() {
     end: endOfMonth(selectedMonth),
   });
 
+  const availableSessionTypes = Array.from(
+    new Set(
+      sessions
+        .map((s) => s.session_types?.name)
+        .filter((name): name is string => !!name)
+    )
+  ).sort();
+
   if (loading) {
     return (
       <div className="min-h-screen bg-background p-8">
@@ -228,11 +236,11 @@ export default function Sessions() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">Tous les types</SelectItem>
-                <SelectItem value="Cardio">Cardio</SelectItem>
-                <SelectItem value="Renforcement">Renforcement</SelectItem>
-                <SelectItem value="Pilates">Pilates</SelectItem>
-                <SelectItem value="Marche nordique">Marche nordique</SelectItem>
-                <SelectItem value="Circuit training">Circuit training</SelectItem>
+                {availableSessionTypes.map((type) => (
+                  <SelectItem key={type} value={type}>
+                    {type}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
             <Input
@@ -441,7 +449,7 @@ export default function Sessions() {
                     <Users className="w-5 h-5 text-muted-foreground" />
                     <div className="flex items-center gap-2">
                       <span>
-                        {selectedSession.registrations.length} / {selectedSession.max_people} participants
+                        {(selectedSession.registrations[0] as any)?.count || 0} / {selectedSession.max_people} participants
                       </span>
                       {getAvailabilityBadge(
                         (selectedSession.registrations[0] as any)?.count || 0,
@@ -470,12 +478,12 @@ export default function Sessions() {
                       onClick={() => {
                         handleRegister(
                           selectedSession.id,
-                          selectedSession.registrations.length,
+                          (selectedSession.registrations[0] as any)?.count || 0,
                           selectedSession.max_people
                         );
                         setDialogOpen(false);
                       }}
-                      disabled={selectedSession.registrations.length >= selectedSession.max_people}
+                      disabled={((selectedSession.registrations[0] as any)?.count || 0) >= selectedSession.max_people}
                     >
                       S'inscrire
                     </Button>
