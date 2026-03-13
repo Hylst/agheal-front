@@ -58,7 +58,174 @@ export default function Dashboard() {
           </Alert>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* ========= MOBILE : carousel horizontal scroll-snap ========= */}
+        <div className="flex md:hidden gap-4 overflow-x-auto snap-x snap-mandatory pb-3 -mx-4 px-4 scrollbar-hide">
+          {/* Tuile Séances */}
+          <div className="snap-start flex-shrink-0 w-64">
+            <Card className="h-full hover:shadow-primary transition-all cursor-pointer hover:scale-105">
+              <CardHeader>
+                <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center mb-2">
+                  <Calendar className="w-6 h-6 text-white" />
+                </div>
+                <CardTitle>Séances</CardTitle>
+                <CardDescription>
+                  {role === 'coach' || role === 'admin' ? 'Gérer les séances' : 'S\'inscrire aux séances'}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Link to="/sessions">
+                  <Button className="w-full shadow-primary">
+                    {role === 'coach' || role === 'admin' ? 'Gérer' : 'Voir le planning'}
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+          </div>
+          {/* Tuile Profil */}
+          <div className="snap-start flex-shrink-0 w-64">
+            <Card className="h-full hover:shadow-secondary transition-all cursor-pointer hover:scale-105">
+              <CardHeader>
+                <div className="w-12 h-12 bg-gradient-secondary rounded-xl flex items-center justify-center mb-2">
+                  <Users className="w-6 h-6 text-white" />
+                </div>
+                <CardTitle>Profil</CardTitle>
+                <CardDescription>Vos informations personnelles</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Link to="/profile">
+                  <Button variant="secondary" className="w-full shadow-secondary">Mon profil</Button>
+                </Link>
+              </CardContent>
+            </Card>
+          </div>
+          {/* Tuile Historique */}
+          <div className="snap-start flex-shrink-0 w-64">
+            <Card className="h-full hover:shadow-accent transition-all cursor-pointer hover:scale-105">
+              <CardHeader>
+                <div className="w-12 h-12 bg-gradient-to-br from-slate-500 to-zinc-600 rounded-xl flex items-center justify-center mb-2">
+                  <History className="w-6 h-6 text-white" />
+                </div>
+                <CardTitle>Historique</CardTitle>
+                <CardDescription>Mes séances passées</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Link to="/history">
+                  <Button className="w-full bg-gradient-to-br from-slate-500 to-zinc-600">Voir l'historique</Button>
+                </Link>
+              </CardContent>
+            </Card>
+          </div>
+          {/* Tuile Infos */}
+          <div className="snap-start flex-shrink-0 w-64">
+            <Card className="h-full hover:shadow-accent transition-all cursor-pointer hover:scale-105">
+              <CardHeader>
+                <div className="w-12 h-12 bg-gradient-to-br from-lime-500 to-green-500 rounded-xl flex items-center justify-center mb-2">
+                  <Info className="w-6 h-6 text-white" />
+                </div>
+                <CardTitle>Informations</CardTitle>
+                <CardDescription>AGHeal et nos offres</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Link to="/information">
+                  <Button className="w-full bg-gradient-to-br from-lime-500 to-green-500">En savoir plus</Button>
+                </Link>
+              </CardContent>
+            </Card>
+          </div>
+          {(role === 'coach' || role === 'admin') && (
+            <div className="snap-start flex-shrink-0 w-64">
+              <Card className="h-full hover:shadow-accent transition-all cursor-pointer hover:scale-105">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-gradient-accent rounded-xl flex items-center justify-center mb-2">
+                    <MapPin className="w-6 h-6 text-white" />
+                  </div>
+                  <CardTitle>Lieux</CardTitle>
+                  <CardDescription>Lieux de séances</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Link to="/coach/locations">
+                    <Button className="w-full bg-gradient-accent shadow-accent">Gérer</Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+          {(role === 'coach' || role === 'admin') && (
+            <div className="snap-start flex-shrink-0 w-64">
+              <Card className="h-full hover:shadow-accent transition-all cursor-pointer hover:scale-105">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mb-2">
+                    <Dumbbell className="w-6 h-6 text-white" />
+                  </div>
+                  <CardTitle>Activités</CardTitle>
+                  <CardDescription>Types de séances</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Link to="/coach/activities">
+                    <Button className="w-full bg-gradient-to-br from-purple-500 to-pink-500">Gérer</Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+          {(role === 'coach' || role === 'admin') && (
+            <div className="snap-start flex-shrink-0 w-64">
+              <Card className="h-full hover:shadow-accent transition-all cursor-pointer hover:scale-105">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center mb-2">
+                    <CalendarPlus className="w-6 h-6 text-white" />
+                  </div>
+                  <CardTitle>Planification</CardTitle>
+                  <CardDescription>Programmer des séances</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Link to="/coach/schedule">
+                    <Button className="w-full bg-gradient-to-br from-blue-500 to-cyan-500">Planifier</Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+          {(role === 'coach' || role === 'admin') && (
+            <div className="snap-start flex-shrink-0 w-64">
+              <Card className="h-full hover:shadow-accent transition-all cursor-pointer hover:scale-105">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-xl flex items-center justify-center mb-2">
+                    <UserCheck className="w-6 h-6 text-white" />
+                  </div>
+                  <CardTitle>Clients</CardTitle>
+                  <CardDescription>Adhérents &amp; groupes</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Link to="/coach/clients">
+                    <Button className="w-full bg-gradient-to-br from-emerald-500 to-teal-500">Voir</Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+          {(role === 'coach' || role === 'admin') && (
+            <div className="snap-start flex-shrink-0 w-64">
+              <Card className="h-full hover:shadow-accent transition-all cursor-pointer hover:scale-105">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-amber-500 rounded-xl flex items-center justify-center mb-2">
+                    <FolderOpen className="w-6 h-6 text-white" />
+                  </div>
+                  <CardTitle>Groupes</CardTitle>
+                  <CardDescription>Groupes d'adhérents</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Link to="/coach/groups">
+                    <Button className="w-full bg-gradient-to-br from-orange-500 to-amber-500">Gérer</Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+        </div>
+
+        {/* ========= DESKTOP : grille classique (md+) ========= */}
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Card Séances */}
           <Card className="hover:shadow-primary transition-all cursor-pointer hover:scale-105">
             <CardHeader>
@@ -237,28 +404,28 @@ export default function Dashboard() {
         </div>
 
         {/* Section stats rapides */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="mt-8 grid grid-cols-3 gap-3 sm:gap-4 md:grid-cols-3">
           <Card>
-            <CardContent className="pt-6">
+            <CardContent className="pt-4 sm:pt-6">
               <div className="text-center">
-                <p className="text-4xl font-bold text-primary">0</p>
-                <p className="text-sm text-muted-foreground mt-2">Séances à venir</p>
+                <p className="text-2xl sm:text-4xl font-bold text-primary">0</p>
+                <p className="text-xs sm:text-sm text-muted-foreground mt-1 sm:mt-2">Séances à venir</p>
               </div>
             </CardContent>
           </Card>
           <Card>
-            <CardContent className="pt-6">
+            <CardContent className="pt-4 sm:pt-6">
               <div className="text-center">
-                <p className="text-4xl font-bold text-secondary">0</p>
-                <p className="text-sm text-muted-foreground mt-2">Inscriptions</p>
+                <p className="text-2xl sm:text-4xl font-bold text-secondary">0</p>
+                <p className="text-xs sm:text-sm text-muted-foreground mt-1 sm:mt-2">Inscriptions</p>
               </div>
             </CardContent>
           </Card>
           <Card>
-            <CardContent className="pt-6">
+            <CardContent className="pt-4 sm:pt-6">
               <div className="text-center">
-                <p className="text-4xl font-bold text-accent">0</p>
-                <p className="text-sm text-muted-foreground mt-2">Activités</p>
+                <p className="text-2xl sm:text-4xl font-bold text-accent">0</p>
+                <p className="text-xs sm:text-sm text-muted-foreground mt-1 sm:mt-2">Activités</p>
               </div>
             </CardContent>
           </Card>

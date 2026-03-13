@@ -207,7 +207,7 @@ export default function CoachSessions() {
         )}
 
         <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
-          <AlertDialogContent>
+          <AlertDialogContent className="max-h-[90vh] overflow-y-auto">
             <AlertDialogHeader>
               <AlertDialogTitle>Supprimer cette séance ?</AlertDialogTitle>
               <AlertDialogDescription>

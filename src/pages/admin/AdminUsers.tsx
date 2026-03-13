@@ -241,7 +241,7 @@ export default function AdminUsers() {
         </div>
 
         <AlertDialog open={!!actionUser} onOpenChange={() => setActionUser(null)}>
-          <AlertDialogContent>
+          <AlertDialogContent className="max-h-[90vh] overflow-y-auto">
             <AlertDialogHeader>
               <AlertDialogTitle>
                 {actionUser?.action === 'block' && 'Bloquer ce compte ?'}

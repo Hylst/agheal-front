@@ -287,7 +287,7 @@ export default function Locations() {
 
       {/* Dialog Suppression */}
       <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <AlertDialogContent>
+        <AlertDialogContent className="max-h-[90vh] overflow-y-auto">
           <AlertDialogHeader>
             <AlertDialogTitle>Confirmer la suppression</AlertDialogTitle>
             <AlertDialogDescription>

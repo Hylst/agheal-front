@@ -2,9 +2,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { AuthProvider } from "@/hooks/useAuth";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { AuthProvider, useAuth } from "@/hooks/useAuth";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { MobileNav } from "@/components/MobileNav";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -23,6 +24,15 @@ import Clients from "./pages/coach/Clients";
 import Groups from "./pages/coach/Groups";
 import AdminUsers from "./pages/admin/AdminUsers";
 import NotFound from "./pages/NotFound";
+
+/** Navigation mobile globale — masquée sur les pages publiques **/
+function GlobalMobileNav() {
+  const { user } = useAuth();
+  const location = useLocation();
+  const publicRoutes = ['/', '/login', '/signup', '/reset-password'];
+  if (!user || publicRoutes.includes(location.pathname)) return null;
+  return <MobileNav />;
+}
 
 const queryClient = new QueryClient();
 
@@ -153,6 +163,7 @@ const App = () => (
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <GlobalMobileNav />
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>

@@ -220,7 +220,7 @@ export default function Groups() {
                                 <Trash2 className="w-4 h-4" />
                               </Button>
                             </AlertDialogTrigger>
-                            <AlertDialogContent>
+                            <AlertDialogContent className="max-h-[90vh] overflow-y-auto">
                               <AlertDialogHeader>
                                 <AlertDialogTitle>Supprimer le groupe ?</AlertDialogTitle>
                                 <AlertDialogDescription>

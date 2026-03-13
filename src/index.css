@@ -110,3 +110,15 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+/* Utilitaire : masquer la scrollbar sur le carousel mobile */
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE, Edge */
+    scrollbar-width: none;     /* Firefox */
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;             /* Chrome, Safari */
+  }
+}
+
