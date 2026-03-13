@@ -1,11 +1,11 @@
 <?php
 // seed_demo_data.php
 // Script de seeding exhaustif pour les données de démo AGHeal
-// Version finale : 2 coachs, 6 clients ultra-diversifiés, planning complet
-// Configuration pour exécution sur VPS (Coolify)
+// Version finale : 2 coachs, 10 clients ultra-diversifiés, planning complet
+// Configuration pour exécution sur VPS (MariaDB / Coolify)
 
-// NOTE : Si exécuté depuis le container PHP de l'API, DB_HOST doit correspondre 
-// au nom du service DB dans Coolify ou à 127.0.0.1 si en mode network host.
+// NOTE : Pour une exécution directe sur le VPS (via docker exec), utilisez 127.0.0.1 
+// ou le nom du service container MariaDB défini dans Coolify.
 $host = '127.0.0.1'; 
 $port = '3306';
 $dbname = 'agheal';
@@ -79,7 +79,8 @@ try {
     $groupsData = [
         ['name' => 'Seniors Dynamiques', 'details' => 'Groupe orienté mobilité et prévention des chutes'],
         ['name' => 'Performance & Cardio', 'details' => 'Pour ceux qui recherchent de l\'intensité'],
-        ['name' => 'Rééducation Posturale', 'details' => 'Focus sur le dos et le centre du corps']
+        ['name' => 'Rééducation Posturale', 'details' => 'Focus sur le dos et le centre du corps'],
+        ['name' => 'Sport Santé Entreprise', 'details' => 'Séances adaptées aux salariés']
     ];
 
     $groupIds = [];
@@ -153,6 +154,30 @@ try {
             'phone' => '06 99 88 77 66', 'age' => 41, 'payment' => 'a_jour',
             'health' => 'Souvent fatiguée (travail de nuit).', 'info' => 'Besoin de décompression.',
             'coach' => 'Séances axées sur le bien-être et l\'étirement.', 'groups' => ['Rééducation Posturale']
+        ],
+        [
+            'email' => 'nicolas.lefevre@demo.com', 'first' => 'Nicolas', 'last' => 'Lefevre', 
+            'phone' => '06 11 22 33 44', 'age' => 35, 'payment' => 'a_jour',
+            'health' => 'Scoliose idiopathique.', 'info' => 'Travail de bureau sédentaire.',
+            'coach' => 'Insister sur le renforcement des spinaux.', 'groups' => ['Rééducation Posturale']
+        ],
+        [
+            'email' => 'camille.moreau@demo.com', 'first' => 'Camille', 'last' => 'Moreau', 
+            'phone' => '06 22 33 44 55', 'age' => 27, 'payment' => 'en_attente',
+            'health' => 'Tendance aux hypoglycémies.', 'info' => 'Débutante complète.',
+            'coach' => 'Avoir toujours du sucre à proximité.', 'groups' => ['Seniors Dynamiques']
+        ],
+        [
+            'email' => 'lucas.simon@demo.com', 'first' => 'Lucas', 'last' => 'Simon', 
+            'phone' => '07 44 55 66 77', 'age' => 31, 'payment' => 'a_jour',
+            'health' => 'Ancien rugbyman, épaule fragile.', 'info' => 'Cherche à maintenir sa masse musculaire.',
+            'coach' => 'Éviter les développés au-dessus de la tête.', 'groups' => ['Performance & Cardio']
+        ],
+        [
+            'email' => 'lea.michel@demo.com', 'first' => 'Léa', 'last' => 'Michel', 
+            'phone' => '03 66 77 88 99', 'age' => 68, 'payment' => 'a_jour',
+            'health' => 'Ostéoporose diagnostiquée.', 'info' => 'Inquiète pour sa densité osseuse.',
+            'coach' => 'Travail de mise en charge modérée très bénéfique.', 'groups' => ['Seniors Dynamiques', 'Rééducation Posturale']
         ]
     ];
 
@@ -199,9 +224,9 @@ try {
             if (!$stmt->fetch()) {
                 $sid = generate_uuid();
                 $pdo->prepare("INSERT INTO sessions (id, title, type_id, location_id, date, start_time, end_time, capacity, status, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'published', ?)")
-                    ->execute([$sid, $p['title'], $typeId, $locId, $date, $p['start'], $p['end'], 10, $coachIds['Trautmann']]);
+                    ->execute([sid, $p['title'], $typeId, $locId, $date, $p['start'], $p['end'], 10, $coachIds['Trautmann']]);
                 
-                $nbInscrits = mt_rand(2, 4);
+                $nbInscrits = mt_rand(3, 7);
                 $sessionClients = (array)array_rand($clientUids, $nbInscrits);
                 foreach ($sessionClients as $idx) {
                     $pdo->prepare("INSERT IGNORE INTO registrations (id, session_id, user_id) VALUES (?, ?, ?)")
@@ -211,7 +236,7 @@ try {
         }
     }
 
-    echo "✅ Seeding terminé avec 2 coachs, 6 clients et le planning complet.\n";
+    echo "✅ Seeding terminé avec 2 coachs, 10 clients diversifiés et le planning complet.\n";
 
 } catch (PDOException $e) {
     echo "❌ Erreur : " . $e->getMessage() . "\n";
