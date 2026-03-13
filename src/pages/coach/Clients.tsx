@@ -36,6 +36,7 @@ type ClientProfile = {
   payment_status: string | null;
   renewal_date: string | null;
   groups?: { id: number; name: string }[];
+  roles?: string[];
 };
 
 type Group = {
@@ -298,13 +299,17 @@ export default function Clients() {
                     </TableCell>
                     <TableCell className="text-sm text-muted-foreground">{client.email || '-'}</TableCell>
                     <TableCell>{client.phone || '-'}</TableCell>
-                    <TableCell>
-                      <Badge
-                        variant={client.payment_status === 'a_jour' ? 'default' : 'secondary'}
-                        className={client.payment_status === 'a_jour' ? 'bg-green-600' : ''}
-                      >
-                        {client.payment_status === 'a_jour' ? 'À jour' : 'En attente'}
-                      </Badge>
+                    <TableCell className="text-right">
+                      <div className="flex justify-end gap-2">
+                        {(client.roles?.includes('admin') || client.roles?.includes('coach')) ? null : (
+                          <Badge
+                            variant={client.payment_status === 'a_jour' ? 'default' : 'secondary'}
+                            className={client.payment_status === 'a_jour' ? 'bg-green-600' : ''}
+                          >
+                            {client.payment_status === 'a_jour' ? 'À jour' : 'En attente'}
+                          </Badge>
+                        )}
+                      </div>
                     </TableCell>
                     <TableCell>
                       <div className="flex flex-wrap gap-1">
@@ -412,48 +417,50 @@ export default function Clients() {
                       <p className="font-medium">{formatDate(selectedClient.created_at)}</p>
                     </div>
 
-                    {editMode ? (
-                      <>
-                        <div>
-                          <Label className="text-muted-foreground text-sm">Statut règlement</Label>
-                          <Select value={paymentStatus} onValueChange={setPaymentStatus}>
-                            <SelectTrigger className="mt-1">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="a_jour">À jour</SelectItem>
-                              <SelectItem value="en_attente">En attente</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        <div className="col-span-2">
-                          <Label className="text-muted-foreground text-sm">Date de renouvellement</Label>
-                          <Input
-                            type="date"
-                            value={renewalDate}
-                            onChange={(e) => setRenewalDate(e.target.value)}
-                            className="mt-1"
-                          />
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div>
-                          <Label className="text-muted-foreground text-sm">Statut règlement</Label>
-                          <Badge
-                            variant={selectedClient.payment_status === 'a_jour' ? 'default' : 'secondary'}
-                            className={selectedClient.payment_status === 'a_jour' ? 'bg-green-600 mt-1' : 'mt-1'}
-                          >
-                            {selectedClient.payment_status === 'a_jour' ? 'À jour' : 'En attente'}
-                          </Badge>
-                        </div>
-                        {selectedClient.renewal_date && (
+                    {!(selectedClient.roles?.includes('admin') || selectedClient.roles?.includes('coach')) && (
+                      editMode ? (
+                        <>
                           <div>
-                            <Label className="text-muted-foreground text-sm">Date de renouvellement</Label>
-                            <p className="font-medium">{formatDate(selectedClient.renewal_date)}</p>
+                            <Label className="text-muted-foreground text-sm">Statut règlement</Label>
+                            <Select value={paymentStatus} onValueChange={setPaymentStatus}>
+                              <SelectTrigger className="mt-1">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="a_jour">À jour</SelectItem>
+                                <SelectItem value="en_attente">En attente</SelectItem>
+                              </SelectContent>
+                            </Select>
                           </div>
-                        )}
-                      </>
+                          <div className="col-span-2">
+                            <Label className="text-muted-foreground text-sm">Date de renouvellement</Label>
+                            <Input
+                              type="date"
+                              value={renewalDate}
+                              onChange={(e) => setRenewalDate(e.target.value)}
+                              className="mt-1"
+                            />
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div>
+                            <Label className="text-muted-foreground text-sm">Statut règlement</Label>
+                            <Badge
+                              variant={selectedClient.payment_status === 'a_jour' ? 'default' : 'secondary'}
+                              className={selectedClient.payment_status === 'a_jour' ? 'bg-green-600 mt-1' : 'mt-1'}
+                            >
+                              {selectedClient.payment_status === 'a_jour' ? 'À jour' : 'En attente'}
+                            </Badge>
+                          </div>
+                          {selectedClient.renewal_date && (
+                            <div>
+                              <Label className="text-muted-foreground text-sm">Date de renouvellement</Label>
+                              <p className="font-medium">{formatDate(selectedClient.renewal_date)}</p>
+                            </div>
+                          )}
+                        </>
+                      )
                     )}
                   </div>
                 </div>
