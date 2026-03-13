@@ -62,8 +62,27 @@ export default function Schedule() {
       if (typesResponse.error) throw typesResponse.error;
       if (locationsResponse.error) throw locationsResponse.error;
 
-      setSessionTypes((typesResponse.data as any)?.session_types || typesResponse.data || []);
-      setLocations((locationsResponse.data as any)?.locations || locationsResponse.data || []);
+      const fetchedTypes = (typesResponse.data as any)?.session_types || typesResponse.data || [];
+      const fetchedLocations = (locationsResponse.data as any)?.locations || locationsResponse.data || [];
+
+      setSessionTypes(fetchedTypes);
+      setLocations(fetchedLocations);
+
+      if (fetchedTypes.length > 0) {
+        const firstType = fetchedTypes[0];
+        setFormData(prev => ({
+          ...prev,
+          type_id: firstType.id.toString(),
+          title: firstType.name,
+          description: firstType.description || '',
+          location_id: firstType.default_location_id?.toString() || (fetchedLocations.length > 0 ? fetchedLocations[0].id.toString() : ''),
+        }));
+      } else if (fetchedLocations.length > 0) {
+        setFormData(prev => ({
+          ...prev,
+          location_id: fetchedLocations[0].id.toString(),
+        }));
+      }
     } catch (error) {
       toast({
         title: 'Erreur',
