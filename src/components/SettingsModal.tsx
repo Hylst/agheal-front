@@ -112,7 +112,7 @@ export function SettingsModal({ open, onOpenChange, role }: SettingsModalProps) 
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="w-full max-w-md sm:max-w-md mx-auto max-h-[90vh] flex flex-col overflow-hidden">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Bell className="w-5 h-5 text-primary" />
@@ -128,7 +128,7 @@ export function SettingsModal({ open, onOpenChange, role }: SettingsModalProps) 
             Chargement...
           </div>
         ) : (
-          <div className="space-y-6 py-4">
+          <div className="space-y-6 py-4 overflow-y-auto flex-1 pr-1">
             {/* Adherent Notifications */}
             {!isCoachOrAdmin && (
               <>
@@ -273,11 +273,11 @@ export function SettingsModal({ open, onOpenChange, role }: SettingsModalProps) 
           </div>
         )}
 
-        <div className="flex justify-end gap-3 pt-4 border-t">
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+        <div className="flex justify-end gap-3 pt-4 border-t mt-auto flex-shrink-0">
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="flex-1 sm:flex-none">
             Annuler
           </Button>
-          <Button onClick={handleSave} disabled={saving || loading}>
+          <Button onClick={handleSave} disabled={saving || loading} className="flex-1 sm:flex-none">
             {saving ? 'Enregistrement...' : 'Enregistrer'}
           </Button>
         </div>

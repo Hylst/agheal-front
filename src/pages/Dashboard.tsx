@@ -20,19 +20,19 @@ export default function Dashboard() {
               <Dumbbell className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold">AGHeal & Adapt'Movement</h1>
+              <h1 className="text-base sm:text-xl font-bold leading-tight">AGHeal &amp; Adapt'Movement</h1>
               <p className="text-sm text-muted-foreground">
                 {role === 'admin' ? 'Administrateur' : role === 'coach' ? 'Coach' : 'Adhérent'}
               </p>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="sm" onClick={() => setSettingsOpen(true)}>
+            <Button variant="ghost" size="sm" onClick={() => setSettingsOpen(true)} title="Paramètres">
               <Settings className="w-4 h-4" />
             </Button>
-            <Button variant="outline" size="sm" onClick={signOut}>
-              <LogOut className="w-4 h-4 mr-2" />
-              Déconnexion
+            <Button variant="outline" size="sm" onClick={signOut} title="Déconnexion" className="flex items-center gap-2">
+              <LogOut className="w-4 h-4" />
+              <span className="hidden sm:inline">Déconnexion</span>
             </Button>
           </div>
         </div>
