@@ -11,7 +11,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Switch } from '@/components/ui/switch';
 import { ArrowLeft, Calendar as CalendarIcon, Clock, MapPin, Users, Copy } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
-import { format, addWeeks } from 'date-fns';
+import { format, addWeeks, addDays, addMonths } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
 type Location = {
@@ -49,6 +49,7 @@ export default function Schedule() {
     equipment_clients: '',
     equipment_location: '',
     repeat_weeks: '1',
+    repeat_unit: 'weeks',
   });
 
   useEffect(() => {
@@ -143,7 +144,16 @@ export default function Schedule() {
       const repeatCount = repeat ? parseInt(formData.repeat_weeks) : 1;
 
       for (let i = 0; i < repeatCount; i++) {
-        const sessionDate = addWeeks(new Date(formData.date), i);
+        const baseDate = new Date(formData.date);
+        let sessionDate = baseDate;
+        if (formData.repeat_unit === 'days') {
+            sessionDate = addDays(baseDate, i);
+        } else if (formData.repeat_unit === 'months') {
+            sessionDate = addMonths(baseDate, i);
+        } else {
+            sessionDate = addWeeks(baseDate, i);
+        }
+        
         sessions.push({
           ...baseSession,
           date: format(sessionDate, 'yyyy-MM-dd'),
@@ -176,6 +186,7 @@ export default function Schedule() {
         equipment_clients: '',
         equipment_location: '',
         repeat_weeks: '1',
+        repeat_unit: 'weeks',
       });
       setRepeat(false);
     } catch (error) {
@@ -192,7 +203,16 @@ export default function Schedule() {
     const dates = [];
     const repeatCount = parseInt(formData.repeat_weeks);
     for (let i = 0; i < repeatCount; i++) {
-      dates.push(addWeeks(new Date(formData.date), i));
+      const baseDate = new Date(formData.date);
+      let previewDate = baseDate;
+      if (formData.repeat_unit === 'days') {
+          previewDate = addDays(baseDate, i);
+      } else if (formData.repeat_unit === 'months') {
+          previewDate = addMonths(baseDate, i);
+      } else {
+          previewDate = addWeeks(baseDate, i);
+      }
+      dates.push(previewDate);
     }
     return dates;
   };
@@ -366,8 +386,8 @@ export default function Schedule() {
 
               {/* Presets Matériel */}
               <div className="space-y-6 pt-6 border-t">
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-                  <h3 className="text-lg font-medium">Matériel optionnel</h3>
+                <div className="flex flex-col gap-4">
+                  <h3 className="text-lg font-medium">Matériel</h3>
                   <div className="flex flex-wrap gap-2">
                     <Button
                       type="button"
@@ -375,9 +395,9 @@ export default function Schedule() {
                       size="sm"
                       onClick={() => setFormData({
                         ...formData,
-                        equipment_clients: 'Bâtons de marche',
-                        equipment_coach: 'Trousse de secours',
-                        equipment_location: 'Point d\'eau'
+                        equipment_clients: 'Bâtons de marche, chaussures adaptées, eau',
+                        equipment_coach: 'Trousse de secours, gourde',
+                        equipment_location: 'Point de RDV extérieur'
                       })}
                     >
                       Bâtons / Extérieur
@@ -388,12 +408,38 @@ export default function Schedule() {
                       size="sm"
                       onClick={() => setFormData({
                         ...formData,
-                        equipment_clients: 'Tenue de sport, Serviette',
-                        equipment_coach: 'Élastiques',
-                        equipment_location: 'Tapis de sol'
+                        equipment_clients: 'Tenue de sport, serviette, eau',
+                        equipment_coach: 'Élastiques, musique',
+                        equipment_location: 'Tapis de sol, haltères'
                       })}
                     >
                       Tapis / Salle
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setFormData({
+                        ...formData,
+                        equipment_clients: 'Tenue de sport, chaussures indoor, serviette, eau',
+                        equipment_coach: 'Chronomètre, sifflet, programme',
+                        equipment_location: 'Poids libres, machines, bancs'
+                      })}
+                    >
+                      Muscu / Circuit
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setFormData({
+                        ...formData,
+                        equipment_clients: 'Tenue ample, chaussettes épaisses',
+                        equipment_coach: 'Musique douce, huiles essentielles',
+                        equipment_location: 'Tapis de sol, plaids, coussins'
+                      })}
+                    >
+                      Relax / Bien-être
                     </Button>
                     <Button
                       type="button"
@@ -453,7 +499,7 @@ export default function Schedule() {
           <Card>
             <CardHeader>
               <CardTitle>3. Duplication</CardTitle>
-              <CardDescription>Répéter cette séance sur plusieurs semaines</CardDescription>
+              <CardDescription>Répéter cette séance</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center space-x-2">
@@ -469,16 +515,32 @@ export default function Schedule() {
 
               {repeat && (
                 <>
-                  <div>
-                    <Label htmlFor="repeat_weeks">Nombre de semaines (1-12)</Label>
-                    <Input
-                      id="repeat_weeks"
-                      type="number"
-                      min="1"
-                      max="12"
-                      value={formData.repeat_weeks}
-                      onChange={(e) => setFormData({ ...formData, repeat_weeks: e.target.value })}
-                    />
+                  <div className="flex gap-4">
+                    <div className="flex-1">
+                      <Label htmlFor="repeat_weeks" className="text-muted-foreground">Nombre d'occurrences (1-12)</Label>
+                      <Input
+                        id="repeat_weeks"
+                        type="number"
+                        min="1"
+                        max="12"
+                        value={formData.repeat_weeks}
+                        onChange={(e) => setFormData({ ...formData, repeat_weeks: e.target.value })}
+                        className="mt-2"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <Label htmlFor="repeat_unit" className="text-muted-foreground">Fréquence</Label>
+                      <Select value={formData.repeat_unit} onValueChange={(value) => setFormData({ ...formData, repeat_unit: value })}>
+                        <SelectTrigger className="mt-2" id="repeat_unit">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="days">Tous les jours</SelectItem>
+                          <SelectItem value="weeks">Toutes les semaines</SelectItem>
+                          <SelectItem value="months">Tous les mois</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
 
                   {formData.date && (

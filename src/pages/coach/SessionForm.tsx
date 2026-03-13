@@ -323,8 +323,8 @@ export default function SessionForm() {
 
             {/* Presets Matériel */}
             <div className="space-y-6 pt-6 border-t">
-              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-                <h3 className="text-lg font-medium">Matériel optionnel</h3>
+              <div className="flex flex-col gap-4">
+                <h3 className="text-lg font-medium">Matériel</h3>
                 <div className="flex flex-wrap gap-2">
                   <Button
                     type="button"
@@ -332,9 +332,9 @@ export default function SessionForm() {
                     size="sm"
                     onClick={() => setFormData({
                       ...formData,
-                      equipment_clients: 'Bâtons de marche',
-                      equipment_coach: 'Trousse de secours',
-                      equipment_location: 'Point d\'eau'
+                      equipment_clients: 'Bâtons de marche, chaussures adaptées, eau',
+                      equipment_coach: 'Trousse de secours, gourde',
+                      equipment_location: 'Point de RDV extérieur'
                     })}
                   >
                     Bâtons / Extérieur
@@ -345,12 +345,38 @@ export default function SessionForm() {
                     size="sm"
                     onClick={() => setFormData({
                       ...formData,
-                      equipment_clients: 'Tenue de sport, Serviette',
-                      equipment_coach: 'Élastiques',
-                      equipment_location: 'Tapis de sol'
+                      equipment_clients: 'Tenue de sport, serviette, eau',
+                      equipment_coach: 'Élastiques, musique',
+                      equipment_location: 'Tapis de sol, haltères'
                     })}
                   >
                     Tapis / Salle
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setFormData({
+                      ...formData,
+                      equipment_clients: 'Tenue de sport, chaussures indoor, serviette, eau',
+                      equipment_coach: 'Chronomètre, sifflet, programme',
+                      equipment_location: 'Poids libres, machines, bancs'
+                    })}
+                  >
+                    Muscu / Circuit
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setFormData({
+                      ...formData,
+                      equipment_clients: 'Tenue ample, chaussettes épaisses',
+                      equipment_coach: 'Musique douce, huiles essentielles',
+                      equipment_location: 'Tapis de sol, plaids, coussins'
+                    })}
+                  >
+                    Relax / Bien-être
                   </Button>
                   <Button
                     type="button"
@@ -371,7 +397,7 @@ export default function SessionForm() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="equipment_coach" className="text-muted-foreground">Matériel coach (Optionnel)</Label>
+                  <Label htmlFor="equipment_coach" className="text-muted-foreground">Matériel coach</Label>
                   <Input
                     id="equipment_coach"
                     value={formData.equipment_coach}
@@ -382,7 +408,7 @@ export default function SessionForm() {
                 </div>
 
                 <div>
-                  <Label htmlFor="equipment_clients" className="text-muted-foreground">Matériel clients (Optionnel)</Label>
+                  <Label htmlFor="equipment_clients" className="text-muted-foreground">Matériel clients</Label>
                   <Input
                     id="equipment_clients"
                     value={formData.equipment_clients}
@@ -393,7 +419,7 @@ export default function SessionForm() {
                 </div>
 
                 <div className="md:col-span-2">
-                  <Label htmlFor="equipment_location" className="text-muted-foreground">Matériel sur place (Optionnel)</Label>
+                  <Label htmlFor="equipment_location" className="text-muted-foreground">Matériel sur place</Label>
                   <Input
                     id="equipment_location"
                     value={formData.equipment_location}
