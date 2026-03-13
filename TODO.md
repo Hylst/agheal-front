@@ -115,6 +115,9 @@ Liste des améliorations et fonctionnalités prévues pour les prochaines versio
 - [x] **Sécurité administrative et Audit Logs** (Mars 2026)
 - [x] **Automatisation des rappels par email (J-7)** (Mars 2026)
 - [x] Documentation complète (README, ABOUT, CHANGELOG, STRUCTURE)
+- [x] **Correction des erreurs 500 (Mismatch arguments API)** (Mars 2026)
+- [x] **Script de Seeding de Démo complet** (Lieux, Activités, Planning réel) (Mars 2026)
+- [x] **Améliorations Accessibilité (Dialogs)** (Mars 2026)
 
 ---
 
