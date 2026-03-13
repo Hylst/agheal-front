@@ -5,7 +5,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
-import { Dumbbell } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 
 export default function Login() {
@@ -43,8 +42,12 @@ export default function Login() {
       <Card className="w-full max-w-md shadow-primary">
         <CardHeader className="space-y-3 text-center">
           <div className="flex justify-center mb-2">
-            <div className="w-16 h-16 bg-gradient-primary rounded-2xl flex items-center justify-center shadow-primary">
-              <Dumbbell className="w-8 h-8 text-white" />
+            <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-primary overflow-hidden">
+              <img 
+                src="/assets/AGHEAL_logo.webp" 
+                alt="AGHeal Logo" 
+                className="w-full h-full object-contain p-2"
+              />
             </div>
           </div>
           <CardTitle className="text-3xl font-bold">Connexion</CardTitle>
