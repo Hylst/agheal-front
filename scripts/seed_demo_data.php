@@ -1,7 +1,7 @@
 <?php
 // seed_demo_data.php
 // Script de seeding exhaustif pour les données de démo AGHeal
-// Version synchronisée avec le planning officiel et les nouveaux lieux/activités
+// Version raffinée : 2 coachs, 6 clients diversifiés, planning complet
 
 $host = '127.0.0.1';
 $port = '3306';
@@ -100,7 +100,7 @@ try {
                 ->execute([$id, $grp['name'], $grp['details']]);
             echo "✅ Groupe créé : {$grp['name']}\n";
         }
-        $groupIds[] = $id;
+        $groupIds[$grp['name']] = $id;
     }
 
     // --- 4. COACHS & CLIENTS ---
@@ -109,9 +109,7 @@ try {
     // Coaches
     $coaches = [
         ['email' => 'guillaume.trautmann@agheal.fr', 'first' => 'Guillaume', 'last' => 'Trautmann'],
-        ['email' => 'amandine.motsch@agheal.fr', 'first' => 'Amandine', 'last' => 'Motsch'],
-        ['email' => 'marc.coach@agheal.fr', 'first' => 'Marc', 'last' => 'Sport'],
-        ['email' => 'sophie.coach@agheal.fr', 'first' => 'Sophie', 'last' => 'Heal']
+        ['email' => 'amandine.motsch@agheal.fr', 'first' => 'Amandine', 'last' => 'Motsch']
     ];
 
     $coachIds = [];
@@ -128,36 +126,92 @@ try {
             $pdo->prepare("INSERT IGNORE INTO user_roles (user_id, role) VALUES (?, 'coach')")->execute([$uid]);
             echo "👤 Coach créé : {$coach['email']}\n";
         }
-        $coachIds[] = $uid;
+        $coachIds[$coach['last']] = $uid;
     }
 
-    // Clients
-    $firstNames = ['Jean', 'Marie', 'Pierre', 'Julie', 'Thomas', 'Sophie', 'Lucas', 'Emma', 'Antoine', 'Léa', 'Nicolas', 'Chloé', 'Benoit', 'Camille', 'Maxime'];
-    $lastNames = ['Dupont', 'Martin', 'Bernard', 'Dubois', 'Thomas', 'Robert', 'Richard', 'Petit', 'Durand', 'Leroy', 'Moreau', 'Simon', 'Laurent', 'Lefebvre', 'Michel'];
-    
-    $clientIds = [];
-    for ($i = 0; $i < 15; $i++) {
-        $email = "client{$i}@example.com";
+    // Clients (6 Diversifiés)
+    $clientsData = [
+        [
+            'email' => 'jean.dupont@demo.com', 'first' => 'Jean', 'last' => 'Dupont', 
+            'phone' => '06 12 34 56 78', 'age' => 45, 'payment' => 'a_jour',
+            'health' => 'Légères douleurs lombaires en fin de journée.',
+            'info' => 'Ancien coureur, souhaite reprendre sans se blesser.',
+            'coach' => 'Très motivé, surveiller sa posture lors des squats.',
+            'groups' => ['Performance & Cardio']
+        ],
+        [
+            'email' => 'marie.martin@demo.com', 'first' => 'Marie', 'last' => 'Martin', 
+            'phone' => '07 88 99 00 11', 'age' => 32, 'payment' => 'en_attente',
+            'health' => 'Asthme d\'effort, utilise un inhalateur.',
+            'info' => 'Préfère les séances en extérieur.',
+            'coach' => 'Rythme cardio à adapter selon les pics de pollution.',
+            'groups' => ['Seniors Dynamiques']
+        ],
+        [
+            'email' => 'pierre.bernard@demo.com', 'first' => 'Pierre', 'last' => 'Bernard', 
+            'phone' => '03 88 45 12 30', 'age' => 72, 'payment' => 'a_jour',
+            'health' => 'Arthrose aux genoux, mobilité réduite.',
+            'info' => 'Vient avec sa femme Léa.',
+            'coach' => 'Focus sur la mobilité articulaire douce.',
+            'groups' => ['Seniors Dynamiques', 'Rééducation Posturale']
+        ],
+        [
+            'email' => 'julie.dubois@demo.com', 'first' => 'Julie', 'last' => 'Dubois', 
+            'phone' => '06 55 44 33 22', 'age' => 28, 'payment' => 'a_jour',
+            'health' => 'Aucune contre-indication.',
+            'info' => 'Cherche à renforcer sa sangle abdominale.',
+            'coach' => 'Très bonne condition physique. Prête pour du Pilates avancé.',
+            'groups' => ['Performance & Cardio', 'Rééducation Posturale']
+        ],
+        [
+            'email' => 'thomas.robert@demo.com', 'first' => 'Thomas', 'last' => 'Robert', 
+            'phone' => '06 00 11 22 33', 'age' => 50, 'payment' => 'en_attente',
+            'health' => 'Opération du ménisque il y a 6 mois.',
+            'info' => 'Besoin de renforcement spécifique jambe gauche.',
+            'coach' => 'Travail unilatéral recommandé.',
+            'groups' => ['Seniors Dynamiques']
+        ],
+        [
+            'email' => 'sophie.petit@demo.com', 'first' => 'Sophie', 'last' => 'Petit', 
+            'phone' => '06 99 88 77 66', 'age' => 38, 'payment' => 'a_jour',
+            'health' => 'Hypertension contrôlée par médicament.',
+            'info' => 'S\'intéresse au yoga et à la gym douce.',
+            'coach' => 'Éviter les postures inversées prolongées.',
+            'groups' => ['Rééducation Posturale']
+        ]
+    ];
+
+    $clientUids = [];
+    foreach ($clientsData as $c) {
         $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
-        $stmt->execute([$email]);
+        $stmt->execute([$c['email']]);
         $uid = $stmt->fetchColumn();
         if (!$uid) {
             $uid = generate_uuid();
             $pdo->prepare("INSERT INTO users (id, email, password_hash) VALUES (?, ?, ?)")
-                ->execute([$uid, $email, password_hash('password123', PASSWORD_BCRYPT)]);
-            $first = $firstNames[$i];
-            $last = $lastNames[$i];
-            $pdo->prepare("UPDATE profiles SET first_name = ?, last_name = ?, payment_status = ?, renewal_date = DATE_ADD(CURDATE(), INTERVAL 30 DAY), statut_compte = 'actif' WHERE id = ?")
-                ->execute([$first, $last, ($i % 3 == 0 ? 'en_attente' : 'a_jour'), $uid]);
+                ->execute([$uid, $c['email'], password_hash('password123', PASSWORD_BCRYPT)]);
             
-            // Assign to 1-2 random groups
-            $randGroup = $groupIds[array_rand($groupIds)];
-            $pdo->prepare("INSERT IGNORE INTO user_groups (user_id, group_id, assigned_by) VALUES (?, ?, ?)")
-                ->execute([$uid, $randGroup, $coachIds[0]]);
-                
-            echo "👥 Client créé : $first $last\n";
+            $pdo->prepare("
+                UPDATE profiles SET 
+                first_name = ?, last_name = ?, phone = ?, age = ?, 
+                payment_status = ?, remarks_health = ?, additional_info = ?, 
+                coach_remarks = ?, statut_compte = 'actif', renewal_date = DATE_ADD(CURDATE(), INTERVAL 30 DAY)
+                WHERE id = ?
+            ")->execute([
+                $c['first'], $c['last'], $c['phone'], $c['age'],
+                $c['payment'], $c['health'], $c['info'], $c['coach'],
+                $uid
+            ]);
+
+            foreach ($c['groups'] as $gName) {
+                if (isset($groupIds[$gName])) {
+                    $pdo->prepare("INSERT IGNORE INTO user_groups (user_id, group_id, assigned_by) VALUES (?, ?, ?)")
+                        ->execute([$uid, $groupIds[$gName], $coachIds['Trautmann']]);
+                }
+            }
+            echo "👥 Client créé : {$c['first']} {$c['last']}\n";
         }
-        $clientIds[] = $uid;
+        $clientUids[] = $uid;
     }
 
     // --- 5. PLANNING & SÉANCES ---
@@ -167,9 +221,9 @@ try {
         ['day' => 'Tuesday', 'start' => '18:30', 'end' => '19:30', 'type' => 'Marche nordique', 'title' => 'Marche Nordique Forêt'],
         ['day' => 'Tuesday', 'start' => '18:00', 'end' => '19:00', 'type' => 'Musculation santé', 'title' => 'Muscu Santé Patio'],
         ['day' => 'Thursday', 'start' => '18:00', 'end' => '19:00', 'type' => 'Musculation santé', 'title' => 'Muscu Santé Jeudi'],
-        ['day' => 'Saturday', 'start' => '09:00', 'end' => '10:00', 'type' => 'Musculation santé', 'title' => 'Muscu Santé Matin 1'],
-        ['day' => 'Saturday', 'start' => '10:00', 'end' => '11:00', 'type' => 'Musculation santé', 'title' => 'Muscu Santé Matin 2'],
-        ['day' => 'Saturday', 'start' => '11:00', 'end' => '12:00', 'type' => 'Pilates', 'title' => 'Pilates Brumath']
+        ['day' => 'Saturday', 'start' => '09:00', 'end' => '10:00', 'type' => 'Musculation santé', 'title' => 'Muscu Santé Matin (1)'],
+        ['day' => 'Saturday', 'start' => '10:00', 'end' => '11:00', 'type' => 'Musculation santé', 'title' => 'Muscu Santé Matin (2)'],
+        ['day' => 'Saturday', 'start' => '11:00', 'end' => '12:00', 'type' => 'Pilates', 'title' => 'Pilates Postural']
     ];
 
     // Générer pour les 4 prochaines semaines
@@ -185,25 +239,25 @@ try {
                 $sid = generate_uuid();
                 $pdo->prepare("INSERT INTO sessions (id, title, type_id, location_id, date, start_time, end_time, capacity, status, created_by)
                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'published', ?)")
-                    ->execute([$sid, $p['title'], $typeId, $locId, $date, $p['start'], $p['end'], 12, $coachIds[array_rand($coachIds)]]);
+                    ->execute([$sid, $p['title'], $typeId, $locId, $date, $p['start'], $p['end'], 10, $coachIds['Trautmann']]);
                 
-                // Random registrations for some sessions
-                if (mt_rand(0, 1)) {
-                    $randClients = array_rand($clientIds, 3);
-                    foreach ((array)$randClients as $idx) {
-                        $pdo->prepare("INSERT IGNORE INTO registrations (id, session_id, user_id) VALUES (?, ?, ?)")
-                            ->execute([generate_uuid(), $sid, $clientIds[$idx]]);
-                    }
+                // Inscriptions aléatoires (2-4 clients par séance)
+                $nbInscrits = mt_rand(2, 4);
+                $sessionClients = (array)array_rand($clientUids, $nbInscrits);
+                foreach ($sessionClients as $idx) {
+                    $pdo->prepare("INSERT IGNORE INTO registrations (id, session_id, user_id) VALUES (?, ?, ?)")
+                        ->execute([generate_uuid(), $sid, $clientUids[$idx]]);
                 }
             }
         }
     }
 
-    // Séances additionnelles (10+)
+    // Séances additionnelles (10+) pour garnir l'historique et le futur
     $others = ['Coaching natation', 'Yoga dynamique', 'Renforcement conscientisé', 'Gym sur chaise'];
     for ($i = 0; $i < 12; $i++) {
         $act = $others[array_rand($others)];
-        $date = date('Y-m-d', strtotime("+".mt_rand(1, 20)." days"));
+        $offset = mt_rand(-7, 21); // Certaines dans le passé, d'autres dans le futur
+        $date = date('Y-m-d', strtotime("$offset days"));
         $start = mt_rand(9, 17) . ":00";
         $end = (substr($start, 0, 2) + 1) . ":00";
         $typeId = $typeIds[$act];
@@ -212,11 +266,11 @@ try {
         $sid = generate_uuid();
         $pdo->prepare("INSERT IGNORE INTO sessions (id, title, type_id, location_id, date, start_time, end_time, capacity, status, created_by)
                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'published', ?)")
-            ->execute([$sid, "Session de $act", $typeId, $locId, $date, $start, $end, 10, $coachIds[array_rand($coachIds)]]);
+            ->execute([$sid, "Session Démo $act", $typeId, $locId, $date, $start, $end, 8, $coachIds['Motsch']]);
     }
 
-    echo "✅ Planning généré avec succès.\n";
-    echo "\n🎉 SEEDING TERMINÉ !\n";
+    echo "✅ Planning et inscriptions générés avec succès.\n";
+    echo "\n🎉 SEEDING TERMINÉ AVEC SUCCÈS !\n";
 
 } catch (PDOException $e) {
     echo "❌ Erreur : " . $e->getMessage() . "\n";
