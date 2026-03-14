@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Calendar, Users, MapPin, LogOut, Settings, Dumbbell, CalendarPlus, FolderOpen, UserCheck, Info, History, AlertTriangle } from 'lucide-react';
+import { Calendar, Users, MapPin, LogOut, Settings, Dumbbell, CalendarPlus, FolderOpen, UserCheck, Info, History, AlertTriangle, MessageSquare } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Link } from 'react-router-dom';
 import { SettingsModal } from '@/components/SettingsModal';
@@ -147,7 +147,7 @@ export default function Dashboard() {
               </CardContent>
             </Card>
           </div>
-          {/* Tuile Infos */}
+          {/* Tuile Informations (tous) */}
           <div className="snap-start flex-shrink-0 w-64">
             <Card className="h-full hover:shadow-accent transition-all cursor-pointer hover:scale-105">
               <CardHeader>
@@ -155,15 +155,34 @@ export default function Dashboard() {
                   <Info className="w-6 h-6 text-white" />
                 </div>
                 <CardTitle>Informations</CardTitle>
-                <CardDescription>AGHeal et nos offres</CardDescription>
+                <CardDescription>À propos d'AGheal & nos offres</CardDescription>
               </CardHeader>
               <CardContent>
                 <Link to="/information">
-                  <Button className="w-full bg-gradient-to-br from-lime-500 to-green-500">En savoir plus</Button>
+                  <Button className="w-full bg-gradient-to-br from-lime-500 to-green-500">Voir</Button>
                 </Link>
               </CardContent>
             </Card>
           </div>
+          {/* Tuile Communications (Coach/Admin seulement) */}
+          {(role === 'coach' || role === 'admin') && (
+            <div className="snap-start flex-shrink-0 w-64">
+              <Card className="h-full hover:shadow-accent transition-all cursor-pointer hover:scale-105">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-violet-500 rounded-xl flex items-center justify-center mb-2">
+                    <MessageSquare className="w-6 h-6 text-white" />
+                  </div>
+                  <CardTitle>Communications</CardTitle>
+                  <CardDescription>Messages ciblés aux adhérents</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Link to="/coach/communications">
+                    <Button className="w-full bg-gradient-to-br from-indigo-500 to-violet-500">Gérer</Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            </div>
+          )}
           {(role === 'coach' || role === 'admin') && (
             <div className="snap-start flex-shrink-0 w-64">
               <Card className="h-full hover:shadow-accent transition-all cursor-pointer hover:scale-105">
@@ -298,23 +317,39 @@ export default function Dashboard() {
             </CardContent>
           </Card>
 
-          {/* Card Informations */}
+          {/* Card Informations (tous) */}
           <Card className="hover:shadow-accent transition-all cursor-pointer hover:scale-105">
             <CardHeader>
               <div className="w-12 h-12 bg-gradient-to-br from-lime-500 to-green-500 rounded-xl flex items-center justify-center mb-2">
                 <Info className="w-6 h-6 text-white" />
               </div>
               <CardTitle>Informations</CardTitle>
-              <CardDescription>À propos d'AGHeal et nos offres</CardDescription>
+              <CardDescription>À propos d'AGheal & nos offres</CardDescription>
             </CardHeader>
             <CardContent>
               <Link to="/information">
-                <Button className="w-full bg-gradient-to-br from-lime-500 to-green-500">
-                  En savoir plus
-                </Button>
+                <Button className="w-full bg-gradient-to-br from-lime-500 to-green-500">Voir</Button>
               </Link>
             </CardContent>
           </Card>
+
+          {/* Card Communications (Coach/Admin seulement) */}
+          {(role === 'coach' || role === 'admin') && (
+            <Card className="hover:shadow-accent transition-all cursor-pointer hover:scale-105">
+              <CardHeader>
+                <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-violet-500 rounded-xl flex items-center justify-center mb-2">
+                  <MessageSquare className="w-6 h-6 text-white" />
+                </div>
+                <CardTitle>Communications</CardTitle>
+                <CardDescription>Messages ciblés aux adhérents</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Link to="/coach/communications">
+                  <Button className="w-full bg-gradient-to-br from-indigo-500 to-violet-500">Gérer les messages</Button>
+                </Link>
+              </CardContent>
+            </Card>
+          )}
 
           {/* Card Historique */}
           <Card className="hover:shadow-accent transition-all cursor-pointer hover:scale-105">
@@ -472,7 +507,6 @@ export default function Dashboard() {
       <InfoModal
         open={infoOpen}
         onOpenChange={setInfoOpen}
-        role={role}
       />
     </div>
   );

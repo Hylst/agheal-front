@@ -53,17 +53,21 @@ export function MobileNav() {
           navItem('/coach/sessions', <CalendarPlus className="w-5 h-5" />, 'Planning')
         )}
 
-        {/* Bouton Info */}
-        <button
-          onClick={() => setInfoOpen(true)}
-          className={cn(
-            'flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-xs transition-colors',
-            infoOpen ? 'text-primary font-semibold' : 'text-muted-foreground hover:text-foreground'
-          )}
-        >
-          <Info className="w-5 h-5" />
-          <span>Info</span>
-        </button>
+        {/* Bouton Info : Communications pour coach/admin, Modal pour adhérent */}
+        {(role === 'coach' || role === 'admin') ? (
+          navItem('/coach/communications', <Info className="w-5 h-5" />, 'Comms')
+        ) : (
+          <button
+            onClick={() => setInfoOpen(true)}
+            className={cn(
+              'flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-xs transition-colors',
+              infoOpen ? 'text-primary font-semibold' : 'text-muted-foreground hover:text-foreground'
+            )}
+          >
+            <Info className="w-5 h-5" />
+            <span>Info</span>
+          </button>
+        )}
 
         {/* Bouton Paramètres */}
         <button
@@ -79,7 +83,7 @@ export function MobileNav() {
       </nav>
 
       <SettingsModal open={settingsOpen} onOpenChange={setSettingsOpen} role={role} />
-      <InfoModal open={infoOpen} onOpenChange={setInfoOpen} role={role} />
+      <InfoModal open={infoOpen} onOpenChange={setInfoOpen} />
     </>
   );
 }
