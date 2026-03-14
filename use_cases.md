@@ -53,7 +53,7 @@ Ce document détaille l'ensemble des cas d'utilisation (Use Cases) de l'applicat
 ## 📢 4. Communication & Information
 | Acteur | Cas d'Utilisation | Description en profondeur |
 | :--- | :--- | :--- |
-| **Admin / Coach** | Éditer les informations générales | Mise à jour des contenus de la page "Informations" (Informations complémentaires, Précisions, Communication spéciale). |
+| **Admin / Coach** | Créer des communications ciblées | Création de messages ciblés (urgents, par groupe, individuels ou globaux) gérés depuis la page Informations. |
 | **Tout acteur** | Envoyer un message de contact | Formulaire de contact envoyant un email aux coachs/admin pour des questions spécifiques. |
 | **Système** | Envoyer des rappels | Envoi automatisé (via Cron) d'emails de rappel J-1 pour les séances, rappel de renouvellement J-7 et rappel certificat médical M-1. |
 | **Système** | Gérer les expirations | Bascule automatique du statut de règlement à "en attente" à J+1 de la date de renouvellement. |
@@ -66,7 +66,6 @@ Ce document détaille l'ensemble des cas d'utilisation (Use Cases) de l'applicat
 | :--- | :--- | :--- |
 | **Admin / Coach** | Gérer les Lieux | Création, modification et suppression des lieux d'entraînement. |
 | **Admin / Coach** | Gérer les Types de Séances | Définition des catégories d'activités (Pilates, Circuit Training, etc.) avec description par défaut. |
-| **Admin / Coach** | Modifier les Infos App | Mise à jour des textes dynamiques affichés sur l'accueil ou la page info (Communication spéciale, etc.). |
 | **Admin** | Consulter les Logs | (Via Base de données) Suivi de qui a fait quoi (changement de rôle, blocage) pour l'audit de sécurité. |
 
 ## 🛡️ Règles Métier & Sécurité Logique
