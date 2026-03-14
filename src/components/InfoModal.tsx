@@ -49,7 +49,7 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
       <ul className="space-y-3 mt-4">
         <li className="flex gap-3"><Calendar className="w-5 h-5 text-blue-500 shrink-0" /><div><strong>Planning interactif :</strong> Consultez les séances, le matériel requis et inscrivez-vous en un clic.</div></li>
         <li className="flex gap-3"><HeartPulse className="w-5 h-5 text-destructive shrink-0" /><div><strong>Profil Santé confidentiel :</strong> Renseignez vos spécificités de santé pour permettre à vos coachs d'adapter les exercices, en toute confidentialité.</div></li>
-        <li className="flex gap-3"><Send className="w-5 h-5 text-green-500 shrink-0" /><div><strong>Communications :</strong> Restez informé grâce aux messages de vos coachs (urgences, alertes).</div></li>
+        <li className="flex gap-3"><Send className="w-5 h-5 text-green-500 shrink-0" /><div><strong>Communications :</strong> Restez informé grâce aux messages de vos coachs (urgences, alertes) sur le Dashboard et par courriel.</div></li>
         <li className="flex gap-3"><Stethoscope className="w-5 h-5 text-purple-500 shrink-0" /><div><strong>Suivi de certificat :</strong> Soyez alerté avant l'expiration de votre certificat médical.</div></li>
       </ul>
     </div>
@@ -57,25 +57,47 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
 
   const FeaturesCoach = () => (
     <div className="space-y-4">
-      <h3 className="text-xl font-semibold text-primary">Vos Fonctionnalités (Coach)</h3>
-      <p className="text-muted-foreground leading-relaxed">Découvrez les outils à votre disposition pour animer vos séances et suivre vos groupes.</p>
-      <ul className="space-y-3 mt-4">
-        <li className="flex gap-3"><Calendar className="w-5 h-5 text-blue-500 shrink-0" /><div><strong>Planification avancée :</strong> Création de séances récurrentes, capacités bloquantes ou indicatives, et presets de matériel.</div></li>
-        <li className="flex gap-3"><Users className="w-5 h-5 text-purple-500 shrink-0" /><div><strong>Suivi Santé & Présences :</strong> Visualisez d'un coup d'œil les inscrits et leurs spécificités physiques pour adapter vos cours.</div></li>
-        <li className="flex gap-3"><Send className="w-5 h-5 text-green-500 shrink-0" /><div><strong>Messagerie :</strong> Envoyez des consignes globales, par groupe ou directement à un adhérent, avec gestion des alertes urgentes.</div></li>
-      </ul>
+      <h3 className="text-xl font-semibold text-primary">Vos Fonctionnalités exclusives (Coach)</h3>
+      <p className="text-muted-foreground leading-relaxed">Découvrez l'arsenal complet des outils à votre disposition pour animer vos séances, gérer l'administratif léger et assurer un suivi personnalisé et sécuritaire de vos groupes.</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <div className="p-4 bg-muted/30 rounded-xl border border-border/50 flex flex-col gap-2">
+            <div className="flex gap-2 items-center font-semibold text-blue-600 dark:text-blue-400"><Calendar className="w-5 h-5" /> Planification experte</div>
+            <p className="text-sm text-muted-foreground">Création de séances à l'unité ou en série (jours, semaines, mois). Définissez des limites de participants strictes (liste d'attente) ou flexibles. Utilisez les presets de matériel (Pilates, Musculation...) pour gagner du temps lors de la rédaction.</p>
+        </div>
+        <div className="p-4 bg-muted/30 rounded-xl border border-border/50 flex flex-col gap-2">
+            <div className="flex gap-2 items-center font-semibold text-purple-600 dark:text-purple-400"><Users className="w-5 h-5" /> Contrôle des présences</div>
+            <p className="text-sm text-muted-foreground">Pilotez les inscriptions : pointez les présents, visualisez les absents. Accédez instantanément au taux de remplissage de vos cours et intervenez manuellement sur la liste si un adhérent rencontre des difficultés avec l'application.</p>
+        </div>
+        <div className="p-4 bg-muted/30 rounded-xl border border-border/50 flex flex-col gap-2">
+            <div className="flex gap-2 items-center font-semibold text-destructive"><HeartPulse className="w-5 h-5" /> Vigilance Santé Proactive</div>
+            <p className="text-sm text-muted-foreground">Un système d'icônes médicales (🩺) vous alerte instantanément sur la liste d'inscrits. Accédez aux détails confidentiels (blessures, pathologies) pour adapter vos exercices. Gardez également l'œil sur la validité des certificats médicaux de vos sportifs.</p>
+        </div>
+        <div className="p-4 bg-muted/30 rounded-xl border border-border/50 flex flex-col gap-2">
+            <div className="flex gap-2 items-center font-semibold text-green-600 dark:text-green-400"><Send className="w-5 h-5" /> Communication multicanale</div>
+            <p className="text-sm text-muted-foreground">Remplacez définitivement WhatsApp et les mails désordonnés. Rédigez des consignes globales, des annonces pour un groupe, ou un message personnel. Le statut "Urgent" affiche une bannière inratable chez l'adhérent concerné.</p>
+        </div>
+      </div>
     </div>
   );
 
   const FeaturesAdmin = () => (
     <div className="space-y-4">
-      <h3 className="text-xl font-semibold text-primary">Vos Fonctionnalités (Administrateur)</h3>
-      <p className="text-muted-foreground leading-relaxed">Vous disposez d'un contrôle total sur la plateforme en plus de toutes les fonctions d'un coach.</p>
-      <ul className="space-y-3 mt-4">
-        <li className="flex gap-3"><Shield className="w-5 h-5 text-blue-500 shrink-0" /><div><strong>Gestion des utilisateurs :</strong> Attribution des rôles (Admin, Coach, Adhérent) en toute sécurité.</div></li>
-        <li className="flex gap-3"><Database className="w-5 h-5 text-destructive shrink-0" /><div><strong>Suivi Administratif :</strong> Historisation des paiements et alertes pour les abonnements en défaut.</div></li>
-        <li className="flex gap-3"><Rocket className="w-5 h-5 text-orange-500 shrink-0" /><div><strong>Configuration :</strong> Gestion des lieux et des types d'activités proposés par la structure.</div></li>
-      </ul>
+      <h3 className="text-xl font-semibold text-primary">Le Hub Administrateur</h3>
+      <p className="text-muted-foreground leading-relaxed">Supervisez la globalité. Le rôle Admin hérite des pouvoirs Coach (planification, santé, messages) et y ajoute le contrôle structurel, financier et sécuritaire de toute la plateforme AGHeal.</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <div className="p-4 bg-primary/5 rounded-xl border border-primary/20 flex flex-col gap-2">
+            <div className="flex gap-2 items-center font-semibold text-primary"><Shield className="w-5 h-5" /> Supervision & Sécurité</div>
+            <p className="text-sm text-muted-foreground leading-relaxed">Consultez l'annuaire complet. Promouvez un adhérent en Coach, ou nommez un co-Admin. Le système vous protège (auto-blocage impossible). Gérez le statut des membres depuis leur fiche détaillée, activez ou désactivez les accès avec des dialogues de vérification.</p>
+        </div>
+        <div className="p-4 bg-destructive/5 rounded-xl border border-destructive/20 flex flex-col gap-2">
+            <div className="flex gap-2 items-center font-semibold text-destructive"><Database className="w-5 h-5" /> Règlements & Cotisations</div>
+            <p className="text-sm text-muted-foreground leading-relaxed">AGHeal vous signale les adhérents en défaut de paiement. D'un simple interrupteur (Switch), vous pouvez appliquer ou lever l'anomalie financière et générer une alerte rouge non intrusive sur le tableau de bord des concernés (avec l'historique gardé en base).</p>
+        </div>
+        <div className="col-span-1 md:col-span-2 p-4 bg-orange-500/5 rounded-xl border border-orange-500/20 flex flex-col gap-2">
+            <div className="flex gap-2 items-center font-semibold text-orange-600"><Rocket className="w-5 h-5" /> Ingénierie du Référentiel</div>
+            <p className="text-sm text-muted-foreground leading-relaxed">Standardisez votre modèle d'entreprise. Définissez les "Types d'activités" (Yoga, Cardio, HIIT...) avec leurs couleurs personnalisées pour le planning. Créez les "Lieux" de pratique pour un calendrier professionnel sans saisie redondante.</p>
+        </div>
+      </div>
     </div>
   );
 
@@ -127,8 +149,9 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
         </div>
         <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
           <li>• Un espace <strong>Messages de vos coachs</strong> est présent sur votre Dashboard pour vous tenir informé.</li>
-          <li>• Les messages peuvent être généraux, pour votre groupe, ou personnels.</li>
-          <li>• Les alertes urgentes s'afficheront clairement pour que vous ne les manquiez pas (ex: annulation de cours).</li>
+          <li>• Vous êtes susceptible de recevoir des messages <strong>généraux</strong> (pour tous), de <strong>groupe</strong>, ou <strong>personnalisés</strong> directement dans l'application.</li>
+          <li>• Les alertes urgentes s'afficheront clairement (en rouge) pour que vous ne les manquiez pas (ex: annulation de cours).</li>
+          <li>• Vous recevrez également plusieurs types d'informations <strong>par courriel (e-mail)</strong> concernant votre pratique sportive avec AGHeal : alertes de vos coachs, rappels système concernant vos abonnements à renouveler, rappels 1 mois avant l'expiration de votre certificat médical obligatoire ou confirmation de vos prochaines séances.</li>
         </ul>
       </div>
       
@@ -148,39 +171,38 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
 
   const GuideCoach = () => (
     <div className="space-y-6">
-      <h3 className="text-xl font-semibold text-primary">Mode d'emploi détaillé — Coach</h3>
+      <h3 className="text-xl font-semibold text-primary">Guide d'Expertise — Coach</h3>
 
-      <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-2">
+      <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-3">
         <div className="flex items-center gap-2 text-lg font-medium">
           <Calendar className="w-5 h-5 text-blue-500" />
-          <span>Création & Gestion des Séances</span>
+          <span>Gestion fine du Planning</span>
         </div>
         <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
-          <li>• Depuis le <strong>Planning</strong>, ajoutez des séances simples ou récurrentes (jours, semaines, mois).</li>
-          <li>• Utilisez les <strong>Presets de matériel</strong> (Pilates, Muscu, etc.) pour gagner du temps.</li>
-          <li>• Vous pouvez définir si la <strong>limite de participants</strong> est stricte (bloquante) ou simplement indicative.</li>
+          <li>• <strong>Création à la chaîne :</strong> Utilisez la récurrence (jours, semaines, mois) pour préparer la saison de tous les cours en une minute.</li>
+          <li>• <strong>Jauges et files actives :</strong> Réglez la capacité sur stricte (personne d'autre ne peut venir) ou sur indicative, et utilisez les presets "Musculation", "Pilates" pour afficher instantanément la liste du bon matériel à apporter par les élèves.</li>
         </ul>
       </div>
 
-      <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-2">
+      <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-3">
         <div className="flex items-center gap-2 text-lg font-medium">
           <Users className="w-5 h-5 text-purple-500" />
-          <span>Suivi des Adhérents & Santé</span>
+          <span>Feuille d'Appel & Secret Médical</span>
         </div>
         <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
-          <li>• Dans le détail d'une séance, visualisez les inscrits et leurs <strong>remarques de santé (icône 🩺)</strong>. Ces informations sont cruciales pour adapter le cours.</li>
-          <li>• Vérifiez la validité des certificats médicaux directement depuis la liste des participants.</li>
+          <li>• <strong>Radar Santé 🩺 :</strong> Sur chaque liste d'inscrits à un cours, l'apparition d'un stéthoscope vous prévient si un élève a une contrainte physique. Cliquez sur sa fiche pour lire sa condition et adapter son échauffement en tout secret.</li>
+          <li>• <strong>Certificats & Administratif :</strong> Repérez en couleur les certificats manquants directement dans votre feuille d'appel connectée sur le terrain. AGHeal relance automatiquement les adhérents 30 jours avant péremption !</li>
         </ul>
       </div>
 
-      <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-2">
+      <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-3">
         <div className="flex items-center gap-2 text-lg font-medium">
           <Send className="w-5 h-5 text-green-500" />
-          <span>Communication Efficace</span>
+          <span>Stratégie de Communication</span>
         </div>
         <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
-          <li>• L'onglet <strong>Communications</strong> vous permet de diffuser des messages d'information, qu'ils soient globaux, restreints à un groupe, ou individuels.</li>
-          <li>• Utilisez le statut <strong>Urgent</strong> avec modération pour les annulations exceptionnelles ou changements de dernière minute.</li>
+          <li>• <strong>Dites adieu à WhatsApp :</strong> Le module Informations permet de reléguer les SMS et Groupes envahissants au placard. Composez votre message et cochez "Global", "Groupe A" ou "Individuel".</li>
+          <li>• <strong>Alerte Rouge :</strong> Si vous activez le bouton "Urgent" sur un message, alors celui-ci devient une bannière rouge agressive qui envahira le Dashboard du ou des membres la prochaine fois qu'ils lanceront ou actualiseront l'App. Idéal pour une annulation intempestive !</li>
         </ul>
       </div>
     </div>
@@ -188,38 +210,38 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
 
   const GuideAdmin = () => (
     <div className="space-y-6">
-      <h3 className="text-xl font-semibold text-primary">Mode d'emploi détaillé — Administrateur</h3>
+      <h3 className="text-xl font-semibold text-primary">Manuel de Supervision — Administrateur</h3>
 
-      <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-2">
+      <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-3">
         <div className="flex items-center gap-2 text-lg font-medium">
           <Shield className="w-5 h-5 text-blue-500" />
-          <span>Gestion des Utilisateurs</span>
+          <span>Tour de Contrôle - Clients</span>
         </div>
         <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
-          <li>• Depuis l'espace <strong>Clients</strong>, supervisez l'ensemble des membres inscrits.</li>
-          <li>• Vous pouvez attribuer les rôles avec des sécurités pour éviter les blocages de compte.</li>
+          <li>• <strong>Promotions des grades :</strong> Naviguez dans la liste Clients pour coopter instantanément de nouveaux coachs via les menus options sans délai, les nouveaux droits s'activent pour la prochaine vue.</li>
+          <li>• <strong>Filet de sécurité :</strong> Le système vous prévient des erreurs humaines. Bannissez ceux qui partent, ne craignez pas de bloquer votre propre login et rappelez-vous que le rôle initial 'adhérent' est vital et indélébile dans l'application.</li>
         </ul>
       </div>
 
-      <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-2">
+      <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-3">
         <div className="flex items-center gap-2 text-lg font-medium">
           <Database className="w-5 h-5 text-destructive" />
-          <span>Suivi de l'Abonnement (Facturation)</span>
+          <span>Surveillance des Abonnements & Factures</span>
         </div>
         <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
-          <li>• Indiquez rapidement depuis la liste des utilisateurs si un adhérent est à jour de ses cotisations (Switch Facturation).</li>
-          <li>• Les membres en défaut verront un bandeau rouge sur leur Dashboard pour les inviter à régulariser leur situation.</li>
+          <li>• <strong>Tri Automatique :</strong> Fini de retenir qui doit une mensualité. L'onglet affiche tous ceux "En défaut". Faites sauter la sanction en un claquement de doigt, cela supprimera l'avertissement permanent de leur page d'accueil d'abonnés.</li>
+          <li>• <strong>Bannissement Financier Doux :</strong> Le rappel intégré n'empêche pas un utilisateur de se présenter à son cours, l'application agit de manière bienveillante mais tenace sur ses rappels pécuniers, ou de renouvellement annuel si la cotisation arrive au bout des 12 mois.</li>
         </ul>
       </div>
 
-      <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-2">
+      <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-3">
         <div className="flex items-center gap-2 text-lg font-medium">
           <Calendar className="w-5 h-5 text-orange-500" />
-          <span>Paramétrage du système</span>
+          <span>La structure des Données</span>
         </div>
         <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
-          <li>• Gardez la main sur les référentiels : les différents <strong>Types d'activités</strong> et les <strong>Lieux</strong> se gèrent depuis vos menus administrateur.</li>
-          <li>• Vous avez, bien sûr, les mêmes droits de planification et de communication qu'un coach.</li>
+          <li>• <strong>Nomenclature Globale :</strong> Verrouillez vos 'Types de cours' en leur assignant des pastilles colorées propres à votre club pour éviter le chaos dans l'affichage du calendrier par vos coachs indépendants, même chose pour adresser correctement les 'Lieux'.</li>
+          <li>• <strong>Totalité des pouvoirs :</strong> Avoir ce rôle vous garantit que vous pourrez assister vos propres coachs et pallier une crise car l'Admin hérite de la rédaction des séances, des messages, et de la liste santé confidentielle.</li>
         </ul>
       </div>
     </div>
@@ -284,11 +306,17 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
                   <div>
                     <h3 className="text-xl font-semibold mb-1">Geoffroy Streit</h3>
                     <p className="text-sm text-muted-foreground mb-4">Développeur d'applications web, mobile et bureau.</p>
-                    <p className="text-muted-foreground leading-relaxed mb-4">
-                      L'objectif de cette application a été de remplacer les fichiers Excel et les échanges
-                      disparates par une plateforme centralisée, moderne et bienveillante, pensée spécialement pour
-                      les activités sportives orientées santé et bien-être.
-                    </p>
+                    <div className="space-y-4 text-sm mt-4">
+                      <p className="text-muted-foreground leading-relaxed mb-4">
+                        L'objectif de cette application a été de remplacer les fichiers Excel, les échanges
+                        disparates, les groupes WhatsApp et les chaînes d'e-mails par une plateforme centralisée, 
+                        moderne et bienveillante. 
+                        <br /><br />
+                        Pensée spécialement pour les activités sportives orientées santé et bien-être, 
+                        elle assure un meilleur suivi global : gestion des séances et activités, envois de messages personnalisés, 
+                        suivi des règlements, et prise en compte confidentielle de vos contraintes physiques et de santé.
+                      </p>
+                    </div>
                     <div className="space-y-4 shadow-sm border p-4 bg-muted/20 rounded-xl mt-4">
                       <div className="flex items-center gap-3 text-sm">
                         <Mail className="w-5 h-5 text-primary" />
