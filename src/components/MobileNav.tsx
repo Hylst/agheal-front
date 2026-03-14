@@ -1,9 +1,10 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Calendar, Users, History, Home, CalendarPlus, UserCheck, Settings } from 'lucide-react';
+import { Calendar, Users, History, Home, CalendarPlus, UserCheck, Settings, Info } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { SettingsModal } from '@/components/SettingsModal';
+import { InfoModal } from '@/components/InfoModal';
 
 /**
  * Barre de navigation mobile — visible uniquement sur mobile (sm:hidden).
@@ -13,6 +14,7 @@ export function MobileNav() {
   const { role } = useAuth();
   const location = useLocation();
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [infoOpen, setInfoOpen] = useState(false);
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -51,6 +53,18 @@ export function MobileNav() {
           navItem('/coach/sessions', <CalendarPlus className="w-5 h-5" />, 'Planning')
         )}
 
+        {/* Bouton Info */}
+        <button
+          onClick={() => setInfoOpen(true)}
+          className={cn(
+            'flex flex-col items-center justify-center gap-0.5 flex-1 py-2 text-xs transition-colors',
+            infoOpen ? 'text-primary font-semibold' : 'text-muted-foreground hover:text-foreground'
+          )}
+        >
+          <Info className="w-5 h-5" />
+          <span>Info</span>
+        </button>
+
         {/* Bouton Paramètres */}
         <button
           onClick={() => setSettingsOpen(true)}
@@ -65,6 +79,8 @@ export function MobileNav() {
       </nav>
 
       <SettingsModal open={settingsOpen} onOpenChange={setSettingsOpen} role={role} />
+      <InfoModal open={infoOpen} onOpenChange={setInfoOpen} role={role} />
     </>
   );
 }
+

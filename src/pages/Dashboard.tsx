@@ -6,10 +6,12 @@ import { Calendar, Users, MapPin, LogOut, Settings, Dumbbell, CalendarPlus, Fold
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Link } from 'react-router-dom';
 import { SettingsModal } from '@/components/SettingsModal';
+import { InfoModal } from '@/components/InfoModal';
 
 export default function Dashboard() {
   const { user, role, signOut } = useAuth();
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [infoOpen, setInfoOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
@@ -27,6 +29,9 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            <Button variant="ghost" size="sm" onClick={() => setInfoOpen(true)} title="Informations">
+              <Info className="w-4 h-4" />
+            </Button>
             <Button variant="ghost" size="sm" onClick={() => setSettingsOpen(true)} title="Paramètres">
               <Settings className="w-4 h-4" />
             </Button>
@@ -435,6 +440,11 @@ export default function Dashboard() {
       <SettingsModal
         open={settingsOpen}
         onOpenChange={setSettingsOpen}
+        role={role}
+      />
+      <InfoModal
+        open={infoOpen}
+        onOpenChange={setInfoOpen}
         role={role}
       />
     </div>
