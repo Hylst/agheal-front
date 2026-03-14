@@ -17,8 +17,8 @@ Ce document détaille l'ensemble des cas d'utilisation (Use Cases) de l'applicat
 | **Visiteur** | S'inscrire (Email/OAuth) | Création d'un compte. Le **Système** génère alors automatiquement un profil vide et assigne le rôle `adhérent` via un trigger SQL. |
 | **Visiteur** | Se connecter | Identification via Email/Password ou Google OAuth. Génération d'un token JWT et d'un Refresh Token. |
 | **Visiteur** | Réinitialiser le mot de passe | Demande d'email de récupération, génération d'un token sécurisé, et mise à jour via une page dédiée. |
-| **Adhérent** | Gérer son profil | Mise à jour des informations personnelles (nom, tel, âge, organisation) et de l'avatar (stocké en Base64). |
-| **Adhérent** | Configurer ses notifications | Activation/Désactivation granulaire des rappels de séances et de renouvellement (Email/Push). |
+| **Adhérent** | Gérer son profil | Mise à jour des informations personnelles (nom, tel, âge, organisation) et de l'avatar (stocké en Base64). Accès à la date de certificat médical. |
+| **Adhérent** | Configurer ses notifications | Activation/Désactivation granulaire des rappels de séances, de renouvellement et de certificat médical. |
 | **Admin** | Gérer le statut des comptes | Possibilité de **Bloquer/Débloquer** un utilisateur ou de forcer la confirmation de son email. |
 | **Admin** | Assigner des rôles | Promotion d'un adhérent au rang de `coach` ou d' `admin`. |
 
@@ -43,7 +43,8 @@ Ce document détaille l'ensemble des cas d'utilisation (Use Cases) de l'applicat
 | :--- | :--- | :--- |
 | **Coach** | Consulter la base client | Recherche et filtrage de tous les adhérents inscrits. Accès aux fiches détaillées. |
 | **Coach** | Gérer les remarques santé | Lecture des remarques d'auto-évaluation de l'adhérent et saisie de notes professionnelles (Coach Remarks). |
-| **Coach** | Gérer les paiements | Suivi manuel du statut de règlement (`à jour`, `en attente`) et des dates de renouvellement. |
+| **Coach** | Gérer les paiements | Suivi manuel du statut de règlement (`à jour`, `en attente`) et des dates de renouvellement. Alerte email si expiration. |
+| **Coach** | Gérer les certificats | Saisie et mise à jour de la date d'expiration du certificat médical annuel de l'adhérent. |
 | **Coach** | Gérer les groupes | Création de groupes personnalisés (ex: "Groupe Diabète", "Matinaux") pour mieux organiser les adhérents. |
 | **Coach** | Assigner des adhérents | Ajout ou retrait d'un adhérent dans un ou plusieurs groupes. |
 
@@ -54,7 +55,8 @@ Ce document détaille l'ensemble des cas d'utilisation (Use Cases) de l'applicat
 | :--- | :--- | :--- |
 | **Admin / Coach** | Éditer les informations générales | Mise à jour des contenus de la page "Informations" (Informations complémentaires, Précisions, Communication spéciale). |
 | **Tout acteur** | Envoyer un message de contact | Formulaire de contact envoyant un email aux coachs/admin pour des questions spécifiques. |
-| **Système** | Envoyer des rappels | Envoi automatisé (via Cron/Edge Function) d'emails de rappel J-1 pour les séances réservées. |
+| **Système** | Envoyer des rappels | Envoi automatisé (via Cron) d'emails de rappel J-1 pour les séances, rappel de renouvellement J-7 et rappel certificat médical M-1. |
+| **Système** | Gérer les expirations | Bascule automatique du statut de règlement à "en attente" à J+1 de la date de renouvellement. |
 | **Système** | Nettoyer les tokens | Suppression automatique des Refresh Tokens expirés ou révoqués pour maintenir la performance. |
 
 ---

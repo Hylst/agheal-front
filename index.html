@@ -4,6 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta name="robots" content="index, follow" />
 
   <!-- Favicon and PWA icons -->
   <link rel="icon" type="image/png" href="/favicon.png" />
@@ -12,28 +14,31 @@
   <meta name="theme-color" content="#10b981" />
 
   <!-- Primary Meta Tags -->
-  <title>AGHeal - Activité Physique Adaptée & Coaching Sportif Santé</title>
+  <title>AGHeal - Activité Physique Adaptée &amp; Coaching Sportif Santé</title>
   <meta name="description"
-    content="AGHeal : Amandine & Guillaume. Coaching en Activité Physique Adaptée (APA), musculation santé, marche nordique et accompagnement personnalisé à Brumath et alentours." />
+    content="AGHeal : coaching professionnel en Activité Physique Adaptée (APA) à Brumath et alentours. Musculation santé, marche nordique, sport sur ordonnance avec Amandine &amp; Guillaume." />
   <meta name="author" content="Geoffroy Streit (geoffroy.streit.dev@gmail.com)" />
   <meta name="keywords"
-    content="APA, Activité Physique Adaptée, coaching sportif, santé, Brumath, Amandine, Guillaume, musculation santé, sport sur ordonnance, marche nordique" />
+    content="APA, Activité Physique Adaptée, coaching sportif santé, Brumath, Alsace, musculation adaptée, marche nordique, sport sur ordonnance, sport santé, handisport, rééducation par le sport" />
   <link rel="canonical" href="https://agheal.hylst.fr/" />
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://agheal.hylst.fr/" />
-  <meta property="og:title" content="AGHeal - Activité Physique Adaptée & Coaching de Santé" />
+  <meta property="og:site_name" content="AGHeal" />
+  <meta property="og:title" content="AGHeal - Activité Physique Adaptée &amp; Coaching de Santé à Brumath" />
   <meta property="og:description"
-    content="Coaching professionnel en Activité Physique Adaptée à Brumath. Planifiez vos séances avec Amandine & Guillaume." />
+    content="Coaching professionnel en Activité Physique Adaptée à Brumath (67). Séances de musculation santé, marche nordique et accompagnement personnalisé avec Amandine &amp; Guillaume." />
   <meta property="og:image" content="https://agheal.hylst.fr/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta property="og:locale" content="fr_FR" />
 
-  <!-- Twitter -->
+  <!-- Twitter / X -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="AGHeal - Coaching Sportif Santé & APA" />
+  <meta name="twitter:title" content="AGHeal - Coaching Sportif Santé &amp; APA à Brumath" />
   <meta name="twitter:description"
-    content="Découvrez l'accompagnement d'Amandine & Guillaume pour votre santé par le sport." />
+    content="Découvrez l'accompagnement d'Amandine &amp; Guillaume pour votre santé par le sport. Activité Physique Adaptée à Brumath (67)." />
   <meta name="twitter:image" content="https://agheal.hylst.fr/og-image.png" />
 
   <!-- PWA -->
@@ -42,25 +47,80 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="AGHeal" />
 
-  <!-- Structured Data (JSON-LD) -->
+  <!-- Structured Data JSON-LD : Application + Organisation locale -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "AGHeal",
-    "applicationCategory": "HealthApplication",
-    "operatingSystem": "Web",
-    "description": "Application de gestion de séances sportives et adhérents pour coachs et organisations",
-    "author": {
-      "@type": "Person",
-      "name": "Geoffroy Streit"
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "AGHeal",
+      "url": "https://agheal.hylst.fr/",
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "Web",
+      "inLanguage": "fr-FR",
+      "description": "Application de gestion de séances de sport adapté et de suivi des adhérents pour coachs en Activité Physique Adaptée (APA).",
+      "author": {
+        "@type": "Person",
+        "name": "Geoffroy Streit",
+        "email": "geoffroy.streit.dev@gmail.com"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR"
+      }
     },
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "EUR"
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "AGHeal &amp; Adapt'Movement",
+      "description": "Coaching professionnel en Activité Physique Adaptée (APA) : musculation santé, marche nordique, sport sur ordonnance, accompagnement personnalisé.",
+      "url": "https://agheal.hylst.fr/",
+      "image": "https://agheal.hylst.fr/og-image.png",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Brumath",
+        "postalCode": "67170",
+        "addressCountry": "FR",
+        "addressRegion": "Alsace"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 48.7328,
+        "longitude": 7.7128
+      },
+      "areaServed": {
+        "@type": "GeoCircle",
+        "geoMidpoint": {
+          "@type": "GeoCoordinates",
+          "latitude": 48.7328,
+          "longitude": 7.7128
+        },
+        "geoRadius": "30000"
+      },
+      "employee": [
+        {
+          "@type": "Person",
+          "name": "Amandine Motsch",
+          "jobTitle": "Coach APA",
+          "email": "amandine.motsch@agheal.fr"
+        },
+        {
+          "@type": "Person",
+          "name": "Guillaume Trautmann",
+          "jobTitle": "Coach APA",
+          "email": "guillaume.trautmann@agheal.fr"
+        }
+      ],
+      "knowsAbout": [
+        "Activité Physique Adaptée",
+        "Musculation Santé",
+        "Marche Nordique",
+        "Sport sur Ordonnance",
+        "Rééducation par le sport"
+      ]
     }
-  }
+  ]
   </script>
 </head>
 

@@ -9,10 +9,12 @@ Liste des améliorations et fonctionnalités prévues pour les prochaines versio
 
 ## 🔔 Notifications (Priorité haute)
 
-- [ ] **Envoi automatique de notifications par email**
+- [x] **Envoi automatique de notifications par email**
   - Rappel la veille des séances inscrites
   - Rappel de renouvellement aux adhérents
   - Notification des nouvelles séances proposées
+  - Alerte certificat médical (M-1)
+  - Alerte expiration coach (J+1)
 
 - [ ] **Notifications Push**
   - Intégration d'un service de notifications push
@@ -118,6 +120,9 @@ Liste des améliorations et fonctionnalités prévues pour les prochaines versio
 - [x] **Correction des erreurs 500 (Mismatch arguments API)** (Mars 2026)
 - [x] **Script de Seeding de Démo complet** (Lieux, Activités, Planning réel) (Mars 2026)
 - [x] **Améliorations Accessibilité (Dialogs)** (Mars 2026)
+- [x] **Gestion des certificats médicaux (M-1)** (Mars 2026)
+- [x] **Automated payment status expiration (J+1)** (Mars 2026)
+- [x] **Proprietary Licensing & Copyright** (Mars 2026)
 
 ---
 

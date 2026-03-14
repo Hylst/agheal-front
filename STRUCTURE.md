@@ -61,10 +61,12 @@ C:\wamp64\www\agheal-api\            ← Backend PHP (API REST)
 │   ├── Middleware/
 │   │   └── AuthMiddleware.php        # Vérification JWT
 │   └── Services/
-│       └── EmailService.php          # Envoi d'emails PHPMailer
+│       └── MailerService.php         # Envoi d'emails PHPMailer (Templates & SMTP)
 │
-├── mysql/                            # Scripts SQL
-├── bin/                              # Scripts cron
+├── mysql/                            # Scripts SQL (init, alter, seed)
+├── scripts/                          # Scripts utilitaires et CRON
+│   └── cron_daily.php               # Tâche quotidienne (rappels & expirations)
+├── bin/                              # Scripts legacy / maintenance
 ├── vendor/                           # Dépendances Composer
 ├── .env                              # Config BDD et JWT
 ├── composer.json                     # Dépendances PHP

@@ -108,7 +108,7 @@ Les **Activités** sont des modèles de séances réutilisables.
 | Action | Description |
 |--------|-------------|
 | **Voir le profil** | Cliquez sur un adhérent |
-| **Modifier** | Statut règlement, date renouvellement, remarques |
+| **Modifier** | Statut règlement, date renouvellement, certificat médical, remarques |
 | **Groupes** | Assigner jusqu'à 3 groupes |
 | **Bloquer** | L'adhérent ne peut plus s'inscrire |
 | **Supprimer** | Action définitive |
@@ -130,6 +130,13 @@ L'application simplifie le suivi administratif pour les coachs et les adhérents
 | **Coach** | Met à jour le statut et la date de renouvellement. Chaque passage "À jour" est historisé. |
 | **Alertes** | Un bandeau orange apparaît sur le Dashboard si un règlement est en attente. |
 | **Emails** | Un rappel automatique est envoyé 7 jours avant l'échéance de l'abonnement. |
+| **Expiration** | Si la date est dépassée, le statut passe à "En attente" et le coach est alerté par e-mail. |
+
+### 🩺 Certificats Médicaux
+Le suivi des certificats est automatisé pour garantir la sécurité des pratiquants :
+- **Coach** : Renseigne la date d'expiration dans la fiche client.
+- **Adhérent** : Consulte sa date d'échéance directement sur son profil.
+- **Rappel** : Un email est envoyé 1 mois avant la date d'expiration à l'adhérent.
 
 ### 🔐 Sécurité Administrative
 Pour éviter toute erreur critique :
@@ -168,7 +175,9 @@ Les adhérents reçoivent automatiquement un email la veille de leurs séances i
 | Option | Description |
 |--------|-------------|
 | **Rappel séances** | Email/push la veille des séances |
-| **Rappel renouvellement** | Notification automatique aux adhérents |
+| **Rappel renouvellement** | Notification automatique aux adhérents pour l'abonnement |
+| **Rappel Certificat** | Alerte 1 mois avant l'expiration du certificat médical |
+| **Alerte Expiration** | (Coach) Prévenir par mail si un abonnement expire |
 
 ---
 

@@ -1,6 +1,10 @@
 # AGHeal — Application de gestion de séances sportives
 
-> **Version actuelle : 1.5.1** | [Voir le CHANGELOG](./CHANGELOG.md) | [Voir le TODO](./TODO.md)
+> **Version actuelle : 1.5.4** | [Voir le CHANGELOG](./CHANGELOG.md) | [Voir le TODO](./TODO.md)
+
+## 👤 Auteur & Droits
+**Geoffroy Streit** - Développeur apprenant.
+*© 2026 Geoffroy Streit. Tous droits réservés. Code source propriétaire, non libre de droits.*
 
 ## 🧭 Architecture — Expliqué simplement
 
@@ -186,6 +190,16 @@ L'application est optimisée pour smartphone et tablette :
 - **Boutons d'action** : `full-width` sur mobile
 - **Tableaux** : scrollables horizontalement sur mobile
 - **Navigation** : titres et boutons réduits sur petits écrans
+
+---
+
+## 🔔 Système de Rappels & Automates
+
+- **M-1 Certificat Médical** : Rappel automatique par email aux adhérents pour le renouvellement de leur certificat.
+- **J-7 Abonnement** : Rappel de paiement avant l'échéance de la date de renouvellement.
+- **J+1 Expiration** : Bascule automatique du statut en "En attente" et alerte email immédiate aux coachs.
+- **Veille de séance** : Rappel aux inscrits et aux coachs (listing planning).
+- **Nouvelles séances** : Alerte email lors de la publication de nouveaux créneaux par les coachs.
 
 ---
 

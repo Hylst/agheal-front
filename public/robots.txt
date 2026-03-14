@@ -2,14 +2,15 @@
 # https://www.robotstxt.org/
 
 User-agent: *
-Allow: /
+Allow: /login
+Allow: /information
+Disallow: /dashboard
+Disallow: /profile
+Disallow: /sessions
+Disallow: /history
+Disallow: /coach/
+Disallow: /admin/
+Disallow: /api/
 
 # Sitemap
-Sitemap: https://agheal.fr/sitemap.xml
-
-# Crawl-delay for polite bots
-Crawl-delay: 1
-
-# Disallow admin/private paths (if any)
-Disallow: /api/
-Disallow: /*.json$
+Sitemap: https://agheal.hylst.fr/sitemap.xml

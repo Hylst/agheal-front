@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-route
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { MobileNav } from "@/components/MobileNav";
+import { CookieBanner } from "@/components/CookieBanner";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -164,6 +165,7 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
           <GlobalMobileNav />
+          <CookieBanner />
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
