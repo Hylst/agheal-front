@@ -214,6 +214,19 @@ class ApiClient {
     return this.request<{ message: string }>(`/communications/${id}`, "DELETE");
   }
 
+  // ─── Email Campaigns ──────────────────────────────────────────────────────
+  async getEmailCampaigns() {
+    return this.request<{ data: any[] }>("/email-campaigns");
+  }
+
+  async createEmailCampaign(data: Record<string, any>) {
+    return this.request<{ data: any; message: string }>("/email-campaigns", "POST", data);
+  }
+
+  async deleteEmailCampaign(id: number | string) {
+    return this.request<{ message: string }>(`/email-campaigns/${id}`, "DELETE");
+  }
+
   // ─── Registrations ───────────────────────────────────────────────────────
   async getMyRegistrations() {
     return this.request<{ registrations: any[] }>("/registrations/me");

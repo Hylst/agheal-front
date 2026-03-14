@@ -1,7 +1,7 @@
 # Fonctionnalités à venir - AGHeal
 
 **Auteur :** Geoffroy Streit  
-**Année :** 2025
+**Année :** 2026
 
 Liste des améliorations et fonctionnalités prévues pour les prochaines versions.
 
@@ -101,6 +101,13 @@ Liste des améliorations et fonctionnalités prévues pour les prochaines versio
 - Séances récurrentes automatiques
 - Gestion de plusieurs organisations
 - Multi-langue (français/anglais)
+- **Suivi de progression Adhérent** : historique et bilan personnel des séances (annoncé dans l'InfoModal)
+
+---
+
+## 🛠️ Incohérences à résorber (UI/Front)
+
+- [ ] **InfoModal : Onglet manquant** : Le CHANGELOG v1.5.5 et la documentation annoncent 5 onglets incluant "Roadmap et nouveautés", mais le composant `InfoModal.tsx` n'a actuellement que 4 onglets. Il faut implémenter ce 5ème onglet.
 
 ---
 

@@ -57,7 +57,7 @@ C:\wamp64\www\agheal-api\            ← Backend PHP (API REST)
 │   │   ├── AdminController.php       # Gestion utilisateurs/rôles
 │   │   ├── ClientController.php      # Vue coach des adhérents
 │   │   ├── ContactController.php     # Formulaire de contact
-│   │   └── AppInfoController.php     # Paramètres éditoriaux
+│   │   └── CommunicationController.php # Gestion des communications ciblées
 │   ├── Middleware/
 │   │   └── AuthMiddleware.php        # Vérification JWT
 │   └── Services/
@@ -92,9 +92,6 @@ Pages principales de l'application :
 | `Profile.tsx` | `/profile` | Profil utilisateur |
 | `History.tsx` | `/history` | Historique des séances |
 | `Information.tsx` | `/information` | Page d'informations + contact |
-| `ImageUploadModal.tsx` | Upload et recadrage optimisé des photos (WebP) |
-| `InfoModal.tsx` | Panneau central d'information et communications cibllées (5 onglets) |
-| `CookieSettings.tsx` | Gestion détaillée des préférences de confidentialité RGPD |
 | `NotFound.tsx` | `*` | Page 404 |
 
 ### `/src/pages/coach/`
@@ -132,6 +129,8 @@ Composants React réutilisables :
 | `SettingsModal.tsx` | Modal des paramètres |
 | `AvatarUpload.tsx` | Upload d'avatar (Redimensionnement 128x128 + Compression JPEG 0.9) |
 | `ContactForm.tsx` | Formulaire de contact |
+| `InfoModal.tsx` | Panneau central d'information et communications ciblées (5 onglets) |
+| `CookieSettings.tsx` | Gestion détaillée des préférences de confidentialité RGPD |
 
 ### `/src/components/ui/`
 
@@ -204,7 +203,7 @@ Client HTTP pour l'API PHP :
 | `registrations` | Inscriptions aux séances |
 | `groups` | Groupes d'adhérents |
 | `user_groups` | Affectation adhérent ↔ groupe |
-| `app_info` | Paramètres éditoriaux de l'application |
+| `communications` | Paramètres éditoriaux et messages ciblés |
 | `logs` | Journal d'activité (Audit Administratif) |
 | `payments_history` | Historique des règlements (Passage à "À jour") |
 | `password_resets` | Tokens de réinitialisation |
