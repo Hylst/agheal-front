@@ -92,6 +92,9 @@ Pages principales de l'application :
 | `Profile.tsx` | `/profile` | Profil utilisateur |
 | `History.tsx` | `/history` | Historique des séances |
 | `Information.tsx` | `/information` | Page d'informations + contact |
+| `ImageUploadModal.tsx` | Upload et recadrage optimisé des photos (WebP) |
+| `InfoModal.tsx` | Panneau central d'information et communications cibllées (5 onglets) |
+| `CookieSettings.tsx` | Gestion détaillée des préférences de confidentialité RGPD |
 | `NotFound.tsx` | `*` | Page 404 |
 
 ### `/src/pages/coach/`

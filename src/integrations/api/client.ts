@@ -193,13 +193,21 @@ class ApiClient {
     return this.request<{ success: boolean }>(`/sessions/${id}`, "DELETE");
   }
 
-  // ─── App Info ────────────────────────────────────────────────────────────
-  async getAppInfo() {
-    return this.request<{ app_info: any }>("/app-info");
+  // ─── Communications ───────────────────────────────────────────────────────
+  async getCommunicationsTargets() {
+    return this.request<{ data: any[] }>("/communications");
   }
 
-  async updateAppInfo(data: Record<string, any>) {
-    return this.request<{ app_info: any }>("/app-info", "PUT", data);
+  async getMyCommunications() {
+    return this.request<{ data: any[] }>("/communications/my");
+  }
+
+  async saveCommunication(data: Record<string, any>) {
+    return this.request<{ data: any; message: string }>("/communications", "POST", data);
+  }
+
+  async deleteCommunication(id: number | string) {
+    return this.request<{ message: string }>(`/communications/${id}`, "DELETE");
   }
 
   // ─── Registrations ───────────────────────────────────────────────────────

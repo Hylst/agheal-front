@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Phone, Mail, Facebook, Instagram, Globe, Edit, Save, X, Dumbbell, TreePine, RefreshCw, Home, Armchair, ExternalLink, MessageSquare } from "lucide-react";
+import { ArrowLeft, Phone, Mail, Facebook, Instagram, Globe, Edit, Save, X, Dumbbell, TreePine, RefreshCw, Home, Armchair, ExternalLink, MessageSquare, Trash2, Plus, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/useAuth";
 import { apiClient } from "@/integrations/api/client";
 import { toast } from "sonner";
@@ -13,75 +16,128 @@ import teamImage from "@/assets/agheal-team.png";
 import logoImage from "@/assets/agheal-logo.png";
 import { ContactForm } from "@/components/ContactForm";
 
+interface Communication {
+  id: number;
+  author_id: string;
+  target_type: "all" | "group" | "user";
+  target_id: string | null;
+  content: string;
+  is_urgent: boolean;
+  created_at: string;
+  first_name?: string;
+  last_name?: string;
+}
+
 const Information = () => {
   const navigate = useNavigate();
   const { role } = useAuth();
   const isCoachOrAdmin = role === "coach" || role === "admin";
 
-  const [appInfo, setAppInfo] = useState({
-    informations_complementaires: "",
-    precisions: "",
-    communication_speciale: "",
-  });
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedInfo, setEditedInfo] = useState(appInfo);
+  const [communications, setCommunications] = useState<Communication[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchAppInfo();
-  }, []);
+  // Formulaire d'édition (Admin/Coach)
+  const [isEditing, setIsEditing] = useState(false);
+  const [targetType, setTargetType] = useState<"all" | "group" | "user">("all");
+  const [targetId, setTargetId] = useState<string>("");
+  const [content, setContent] = useState("");
+  const [isUrgent, setIsUrgent] = useState(false);
 
-  const fetchAppInfo = async () => {
+  // Données de ciblage
+  const [groups, setGroups] = useState<any[]>([]);
+  const [clients, setClients] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetchCommunications();
+    if (isCoachOrAdmin) {
+      fetchTargets();
+    }
+  }, [isCoachOrAdmin]);
+
+  const fetchCommunications = async () => {
     try {
-      const { data, error } = await apiClient.getAppInfo();
-      // L'API PHP retourne directement l'objet info
-      const info = data;
+      setLoading(true);
+      const { data, error } = isCoachOrAdmin 
+        ? await apiClient.getCommunicationsTargets()
+        : await apiClient.getMyCommunications();
 
       if (error) throw error;
-
-      if (info) {
-        // getAppInfo retourne { app_info: { ... } }
-        const appInfoData = (info as any).app_info || info;
-        setAppInfo({
-          informations_complementaires: appInfoData.informations_complementaires || "",
-          precisions: appInfoData.precisions || "",
-          communication_speciale: appInfoData.communication_speciale || "",
-        });
-        setEditedInfo({
-          informations_complementaires: appInfoData.informations_complementaires || "",
-          precisions: appInfoData.precisions || "",
-          communication_speciale: appInfoData.communication_speciale || "",
-        });
-      }
+      setCommunications((data as any)?.data || []);
     } catch (error) {
-      console.error("Error fetching app info:", error);
+      console.error("Error fetching communications:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSave = async () => {
+  const fetchTargets = async () => {
     try {
-      const { error } = await apiClient.updateAppInfo({
-        informations_complementaires: editedInfo.informations_complementaires,
-        precisions: editedInfo.precisions,
-        communication_speciale: editedInfo.communication_speciale
+      const [{ data: gData }, { data: cData }] = await Promise.all([
+        apiClient.getGroups(),
+        apiClient.getClients()
+      ]);
+      setGroups((gData as any)?.groups || []);
+      setClients((cData as any)?.clients || []);
+    } catch (err) {
+      console.error("Error loading groups/clients:", err);
+    }
+  };
+
+  const handleSave = async () => {
+    if (!content.trim()) {
+      toast.error("Le message ne peut pas être vide");
+      return;
+    }
+    if (targetType !== "all" && !targetId) {
+      toast.error("Veuillez sélectionner une cible (groupe ou adhérent)");
+      return;
+    }
+
+    try {
+      const { error } = await apiClient.saveCommunication({
+        target_type: targetType,
+        target_id: targetType === "all" ? null : targetId,
+        content,
+        is_urgent: isUrgent ? 1 : 0
       });
 
       if (error) throw error;
 
-      setAppInfo(editedInfo);
+      toast.success("Communication publiée avec succès");
       setIsEditing(false);
-      toast.success("Informations mises à jour avec succès");
+      resetForm();
+      fetchCommunications(); // Recharger la liste
     } catch (error) {
-      console.error("Error saving app info:", error);
-      toast.error("Erreur lors de la sauvegarde");
+      console.error("Error saving communication:", error);
+      toast.error("Erreur lors de la sauvegarde, la cible peut déjà avoir un message.");
     }
   };
 
+  const handleDelete = async (id: number) => {
+    if (!window.confirm("Êtes-vous sûr de vouloir supprimer ce message ?")) return;
+    
+    try {
+      const { error } = await apiClient.deleteCommunication(id);
+      if (error) throw error;
+      
+      toast.success("Message supprimé");
+      fetchCommunications();
+    } catch (err) {
+      console.error(err);
+      toast.error("Erreur lors de la suppression");
+    }
+  };
+
+  const resetForm = () => {
+    setTargetType("all");
+    setTargetId("");
+    setContent("");
+    setIsUrgent(false);
+  };
+
   const handleCancel = () => {
-    setEditedInfo(appInfo);
     setIsEditing(false);
+    resetForm();
   };
 
   const hasContent = (field: string) => field && field.trim().length > 0;
@@ -437,85 +493,143 @@ const Information = () => {
               <CardTitle className="text-xl text-primary">Communications & Informations</CardTitle>
               {isCoachOrAdmin && !isEditing && (
                 <Button variant="outline" size="sm" onClick={() => setIsEditing(true)}>
-                  <Edit className="h-4 w-4 mr-2" />
-                  Modifier
+                  <Plus className="h-4 w-4 mr-2" />
+                  Nouveau message
                 </Button>
-              )}
-              {isCoachOrAdmin && isEditing && (
-                <div className="flex gap-2">
-                  <Button variant="outline" size="sm" onClick={handleCancel}>
-                    <X className="h-4 w-4 mr-2" />
-                    Annuler
-                  </Button>
-                  <Button size="sm" onClick={handleSave}>
-                    <Save className="h-4 w-4 mr-2" />
-                    Enregistrer
-                  </Button>
-                </div>
               )}
             </CardHeader>
             <CardContent className="space-y-6">
               {loading ? (
-                <p className="text-muted-foreground">Chargement...</p>
-              ) : isEditing ? (
-                <div className="space-y-6">
+                <p className="text-muted-foreground">Chargement des messages...</p>
+              ) : isCoachOrAdmin && isEditing ? (
+                <div className="space-y-6 border rounded-lg p-6 bg-muted/30">
+                  <h3 className="text-lg font-semibold">Publier un message</h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-foreground">Cible</label>
+                      <Select 
+                        value={targetType} 
+                        onValueChange={(val: any) => { setTargetType(val); setTargetId(""); }}
+                      >
+                        <SelectTrigger bg-background>
+                          <SelectValue placeholder="Sélectionnez une cible" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">Tous les adhérents</SelectItem>
+                          <SelectItem value="group">Un groupe spécifique</SelectItem>
+                          <SelectItem value="user">Un adhérent spécifique</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {targetType === "group" && (
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-foreground">Groupe destinataire</label>
+                        <Select value={targetId} onValueChange={setTargetId}>
+                          <SelectTrigger bg-background>
+                            <SelectValue placeholder="Choisir le groupe..." />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {groups.map(g => (
+                              <SelectItem key={g.id} value={g.id}>{g.name}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    )}
+                    
+                    {targetType === "user" && (
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-foreground">Adhérent destinataire</label>
+                        <Select value={targetId} onValueChange={setTargetId}>
+                          <SelectTrigger bg-background>
+                            <SelectValue placeholder="Choisir l'adhérent..." />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {clients.map(c => (
+                              <SelectItem key={c.id} value={c.id}>{c.first_name} {c.last_name}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                    <Switch id="urgent" checked={isUrgent} onCheckedChange={setIsUrgent} />
+                    <label htmlFor="urgent" className="text-sm font-medium text-destructive flex items-center">
+                      <AlertCircle className="w-4 h-4 mr-1" />
+                      Marquer comme Urgent (S'affichera sur le tableau de bord des adhérents ciblés)
+                    </label>
+                  </div>
+
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-foreground">Informations complémentaires</label>
+                    <label className="text-sm font-medium text-foreground">Contenu du message</label>
                     <Textarea
-                      value={editedInfo.informations_complementaires}
-                      onChange={(e) => setEditedInfo({ ...editedInfo, informations_complementaires: e.target.value })}
-                      placeholder="Informations complémentaires pour les adhérents..."
-                      rows={4}
+                      value={content}
+                      onChange={(e) => setContent(e.target.value)}
+                      placeholder="Texte du message à transmettre..."
+                      rows={5}
+                      className="resize-y min-h-[100px]"
                     />
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-foreground">Précisions</label>
-                    <Textarea
-                      value={editedInfo.precisions}
-                      onChange={(e) => setEditedInfo({ ...editedInfo, precisions: e.target.value })}
-                      placeholder="Précisions importantes..."
-                      rows={4}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-foreground">Communication spéciale</label>
-                    <Textarea
-                      value={editedInfo.communication_speciale}
-                      onChange={(e) => setEditedInfo({ ...editedInfo, communication_speciale: e.target.value })}
-                      placeholder="Annonce ou communication spéciale..."
-                      rows={4}
-                    />
+
+                  <div className="flex gap-2 justify-end pt-4">
+                    <Button variant="outline" onClick={handleCancel}>Annuler</Button>
+                    <Button onClick={handleSave}>Publier le message</Button>
                   </div>
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {hasContent(appInfo.informations_complementaires) && (
-                    <div className="bg-muted/50 rounded-lg p-4">
-                      <h4 className="font-semibold text-foreground mb-2">Informations complémentaires</h4>
-                      <p className="text-muted-foreground whitespace-pre-wrap">{appInfo.informations_complementaires}</p>
-                    </div>
+                  {communications.length === 0 ? (
+                    <p className="text-muted-foreground italic text-center py-4">
+                      Aucune communication en cours.
+                    </p>
+                  ) : (
+                    communications.map((comm) => (
+                      <div 
+                        key={comm.id} 
+                        className={`relative rounded-lg p-5 border shadow-sm transition-all
+                          ${comm.is_urgent ? 'bg-destructive/10 border-destructive/50' : 'bg-muted/50 border-border'}`}
+                      >
+                        <div className="flex justify-between items-start mb-2 gap-4">
+                          <div className="flex flex-wrap gap-2 items-center">
+                            {comm.is_urgent && (
+                              <Badge variant="destructive" className="flex items-center gap-1">
+                                <AlertCircle className="w-3 h-3" /> Urgent
+                              </Badge>
+                            )}
+                            <Badge variant={comm.target_type === 'all' ? "default" : comm.target_type === 'group' ? "secondary" : "outline"}>
+                              {comm.target_type === 'all' && "Message Général"}
+                              {comm.target_type === 'group' && "Message de Groupe"}
+                              {comm.target_type === 'user' && "Message Personnel"}
+                            </Badge>
+                            {isCoachOrAdmin && (
+                              <span className="text-xs text-muted-foreground ml-2">
+                                Par {comm.first_name || 'Coach'} • le {new Date(comm.created_at).toLocaleDateString()}
+                              </span>
+                            )}
+                          </div>
+
+                          {isCoachOrAdmin && (
+                            <Button 
+                              variant="ghost" 
+                              size="icon" 
+                              className="h-8 w-8 text-destructive opacity-70 hover:opacity-100 absolute top-3 right-3"
+                              onClick={() => handleDelete(comm.id)}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          )}
+                        </div>
+                        
+                        <p className="text-foreground whitespace-pre-wrap mt-2 leading-relaxed">
+                          {comm.content}
+                        </p>
+                      </div>
+                    ))
                   )}
-                  {hasContent(appInfo.precisions) && (
-                    <div className="bg-muted/50 rounded-lg p-4">
-                      <h4 className="font-semibold text-foreground mb-2">Précisions</h4>
-                      <p className="text-muted-foreground whitespace-pre-wrap">{appInfo.precisions}</p>
-                    </div>
-                  )}
-                  {hasContent(appInfo.communication_speciale) && (
-                    <div className="bg-primary/10 border border-primary/20 rounded-lg p-4">
-                      <h4 className="font-semibold text-primary mb-2">📢 Communication spéciale</h4>
-                      <p className="text-foreground whitespace-pre-wrap">{appInfo.communication_speciale}</p>
-                    </div>
-                  )}
-                  {!hasContent(appInfo.informations_complementaires) &&
-                    !hasContent(appInfo.precisions) &&
-                    !hasContent(appInfo.communication_speciale) && (
-                      <p className="text-muted-foreground italic text-center py-4">
-                        {isCoachOrAdmin
-                          ? "Aucune communication pour le moment. Cliquez sur \"Modifier\" pour ajouter du contenu."
-                          : "Aucune communication pour le moment."}
-                      </p>
-                    )}
                 </div>
               )}
             </CardContent>

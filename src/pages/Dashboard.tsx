@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,11 +7,28 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Link } from 'react-router-dom';
 import { SettingsModal } from '@/components/SettingsModal';
 import { InfoModal } from '@/components/InfoModal';
+import { apiClient } from '@/integrations/api/client';
 
 export default function Dashboard() {
   const { user, role, signOut } = useAuth();
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [infoOpen, setInfoOpen] = useState(false);
+  const [urgentComms, setUrgentComms] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchComms = async () => {
+      try {
+        const { data } = await apiClient.getMyCommunications();
+        if (data && (data as any).data) {
+          const comms = (data as any).data;
+          setUrgentComms(comms.filter((c: any) => c.is_urgent));
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchComms();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
@@ -58,10 +75,20 @@ export default function Dashboard() {
             <AlertTriangle className="h-4 w-4" />
             <AlertTitle>Règlement en attente</AlertTitle>
             <AlertDescription>
-              Votre statut de paiement est actuellement "En attente". Veuillez régulariser votre situation auprès de votre coach pour continuer à profiter pleinement de toutes les fonctionnalités.
+              Votre règlement est en attente. Veuillez régulariser votre situation auprès de votre coach.
             </AlertDescription>
           </Alert>
         )}
+
+        {urgentComms.map((comm) => (
+          <Alert key={comm.id} variant="destructive" className="mb-8 border-red-500 bg-red-500/10 text-red-600 dark:text-red-400">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertTitle>Information Importante</AlertTitle>
+            <AlertDescription className="whitespace-pre-wrap mt-2">
+              {comm.content}
+            </AlertDescription>
+          </Alert>
+        ))}
 
         {/* ========= MOBILE : carousel horizontal scroll-snap ========= */}
         <div className="flex md:hidden gap-4 overflow-x-auto snap-x snap-mandatory pb-3 -mx-4 px-4 scrollbar-hide">

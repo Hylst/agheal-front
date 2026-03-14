@@ -94,6 +94,15 @@ Les **Activités** sont des modèles de séances réutilisables.
 3. Remplissez le nom, l'adresse et éventuellement des notes
 4. Enregistrez
 
+## 🗣️ Informations et Communications
+
+L'onglet **Informations** prend la forme d'un panneau central qui permet de :
+1. Lire à propos de la genèse de l'application
+2. Accéder aux guides d'utilisation selon les droits (Adhérent, Coach, Admin)
+3. Lire les communications :
+   - Les coachs et admins peuvent écrire des messages cibles à tous, à un groupe ou un individu spécifiquement.
+   - Si la communication est taggée "urgente", elle sera affichée en rouge sur le tableau de bord des destinataires.
+
 ---
 
 ## 👥 Gérer les Clients (Adhérents)

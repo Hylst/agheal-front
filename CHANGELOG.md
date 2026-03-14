@@ -9,7 +9,15 @@ Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/)
 
 ---
 
-## [1.5.4] - Mars 2026
+## [1.5.5] - Mars 2026
+
+### ✨ Système de Communications Ciblées & Modal Info
+
+- **Base de Données** : Migration du vieux système d'information (`app_info`) vers une table `communications` performante pour le ciblage.
+- **Backend API** : Ajout d'un système robuste (CRUD) de communications (à tous, par groupe, ou par profil).
+- **Dashboard & MobileNav** : Remplacement de l'icone pour faire apparaître un grand Modal central (InfoModal) de consultation qui se filtre par rôles.
+- **InfoModal** : Composant de 5 onglets expliquant la démarche de l'Application (L'Auteur), le fonctionnement pour coachs et admins, la roadmap, et les nouveautés.
+- **Interface Adhérents** : Affichage discret en bas de l'InfoModal des différents messages, mis en exergue s'ils sont désignés "urgents", forçant un affichage Rouge sur le Dashboard personnel.
 
 ### ✨ Certificats Médicaux & Expirations d'Abonnement
 
