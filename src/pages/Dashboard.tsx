@@ -472,12 +472,12 @@ export default function Dashboard() {
           )}
         </div>
 
-        {/* Section Messages pour les adhérents */}
-        {role === 'adherent' && regularComms.length > 0 && (
+        {/* Section Messages */}
+        {regularComms.length > 0 && (
           <div className="mt-8">
             <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
               <MessageSquare className="w-5 h-5 text-primary" />
-              Messages de vos coachs
+              {role === 'adherent' ? "Messages de vos coachs" : "Messages reçus"}
             </h3>
             <div className="space-y-4">
               {regularComms.map((comm) => (
