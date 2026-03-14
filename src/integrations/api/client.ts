@@ -206,6 +206,10 @@ class ApiClient {
     return this.request<{ data: any; message: string }>("/communications", "POST", data);
   }
 
+  async updateCommunication(id: number | string, data: Record<string, any>) {
+    return this.request<{ data: any; message: string }>(`/communications/${id}`, "PUT", data);
+  }
+
   async deleteCommunication(id: number | string) {
     return this.request<{ message: string }>(`/communications/${id}`, "DELETE");
   }
