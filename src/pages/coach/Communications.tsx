@@ -91,8 +91,15 @@ export default function Communications() {
       if (!commsRes.error) setCommunications((commsRes.data as any)?.data ?? []);
       if (!emailsRes.error) setEmailCampaigns((emailsRes.data as any)?.data ?? []);
       
-      if (!groupsRes.error) setGroups((groupsRes.data as any)?.groups ?? []);
-      if (!clientsRes.error) setClients((clientsRes.data as any)?.clients ?? []);
+      // Adaptation pour les réponses qui peuvent être soit { groups: [] } soit [] directement
+      if (!groupsRes.error) {
+        const gData = groupsRes.data as any;
+        setGroups(Array.isArray(gData) ? gData : (gData?.groups ?? []));
+      }
+      if (!clientsRes.error) {
+        const cData = clientsRes.data as any;
+        setClients(Array.isArray(cData) ? cData : (cData?.clients ?? []));
+      }
 
     } catch (error) {
       console.error("Erreur fetchAll:", error);
