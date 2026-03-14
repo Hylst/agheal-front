@@ -9,7 +9,7 @@ import {
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
-import { Bell, Calendar, Sparkles, RefreshCw } from 'lucide-react';
+import { Bell, Calendar, Sparkles, RefreshCw, FileText, AlertTriangle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { apiClient } from '@/integrations/api/client';
 import { useAuth } from '@/hooks/useAuth';
@@ -37,6 +37,10 @@ export function SettingsModal({ open, onOpenChange, role }: SettingsModalProps) 
   const [scheduledSessionsPush, setScheduledSessionsPush] = useState(false);
   const [renewalReminderEmail, setRenewalReminderEmail] = useState(true);
   const [renewalReminderPush, setRenewalReminderPush] = useState(false);
+  const [expiredPaymentEmail, setExpiredPaymentEmail] = useState(false);
+
+  // Nouvelles préférences
+  const [medicalCertifEmail, setMedicalCertifEmail] = useState(true);
 
   const isCoachOrAdmin = role === 'coach' || role === 'admin';
 
@@ -64,6 +68,8 @@ export function SettingsModal({ open, onOpenChange, role }: SettingsModalProps) 
         setScheduledSessionsPush(profileData.notify_scheduled_sessions_push ?? false);
         setRenewalReminderEmail(profileData.notify_renewal_reminder_email ?? true);
         setRenewalReminderPush(profileData.notify_renewal_reminder_push ?? false);
+        setExpiredPaymentEmail(profileData.notify_expired_payment_email ?? false);
+        setMedicalCertifEmail(profileData.notify_medical_certif_email ?? true);
       }
     } catch (error: any) {
       console.error('Error loading preferences:', error);
@@ -82,12 +88,14 @@ export function SettingsModal({ open, onOpenChange, role }: SettingsModalProps) 
           notify_scheduled_sessions_push: scheduledSessionsPush,
           notify_renewal_reminder_email: renewalReminderEmail,
           notify_renewal_reminder_push: renewalReminderPush,
+          notify_expired_payment_email: expiredPaymentEmail,
         }
         : {
           notify_session_reminder_email: sessionReminderEmail,
           notify_session_reminder_push: sessionReminderPush,
           notify_new_sessions_email: newSessionsEmail,
           notify_new_sessions_push: newSessionsPush,
+          notify_medical_certif_email: medicalCertifEmail,
         };
 
       const { error } = await apiClient.updateMyNotifications(updates);
@@ -197,6 +205,28 @@ export function SettingsModal({ open, onOpenChange, role }: SettingsModalProps) 
                     />
                   </div>
                 </div>
+
+                {/* Medical Certif Notifications */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 pb-2 border-b">
+                    <FileText className="w-4 h-4 text-primary" />
+                    <h3 className="font-medium text-sm">Certificat médical</h3>
+                  </div>
+                  <p className="text-xs text-muted-foreground -mt-2">
+                    Recevoir un rappel par e-mail un mois avant la date d'expiration de mon certificat.
+                  </p>
+
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="medical-certif-email" className="text-sm">
+                      Par email
+                    </Label>
+                    <Switch
+                      id="medical-certif-email"
+                      checked={medicalCertifEmail}
+                      onCheckedChange={setMedicalCertifEmail}
+                    />
+                  </div>
+                </div>
               </>
             )}
 
@@ -265,6 +295,28 @@ export function SettingsModal({ open, onOpenChange, role }: SettingsModalProps) 
                       id="renewal-reminder-push"
                       checked={renewalReminderPush}
                       onCheckedChange={setRenewalReminderPush}
+                    />
+                  </div>
+                </div>
+
+                {/* Expired Payment Alerts */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 pb-2 border-b">
+                    <AlertTriangle className="w-4 h-4 text-destructive" />
+                    <h3 className="font-medium text-sm">Alerte Abonnements Expirés</h3>
+                  </div>
+                  <p className="text-xs text-muted-foreground -mt-2">
+                    Recevoir différents récapitulatifs par e-mail lorsqu'un statut de paiement bascule en "En attente".
+                  </p>
+
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="expired-payment-email" className="text-sm">
+                      Par email
+                    </Label>
+                    <Switch
+                      id="expired-payment-email"
+                      checked={expiredPaymentEmail}
+                      onCheckedChange={setExpiredPaymentEmail}
                     />
                   </div>
                 </div>

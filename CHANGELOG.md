@@ -9,6 +9,18 @@ Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/)
 
 ---
 
+## [1.5.4] - Mars 2026
+
+### ✨ Certificats Médicaux & Expirations d'Abonnement
+
+- **SettingsModal** : Ajout de l'option d'alerte par e-mail (M-1) pour l'expiration du certificat médical (Adhérent).
+- **SettingsModal** : Ajout de l'option d'alerte par e-mail pour prévenir d'une expiration d'abonnement / paiement en attente (Coach/Admin).
+- **Profile** : Affichage de la date d'expiration du certificat médical pour l'Adhérent (lecture seule).
+- **Clients (Coach)** : Ajout du champ de sélection de la date d'expiration du certificat médical à l'édition d'une fiche client.
+
+### ⚖️ Légal
+- **Licence** : Ajout d'un fichier `LICENSE` propriétaire empêchant la redistribution du code et définition sur "UNLICENSED" dans le `package.json`.
+
 ## [1.5.3] - Mars 2026
 
 ### 🐛 Bug Fixes & Refactoring

@@ -33,8 +33,9 @@ type ClientProfile = {
   statut_compte: string | null;
   created_at: string | null;
   age: number | null;
-  payment_status: string | null;
+  payment_status: 'a_jour' | 'en_attente';
   renewal_date: string | null;
+  medical_certificate_date: string | null;
   groups?: { id: number; name: string }[];
   roles?: string[];
 };
@@ -58,8 +59,9 @@ export default function Clients() {
   const [editMode, setEditMode] = useState(false);
   const [coachRemarks, setCoachRemarks] = useState('');
   const [selectedGroups, setSelectedGroups] = useState<number[]>([]);
-  const [paymentStatus, setPaymentStatus] = useState('en_attente');
+  const [paymentStatus, setPaymentStatus] = useState<'a_jour' | 'en_attente'>('en_attente');
   const [renewalDate, setRenewalDate] = useState('');
+  const [medicalCertifDate, setMedicalCertifDate] = useState('');
   const [saving, setSaving] = useState(false);
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [groupFilter, setGroupFilter] = useState<string>('all');
@@ -107,6 +109,7 @@ export default function Clients() {
     setSelectedGroups(userGroups[client.id] || []);
     setPaymentStatus(client.payment_status || 'en_attente');
     setRenewalDate(client.renewal_date || '');
+    setMedicalCertifDate(client.medical_certificate_date || '');
     setEditMode(edit);
   };
 
@@ -117,6 +120,7 @@ export default function Clients() {
     setSelectedGroups([]);
     setPaymentStatus('en_attente');
     setRenewalDate('');
+    setMedicalCertifDate('');
   };
 
   const handleGroupToggle = (groupId: number) => {
@@ -145,6 +149,7 @@ export default function Clients() {
         coach_remarks: coachRemarks,
         payment_status: paymentStatus,
         renewal_date: renewalDate || null,
+        medical_certificate_date: medicalCertifDate || null,
       });
       if (profileError) throw new Error(profileError.message);
 
@@ -159,7 +164,13 @@ export default function Clients() {
       setClients(prev =>
         prev.map(c =>
           c.id === selectedClient.id
-            ? { ...c, coach_remarks: coachRemarks, payment_status: paymentStatus, renewal_date: renewalDate || null }
+            ? {
+                ...c,
+                coach_remarks: coachRemarks,
+                payment_status: paymentStatus,
+                renewal_date: renewalDate || null,
+                medical_certificate_date: medicalCertifDate || null
+              }
             : c
         )
       );
@@ -519,7 +530,7 @@ export default function Clients() {
                         <>
                           <div>
                             <Label className="text-muted-foreground text-sm">Statut règlement</Label>
-                            <Select value={paymentStatus} onValueChange={setPaymentStatus}>
+                            <Select value={paymentStatus} onValueChange={(val) => setPaymentStatus(val as 'a_jour' | 'en_attente')}>
                               <SelectTrigger className="mt-1">
                                 <SelectValue />
                               </SelectTrigger>
@@ -529,12 +540,21 @@ export default function Clients() {
                               </SelectContent>
                             </Select>
                           </div>
-                          <div className="col-span-2">
+                          <div className="col-span-1">
                             <Label className="text-muted-foreground text-sm">Date de renouvellement</Label>
                             <Input
                               type="date"
                               value={renewalDate}
                               onChange={(e) => setRenewalDate(e.target.value)}
+                              className="mt-1"
+                            />
+                          </div>
+                          <div className="col-span-1">
+                            <Label className="text-muted-foreground text-sm">Certificat médical (exp.)</Label>
+                            <Input
+                              type="date"
+                              value={medicalCertifDate}
+                              onChange={(e) => setMedicalCertifDate(e.target.value)}
                               className="mt-1"
                             />
                           </div>
@@ -554,6 +574,12 @@ export default function Clients() {
                             <div>
                               <Label className="text-muted-foreground text-sm">Date de renouvellement</Label>
                               <p className="font-medium">{formatDate(selectedClient.renewal_date)}</p>
+                            </div>
+                          )}
+                          {selectedClient.medical_certificate_date && (
+                            <div>
+                              <Label className="text-muted-foreground text-sm">Certificat médical (exp.)</Label>
+                              <p className="font-medium">{formatDate(selectedClient.medical_certificate_date)}</p>
                             </div>
                           )}
                         </>

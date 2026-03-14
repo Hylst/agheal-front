@@ -27,8 +27,9 @@ type Profile = {
   additional_info: string | null;
   age: number | null;
   created_at: string | null;
-  payment_status: string | null;
+  payment_status: 'a_jour' | 'en_attente';
   renewal_date: string | null;
+  medical_certificate_date: string | null;
 };
 
 export default function Profile() {
@@ -40,13 +41,14 @@ export default function Profile() {
     phone: '',
     organization: '',
     remarks_health: '',
-    statut_compte: '',
+    statut_compte: 'actif',
     avatar_base64: null,
     additional_info: null,
     age: null,
-    created_at: null,
-    payment_status: null,
+    created_at: new Date().toISOString(),
+    payment_status: 'en_attente',
     renewal_date: null,
+    medical_certificate_date: null,
   });
   const [userGroups, setUserGroups] = useState<{ id: number; name: string }[]>([]);
   const [loading, setLoading] = useState(true);
@@ -219,6 +221,12 @@ export default function Profile() {
                       <div>
                         <Label className="text-muted-foreground text-sm">Date de renouvellement</Label>
                         <p className="font-medium">{formatDate(profile.renewal_date)}</p>
+                      </div>
+                    )}
+                    {profile.medical_certificate_date && (
+                      <div>
+                        <Label className="text-muted-foreground text-sm">Certificat médical (exp.)</Label>
+                        <p className="font-medium">{formatDate(profile.medical_certificate_date)}</p>
                       </div>
                     )}
                   </>
