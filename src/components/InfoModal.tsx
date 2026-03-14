@@ -23,6 +23,7 @@ import {
   Phone,
   Mail,
   Lock,
+  Sparkles,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import logoImage from "@/assets/agheal-logo.png";
@@ -47,10 +48,10 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
       <h3 className="text-xl font-semibold text-primary">Vos Fonctionnalités (Adhérent)</h3>
       <p className="text-muted-foreground leading-relaxed">En tant qu'adhérent, l'application vous offre un espace personnel et sécurisé pour faciliter votre pratique sportive.</p>
       <ul className="space-y-3 mt-4">
-        <li className="flex gap-3"><Calendar className="w-5 h-5 text-blue-500 shrink-0" /><div><strong>Planning interactif :</strong> Consultez les séances, le matériel requis et inscrivez-vous en un clic.</div></li>
-        <li className="flex gap-3"><HeartPulse className="w-5 h-5 text-destructive shrink-0" /><div><strong>Profil Santé confidentiel :</strong> Renseignez vos spécificités de santé pour permettre à vos coachs d'adapter les exercices, en toute confidentialité.</div></li>
-        <li className="flex gap-3"><Send className="w-5 h-5 text-green-500 shrink-0" /><div><strong>Communications :</strong> Restez informé grâce aux messages de vos coachs (urgences, alertes) sur le Dashboard et par courriel.</div></li>
-        <li className="flex gap-3"><Stethoscope className="w-5 h-5 text-purple-500 shrink-0" /><div><strong>Suivi de certificat :</strong> Soyez alerté avant l'expiration de votre certificat médical.</div></li>
+        <li className="flex gap-3"><Calendar className="w-5 h-5 text-blue-500 shrink-0" /><div><strong>Planning interactif :</strong> Consultez les séances, le matériel requis et inscrivez-vous en un clic. Recevez un rappel par e-mail la veille de votre séance.</div></li>
+        <li className="flex gap-3"><HeartPulse className="w-5 h-5 text-destructive shrink-0" /><div><strong>Profil Santé confidentiel :</strong> Renseignez vos spécificités de santé pour permettre à vos coachs d'adapter les exercices, en toute confidentialité. Soyez alerté 1 mois avant l'expiration de votre certificat.</div></li>
+        <li className="flex gap-3"><Send className="w-5 h-5 text-green-500 shrink-0" /><div><strong>Communications :</strong> Restez informé grâce aux messages de vos coachs (urgences, alertes) sur le Dashboard et recevez des e-mails informatifs selon votre activité professionnelle ou de groupe.</div></li>
+        <li className="flex gap-3"><Database className="w-5 h-5 text-purple-500 shrink-0" /><div><strong>Suivi d'Abonnement :</strong> Gardez un œil visuel sur la validité de votre abonnement (indicateurs sur le Dashboard) et recevez des rappels avant échéance.</div></li>
       </ul>
     </div>
   );
@@ -70,11 +71,11 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
         </div>
         <div className="p-4 bg-muted/30 rounded-xl border border-border/50 flex flex-col gap-2">
             <div className="flex gap-2 items-center font-semibold text-destructive"><HeartPulse className="w-5 h-5" /> Vigilance Santé Proactive</div>
-            <p className="text-sm text-muted-foreground">Un système d'icônes médicales (🩺) vous alerte instantanément sur la liste d'inscrits. Accédez aux détails confidentiels (blessures, pathologies) pour adapter vos exercices. Gardez également l'œil sur la validité des certificats médicaux de vos sportifs.</p>
+            <p className="text-sm text-muted-foreground">Un système d'icônes médicales (🩺) vous alerte instantanément sur la liste d'inscrits. Accédez aux détails confidentiels (blessures, pathologies) pour adapter vos exercices. Gardez l'œil ouvert sur la validité des certificats médicaux.</p>
         </div>
         <div className="p-4 bg-muted/30 rounded-xl border border-border/50 flex flex-col gap-2">
             <div className="flex gap-2 items-center font-semibold text-green-600 dark:text-green-400"><Send className="w-5 h-5" /> Communication multicanale</div>
-            <p className="text-sm text-muted-foreground">Remplacez définitivement WhatsApp et les mails désordonnés. Rédigez des consignes globales, des annonces pour un groupe, ou un message personnel. Le statut "Urgent" affiche une bannière inratable chez l'adhérent concerné.</p>
+            <p className="text-sm text-muted-foreground">Remplacez définitivement WhatsApp et les mails désordonnés. Rédigez des messages applicatifs rapides ("Urgents" ou standards), ou créez des <strong>campagnes d'e-mails programmables</strong> pour un envoi différé ciblé.</p>
         </div>
       </div>
     </div>
@@ -83,7 +84,7 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
   const FeaturesAdmin = () => (
     <div className="space-y-4">
       <h3 className="text-xl font-semibold text-primary">Le Hub Administrateur</h3>
-      <p className="text-muted-foreground leading-relaxed">Supervisez la globalité. Le rôle Admin hérite des pouvoirs Coach (planification, santé, messages) et y ajoute le contrôle structurel, financier et sécuritaire de toute la plateforme AGHeal.</p>
+      <p className="text-muted-foreground leading-relaxed">Supervisez la globalité. Le rôle Admin hérite des pouvoirs Coach (planification, santé, messages, e-mails programmés) et y ajoute le contrôle structurel, financier et sécuritaire de toute la plateforme AGHeal.</p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
         <div className="p-4 bg-primary/5 rounded-xl border border-primary/20 flex flex-col gap-2">
             <div className="flex gap-2 items-center font-semibold text-primary"><Shield className="w-5 h-5" /> Supervision & Sécurité</div>
@@ -139,6 +140,7 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
           <li>• Consultez l'onglet <strong>Planning</strong> pour voir les prochaines séances.</li>
           <li>• Chaque séance indique le matériel requis et le nombre de places disponibles.</li>
           <li>• Un simple clic suffit pour s'inscrire ou se désinscrire (merci de le faire à l'avance pour libérer votre place).</li>
+          <li>• Des rappels de confirmation de vos prochaines séances vous seront envoyés par e-mail la veille du cours.</li>
         </ul>
       </div>
 
@@ -149,21 +151,9 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
         </div>
         <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
           <li>• Un espace <strong>Messages de vos coachs</strong> est présent sur votre Dashboard pour vous tenir informé.</li>
-          <li>• Vous êtes susceptible de recevoir des messages <strong>généraux</strong> (pour tous), de <strong>groupe</strong>, ou <strong>personnalisés</strong> directement dans l'application.</li>
+          <li>• Vous êtes susceptible de recevoir des messages <strong>généraux</strong> (pour tous), de <strong>groupe</strong>, ou <strong>personnalisés</strong>.</li>
           <li>• Les alertes urgentes s'afficheront clairement (en rouge) pour que vous ne les manquiez pas (ex: annulation de cours).</li>
-          <li>• Vous recevrez également plusieurs types d'informations <strong>par courriel (e-mail)</strong> concernant votre pratique sportive avec AGHeal : alertes de vos coachs, rappels système concernant vos abonnements à renouveler, rappels 1 mois avant l'expiration de votre certificat médical obligatoire ou confirmation de vos prochaines séances.</li>
-        </ul>
-      </div>
-      
-      <div className="bg-primary/5 p-4 rounded-xl border border-primary/20 space-y-2">
-        <div className="flex items-center gap-2 text-lg font-medium">
-          <Rocket className="w-5 h-5 text-primary" />
-          <span>Fonctionnalités à venir</span>
-        </div>
-        <ul className="text-sm text-muted-foreground leading-relaxed space-y-1">
-          <li>🏋️ <strong>Suivi de progression</strong> — historique et bilan de vos séances.</li>
-          <li>📲 <strong>Notifications push</strong> — directement sur votre smartphone.</li>
-          <li>📅 <strong>Liste d'attente</strong> — pour les séances complètes.</li>
+          <li>• Vous recevrez également plusieurs types d'informations <strong>par courriel (e-mail)</strong> concernant votre pratique sportive avec AGHeal : alertes différées de vos coachs, rappels système concernant vos abonnements à renouveler, et rappels 1 mois avant l'expiration de votre certificat médical obligatoire.</li>
         </ul>
       </div>
     </div>
@@ -201,8 +191,9 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
           <span>Stratégie de Communication</span>
         </div>
         <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
-          <li>• <strong>Dites adieu à WhatsApp :</strong> Le module Informations permet de reléguer les SMS et Groupes envahissants au placard. Composez votre message et cochez "Global", "Groupe A" ou "Individuel".</li>
-          <li>• <strong>Alerte Rouge :</strong> Si vous activez le bouton "Urgent" sur un message, alors celui-ci devient une bannière rouge agressive qui envahira le Dashboard du ou des membres la prochaine fois qu'ils lanceront ou actualiseront l'App. Idéal pour une annulation intempestive !</li>
+          <li>• <strong>Dites adieu à WhatsApp :</strong> Le module Communications vous propose désormais de rédiger des messages applicatifs internes ou de programmer l'envoi de campagnes d'e-mails. Cochez "Global", "Groupe A" ou "Individuel" pour un meilleur ciblage.</li>
+          <li>• <strong>Alerte Rouge :</strong> Si vous activez le bouton "Urgent" sur un message In-app, alors celui-ci devient une bannière rouge agressive qui envahira le Dashboard du ou des membres la prochaine fois qu'ils lanceront l'App.</li>
+          <li>• <strong>Planification d'E-mails :</strong> Anticipez les alertes ou annonces commerciales en programmant la date et de l'heure d'envoi de l'e-mail. Le script de tâche gèrera son routage automatique.</li>
         </ul>
       </div>
     </div>
@@ -230,7 +221,7 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
         </div>
         <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
           <li>• <strong>Tri Automatique :</strong> Fini de retenir qui doit une mensualité. L'onglet affiche tous ceux "En défaut". Faites sauter la sanction en un claquement de doigt, cela supprimera l'avertissement permanent de leur page d'accueil d'abonnés.</li>
-          <li>• <strong>Bannissement Financier Doux :</strong> Le rappel intégré n'empêche pas un utilisateur de se présenter à son cours, l'application agit de manière bienveillante mais tenace sur ses rappels pécuniers, ou de renouvellement annuel si la cotisation arrive au bout des 12 mois.</li>
+          <li>• <strong>Alertes Programmées :</strong> AGHeal se charge de lancer les protocoles de relance automatiques à J-7 de l'expiration d'un abonnement ainsi qu'à sa date de péremption, en utilisant les tâches planifiées du serveur.</li>
         </ul>
       </div>
 
@@ -241,7 +232,42 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
         </div>
         <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
           <li>• <strong>Nomenclature Globale :</strong> Verrouillez vos 'Types de cours' en leur assignant des pastilles colorées propres à votre club pour éviter le chaos dans l'affichage du calendrier par vos coachs indépendants, même chose pour adresser correctement les 'Lieux'.</li>
-          <li>• <strong>Totalité des pouvoirs :</strong> Avoir ce rôle vous garantit que vous pourrez assister vos propres coachs et pallier une crise car l'Admin hérite de la rédaction des séances, des messages, et de la liste santé confidentielle.</li>
+          <li>• <strong>Totalité des pouvoirs :</strong> Avoir ce rôle vous garantit que vous pourrez assister vos propres coachs et pallier une crise car l'Admin hérite de la rédaction des séances, des e-mails programmés et de la liste santé confidentielle.</li>
+        </ul>
+      </div>
+    </div>
+  );
+
+  /* ------------------------------------------------------------------ */
+  /* Roadmap et Nouveautés                                              */
+  /* ------------------------------------------------------------------ */
+  const RoadmapContent = () => (
+    <div className="space-y-6">
+      <h3 className="text-xl font-semibold text-primary">Nouveautés & Roadmap</h3>
+      
+      <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-3">
+        <div className="flex items-center gap-2 text-lg font-medium text-green-600 dark:text-green-400">
+          <Sparkles className="w-5 h-5" />
+          <span>Nouveautés Récentes</span>
+        </div>
+        <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
+          <li>• <span className="font-semibold px-2 py-0.5 rounded text-xs bg-muted border">NOUVEAU</span> <strong>Campagnes d'E-mails Programmables</strong> : Les coachs et admins peuvent désormais planifier l'envoi de courriels informatifs ciblés à l'avance.</li>
+          <li>• <span className="font-semibold px-2 py-0.5 rounded text-xs bg-muted border">NOUVEAU</span> <strong>Alertes Auto</strong> : Automatisation des e-mails pour le renouvellement des abonnements (J-7) et des certificats (M-1).</li>
+          <li>• <strong>Communications ciblées (App)</strong> : L'espace d'affichage "Messages de vos coachs" propose des messages de groupe, personnels, ou globaux, dont les urgences sont en rouge vif.</li>
+          <li>• <strong>Sécurité Renforcée</strong> : Protection totale de l'Admin contre les fautes de frappe de bannissement. Ajout d'audit logs invisibles pour sécuriser la supervision système.</li>
+        </ul>
+      </div>
+
+      <div className="bg-primary/5 p-4 rounded-xl border border-primary/20 space-y-3">
+        <div className="flex items-center gap-2 text-lg font-medium">
+          <Rocket className="w-5 h-5 text-primary" />
+          <span>En préparation (Roadmap)</span>
+        </div>
+        <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
+          <li>• 🏋️ <strong>Suivi de progression personnel</strong> : Accès au bilan, historique et évolution concrète de vos performances (Pour sportifs).</li>
+          <li>• 📲 <strong>Application Mobile PWA</strong> : Installation pure et simple sur l'écran d'accueil avec icône Apple/Android et cache performant.</li>
+          <li>• 📅 <strong>Liste d'attente</strong> : Inscriptions secondaires automatiques lors des désistements sur des séances pleines.</li>
+          <li>• 📊 <strong>Tableau de Bord Statistiques</strong> : Export CSV direct et analyse de l'évolution financière pour les clubs (Admins).</li>
         </ul>
       </div>
     </div>
@@ -264,24 +290,29 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
           </div>
         </DialogHeader>
 
-        <Tabs defaultValue="features" className="flex-1 overflow-hidden flex flex-col mt-4">
-          <TabsList className="w-full flex justify-start overflow-x-auto hide-scrollbar bg-muted/50 p-1 rounded-xl">
-            <TabsTrigger value="features" className="flex items-center gap-2 rounded-lg">
+        {/* Le conteneur min-h-0 garantit que la div interne peut scroller au lieu de dépasser */}
+        <Tabs defaultValue="features" className="flex-1 min-h-0 flex flex-col mt-4">
+          <TabsList className="w-full flex justify-start overflow-x-auto hide-scrollbar bg-muted/50 p-1 rounded-xl shrink-0">
+            <TabsTrigger value="features" className="flex items-center gap-2 rounded-lg whitespace-nowrap">
               <Info className="w-4 h-4" /> Fonctionnalités
             </TabsTrigger>
-            <TabsTrigger value="guide" className="flex items-center gap-2 rounded-lg">
+            <TabsTrigger value="guide" className="flex items-center gap-2 rounded-lg whitespace-nowrap">
               <BookOpen className="w-4 h-4" /> Mode d'emploi
             </TabsTrigger>
-            <TabsTrigger value="creator" className="flex items-center gap-2 rounded-lg">
+            <TabsTrigger value="roadmap" className="flex items-center gap-2 rounded-lg whitespace-nowrap">
+              <Rocket className="w-4 h-4" /> Roadmap & Nouveautés
+            </TabsTrigger>
+            <TabsTrigger value="creator" className="flex items-center gap-2 rounded-lg whitespace-nowrap">
               <User className="w-4 h-4" /> Génèse & Créateur
             </TabsTrigger>
-            <TabsTrigger value="legal" className="flex items-center gap-2 rounded-lg">
+            <TabsTrigger value="legal" className="flex items-center gap-2 rounded-lg whitespace-nowrap">
               <Scale className="w-4 h-4" /> Mentions légales
             </TabsTrigger>
           </TabsList>
 
-          <ScrollArea className="flex-1 mt-4 border rounded-xl bg-card">
-            <div className="p-6">
+          {/* L'application d'une hauteur fixe sur le ScrollArea est primordiale dans un DialogContent max-h */}
+          <ScrollArea className="flex-1 h-[50vh] sm:h-[60vh] mt-4 border rounded-xl bg-card">
+            <div className="p-4 sm:p-6">
 
               {/* ---- ONGLET : FONCTIONNALITÉS ---- */}
               <TabsContent value="features" className="m-0 space-y-6 animate-in fade-in zoom-in-95 duration-200">
@@ -297,15 +328,20 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
                 {isAdherent && <GuideAdherent />}
               </TabsContent>
 
+              {/* ---- ONGLET : ROADMAP & NOUVEAUTÉS ---- */}
+              <TabsContent value="roadmap" className="m-0 animate-in fade-in zoom-in-95 duration-200">
+                <RoadmapContent />
+              </TabsContent>
+
               {/* ---- ONGLET : CRÉATEUR & CONTACT ---- */}
               <TabsContent value="creator" className="m-0 space-y-6 animate-in fade-in zoom-in-95 duration-200">
-                <div className="flex items-start gap-4">
-                  <div className="p-3 bg-primary/10 rounded-full text-primary">
+                <div className="flex flex-col sm:flex-row items-start gap-4">
+                  <div className="p-3 bg-primary/10 rounded-full text-primary shrink-0">
                     <User className="w-8 h-8" />
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold mb-1">Geoffroy Streit</h3>
-                    <p className="text-sm text-muted-foreground mb-4">Développeur d'applications web, mobile et bureau.</p>
+                    <p className="text-sm text-muted-foreground mb-4">Développeur d'applications web/mobile/bureau.</p>
                     <div className="space-y-4 text-sm mt-4">
                       <p className="text-muted-foreground leading-relaxed mb-4">
                         L'objectif de cette application a été de remplacer les fichiers Excel, les échanges
@@ -313,7 +349,7 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
                         moderne et bienveillante. 
                         <br /><br />
                         Pensée spécialement pour les activités sportives orientées santé et bien-être, 
-                        elle assure un meilleur suivi global : gestion des séances et activités, envois de messages personnalisés, 
+                        elle assure un meilleur suivi global : gestion des séances et activités, envois de messages et d'e-mails programmés, 
                         suivi des règlements, et prise en compte confidentielle de vos contraintes physiques et de santé.
                       </p>
                     </div>

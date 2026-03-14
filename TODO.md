@@ -107,7 +107,7 @@ Liste des améliorations et fonctionnalités prévues pour les prochaines versio
 
 ## 🛠️ Incohérences à résorber (UI/Front)
 
-- [ ] **InfoModal : Onglet manquant** : Le CHANGELOG v1.5.5 et la documentation annoncent 5 onglets incluant "Roadmap et nouveautés", mais le composant `InfoModal.tsx` n'a actuellement que 4 onglets. Il faut implémenter ce 5ème onglet.
+- [x] **InfoModal : Onglet manquant** : Le CHANGELOG v1.5.5 et la documentation annoncent 5 onglets incluant "Roadmap et nouveautés", mais le composant `InfoModal.tsx` n'a actuellement que 4 onglets. Il faut implémenter ce 5ème onglet.
 
 ---
 
