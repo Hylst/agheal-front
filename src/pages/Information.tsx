@@ -393,7 +393,8 @@ const Information = () => {
             </CardContent>
           </Card>
 
-          {/* ── Section 4 : Messages (lecture seule) ── */}
+          {/* ── Section 4 : Messages (lecture seule pour Coach/Admin) ── */}
+          {isCoachOrAdmin && (
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="text-xl text-primary flex items-center gap-2">
@@ -458,6 +459,7 @@ const Information = () => {
               )}
             </CardContent>
           </Card>
+          )}
         </div>
 
         {/* Logo bas de page */}

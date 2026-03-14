@@ -14,6 +14,7 @@ export default function Dashboard() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [infoOpen, setInfoOpen] = useState(false);
   const [urgentComms, setUrgentComms] = useState<any[]>([]);
+  const [regularComms, setRegularComms] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchComms = async () => {
@@ -22,6 +23,7 @@ export default function Dashboard() {
         if (data && (data as any).data) {
           const comms = (data as any).data;
           setUrgentComms(comms.filter((c: any) => c.is_urgent));
+          setRegularComms(comms.filter((c: any) => !c.is_urgent));
         }
       } catch (err) {
         console.error(err);
@@ -469,6 +471,37 @@ export default function Dashboard() {
             </Card>
           )}
         </div>
+
+        {/* Section Messages pour les adhérents */}
+        {role === 'adherent' && regularComms.length > 0 && (
+          <div className="mt-8">
+            <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+              <MessageSquare className="w-5 h-5 text-primary" />
+              Messages de vos coachs
+            </h3>
+            <div className="space-y-4">
+              {regularComms.map((comm) => (
+                <Card key={comm.id} className="bg-muted/50 border-border">
+                  <CardContent className="p-5">
+                    <div className="flex flex-wrap gap-2 items-center mb-3">
+                      <span className="text-xs font-medium px-2.5 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
+                        {comm.target_type === "all" && "Message Général"}
+                        {comm.target_type === "group" && "Message de Groupe"}
+                        {comm.target_type === "user" && "Message Personnel"}
+                      </span>
+                      <span className="text-xs text-muted-foreground ml-auto">
+                        {new Date(comm.created_at).toLocaleDateString("fr-FR")}
+                      </span>
+                    </div>
+                    <p className="text-foreground whitespace-pre-wrap leading-relaxed text-sm">
+                      {comm.content}
+                    </p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Section stats rapides */}
         <div className="mt-8 grid grid-cols-3 gap-3 sm:gap-4 md:grid-cols-3">
