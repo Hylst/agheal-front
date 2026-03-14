@@ -67,14 +67,16 @@ export default function Communications() {
       }
 
       if (!groupsRes.error) {
-        const raw = (groupsRes.data as any)?.groups ?? [];
+        const data = groupsRes.data as any;
+        const raw = Array.isArray(data) ? data : (data?.groups ?? []);
         setGroups(raw);
       } else {
         console.warn("Groupes : ", groupsRes.error.message);
       }
 
       if (!clientsRes.error) {
-        const raw = (clientsRes.data as any)?.clients ?? [];
+        const data = clientsRes.data as any;
+        const raw = Array.isArray(data) ? data : (data?.clients ?? []);
         setClients(raw);
       } else {
         console.warn("Clients : ", clientsRes.error.message);
