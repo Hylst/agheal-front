@@ -23,6 +23,8 @@ import {
   Mail,
   Lock,
   Sparkles,
+  CreditCard,
+  Banknote,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import logoImage from "@/assets/agheal-logo.png";
@@ -76,6 +78,10 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
             <div className="flex gap-2 items-center font-semibold text-green-600 dark:text-green-400"><Send className="w-5 h-5" /> Communication multicanale</div>
             <p className="text-sm text-muted-foreground">Remplacez définitivement WhatsApp et les mails désordonnés. Rédigez des messages applicatifs rapides ("Urgents" ou standards), ou créez des <strong>campagnes d'e-mails programmables</strong> pour un envoi différé ciblé.</p>
         </div>
+        <div className="col-span-1 md:col-span-2 p-4 bg-muted/30 rounded-xl border border-border/50 flex flex-col gap-2">
+            <div className="flex gap-2 items-center font-semibold text-amber-600 dark:text-amber-400"><CreditCard className="w-5 h-5" /> Gestion des Règlements</div>
+            <p className="text-sm text-muted-foreground">Simplifiez votre comptabilité : enregistrez facilement la saisie des règlements par adhérent (espèces, chèque ou virement). Obtenez en un clin d'œil depuis le Dashboard l'évolution mensuelle de vos encaissements et la répartition par mode ou par coach !</p>
+        </div>
       </div>
     </div>
   );
@@ -90,8 +96,8 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
             <p className="text-sm text-muted-foreground leading-relaxed">Consultez l'annuaire complet. Promouvez un adhérent en Coach, ou nommez un co-Admin. Le système vous protège (auto-blocage impossible). Gérez le statut des membres depuis leur fiche détaillée, activez ou désactivez les accès avec des dialogues de vérification.</p>
         </div>
         <div className="p-4 bg-destructive/5 rounded-xl border border-destructive/20 flex flex-col gap-2">
-            <div className="flex gap-2 items-center font-semibold text-destructive"><Database className="w-5 h-5" /> Règlements & Cotisations</div>
-            <p className="text-sm text-muted-foreground leading-relaxed">AGHeal vous signale les adhérents en défaut de paiement. D'un simple interrupteur (Switch), vous pouvez appliquer ou lever l'anomalie financière et générer une alerte rouge non intrusive sur le tableau de bord des concernés (avec l'historique gardé en base).</p>
+            <div className="flex gap-2 items-center font-semibold text-destructive"><Banknote className="w-5 h-5" /> Règlements & Facturation</div>
+            <p className="text-sm text-muted-foreground leading-relaxed">Le système comptable complet vous permet de générer un tableau de bord analytique (Total encaissé, KPIs par moyen de paiement) et d'appliquer une surveillance experte du statut des paiements des abonnés pour déclencher des anomalies financières sur leur espace.</p>
         </div>
         <div className="col-span-1 md:col-span-2 p-4 bg-orange-500/5 rounded-xl border border-orange-500/20 flex flex-col gap-2">
             <div className="flex gap-2 items-center font-semibold text-orange-600"><Rocket className="w-5 h-5" /> Ingénierie du Référentiel</div>
@@ -195,6 +201,17 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
           <li>• <strong>Planification d'E-mails :</strong> Anticipez les alertes ou annonces commerciales en programmant la date et de l'heure d'envoi de l'e-mail. Le script de tâche gèrera son routage automatique.</li>
         </ul>
       </div>
+
+      <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-3">
+        <div className="flex items-center gap-2 text-lg font-medium">
+          <CreditCard className="w-5 h-5 text-amber-500" />
+          <span>Gestion Financière</span>
+        </div>
+        <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
+          <li>• <strong>Saisie rapide :</strong> Enregistrez les règlements (espèces, chèques, virements) directement depuis la tuile 'Règlements' de votre espace.</li>
+          <li>• <strong>Tableau de Bord :</strong> Analysez l'évolution mensuelle de vos encaissements et filtrez l'historique par type de paiement ou par coach.</li>
+        </ul>
+      </div>
     </div>
   );
 
@@ -250,8 +267,9 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
           <span>Nouveautés Récentes</span>
         </div>
         <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
-          <li>• <span className="font-semibold px-2 py-0.5 rounded text-xs bg-muted border">NOUVEAU</span> <strong>Campagnes d'E-mails Programmables</strong> : Les coachs et admins peuvent désormais planifier l'envoi de courriels informatifs ciblés à l'avance.</li>
-          <li>• <span className="font-semibold px-2 py-0.5 rounded text-xs bg-muted border">NOUVEAU</span> <strong>Alertes Auto</strong> : Automatisation des e-mails pour le renouvellement des abonnements (J-7) et des certificats (M-1).</li>
+          <li>• <span className="font-semibold px-2 py-0.5 rounded text-xs bg-muted border">NOUVEAU</span> <strong>Système de Gestion des Règlements</strong> : Saisie, historique complet et tableau de bord analytique des encaissements (v1.8.0).</li>
+          <li>• <span className="font-semibold px-2 py-0.5 rounded text-xs bg-muted border">NOUVEAU</span> <strong>Notifications Push & Alertes Auto</strong> : Abonnement web push pour recevoir des alertes automatiques d'expiration de certificat (M-1) et abonnement (J-7).</li>
+          <li>• <span className="font-semibold px-2 py-0.5 rounded text-xs bg-muted border">NOUVEAU</span> <strong>Campagnes d'E-mails Programmables</strong> : Les coachs et admins peuvent planifier l'envoi de courriels informatifs ciblés à l'avance.</li>
           <li>• <strong>Communications ciblées (App)</strong> : L'espace d'affichage "Messages de vos coachs" propose des messages de groupe, personnels, ou globaux, dont les urgences sont en rouge vif.</li>
           <li>• <strong>Sécurité Renforcée</strong> : Protection totale de l'Admin contre les fautes de frappe de bannissement. Ajout d'audit logs invisibles pour sécuriser la supervision système.</li>
         </ul>
@@ -264,9 +282,9 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
         </div>
         <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
           <li>• 🏋️ <strong>Suivi de progression personnel</strong> : Accès au bilan, historique et évolution concrète de vos performances (Pour sportifs).</li>
-          <li>• 📲 <strong>Application Mobile PWA</strong> : Installation pure et simple sur l'écran d'accueil avec icône Apple/Android et cache performant.</li>
+          <li>• 📲 <strong>Application Mobile PWA</strong> : Installation pure et simple sur l'écran d'accueil avec icône Apple/Android et fonctionnement hors-ligne.</li>
           <li>• 📅 <strong>Liste d'attente</strong> : Inscriptions secondaires automatiques lors des désistements sur des séances pleines.</li>
-          <li>• 📊 <strong>Tableau de Bord Statistiques</strong> : Export CSV direct et analyse de l'évolution financière pour les clubs (Admins).</li>
+          <li>• 📊 <strong>Export des données</strong> : Fonctionnalité d'export CSV direct des annuaires, plannings, présences et bilans financiers.</li>
         </ul>
       </div>
     </div>
