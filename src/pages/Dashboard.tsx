@@ -268,7 +268,7 @@ export default function Dashboard() {
                   <CardDescription>Adhérents &amp; groupes</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Link to="/coach/clients">
+                  <Link to={role === 'admin' ? "/admin/clients" : "/coach/clients"}>
                     <Button className="w-full bg-gradient-to-br from-emerald-500 to-teal-500">Voir</Button>
                   </Link>
                 </CardContent>
@@ -481,7 +481,7 @@ export default function Dashboard() {
                 <CardDescription>Gérer les adhérents et leurs groupes</CardDescription>
               </CardHeader>
               <CardContent>
-                <Link to="/coach/clients">
+                <Link to={role === 'admin' ? "/admin/clients" : "/coach/clients"}>
                   <Button className="w-full bg-gradient-to-br from-emerald-500 to-teal-500">
                     Voir les clients
                   </Button>
