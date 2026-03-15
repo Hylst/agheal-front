@@ -14,6 +14,48 @@ import { useToast } from '@/hooks/use-toast';
 import { apiClient } from '@/integrations/api/client';
 import { useAuth } from '@/hooks/useAuth';
 
+function urlBase64ToUint8Array(base64String: string) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
+async function handlePushSubscription() {
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) return false;
+  
+  const permission = await Notification.requestPermission();
+  if (permission !== 'granted') return false;
+
+  try {
+    const registration = await navigator.serviceWorker.ready;
+    let subscription = await registration.pushManager.getSubscription();
+    
+    if (!subscription) {
+      const vapidPublicKey = import.meta.env.VITE_VAPID_PUBLIC_KEY;
+      if (!vapidPublicKey) {
+        console.error("VAPID Key missing from env");
+        return false;
+      }
+      const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey);
+      subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: convertedVapidKey
+      });
+    }
+    
+    await apiClient.subscribeToPush(subscription);
+    return true;
+  } catch (err) {
+    console.error('Push error', err);
+    return false;
+  }
+}
+
 interface SettingsModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -39,8 +81,14 @@ export function SettingsModal({ open, onOpenChange, role }: SettingsModalProps) 
   const [renewalReminderPush, setRenewalReminderPush] = useState(false);
   const [expiredPaymentEmail, setExpiredPaymentEmail] = useState(false);
 
-  // Nouvelles préférences
+  // Nouvelles préférences Adhérent
   const [medicalCertifEmail, setMedicalCertifEmail] = useState(true);
+  const [medicalCertifPush, setMedicalCertifPush] = useState(false);
+
+  // Nouvelles préférences Coach/Admin
+  const [renewalVerifyEmail, setRenewalVerifyEmail] = useState(true);
+  const [renewalVerifyPush, setRenewalVerifyPush] = useState(false);
+  const [expiredPaymentPush, setExpiredPaymentPush] = useState(false);
 
   const isCoachOrAdmin = role === 'coach' || role === 'admin';
 
@@ -69,7 +117,11 @@ export function SettingsModal({ open, onOpenChange, role }: SettingsModalProps) 
         setRenewalReminderEmail(profileData.notify_renewal_reminder_email ?? true);
         setRenewalReminderPush(profileData.notify_renewal_reminder_push ?? false);
         setExpiredPaymentEmail(profileData.notify_expired_payment_email ?? false);
+        setExpiredPaymentPush(profileData.notify_expired_payment_push ?? false);
+        setRenewalVerifyEmail(profileData.notify_renewal_verify_email ?? true);
+        setRenewalVerifyPush(profileData.notify_renewal_verify_push ?? false);
         setMedicalCertifEmail(profileData.notify_medical_certif_email ?? true);
+        setMedicalCertifPush(profileData.notify_medical_certif_push ?? false);
       }
     } catch (error: any) {
       console.error('Error loading preferences:', error);
@@ -89,6 +141,9 @@ export function SettingsModal({ open, onOpenChange, role }: SettingsModalProps) 
           notify_renewal_reminder_email: renewalReminderEmail,
           notify_renewal_reminder_push: renewalReminderPush,
           notify_expired_payment_email: expiredPaymentEmail,
+          notify_expired_payment_push: expiredPaymentPush,
+          notify_renewal_verify_email: renewalVerifyEmail,
+          notify_renewal_verify_push: renewalVerifyPush,
         }
         : {
           notify_session_reminder_email: sessionReminderEmail,
@@ -96,7 +151,24 @@ export function SettingsModal({ open, onOpenChange, role }: SettingsModalProps) 
           notify_new_sessions_email: newSessionsEmail,
           notify_new_sessions_push: newSessionsPush,
           notify_medical_certif_email: medicalCertifEmail,
+          notify_medical_certif_push: medicalCertifPush,
         };
+
+      const enablePush = isCoachOrAdmin 
+        ? (scheduledSessionsPush || renewalReminderPush || expiredPaymentPush || renewalVerifyPush)
+        : (sessionReminderPush || newSessionsPush || medicalCertifPush);
+
+      if (enablePush) {
+        const success = await handlePushSubscription();
+        if (!success) {
+           toast({
+             title: 'Notifications Push non autorisées',
+             description: 'Veuillez autoriser les notifications dans votre navigateur.',
+             variant: 'destructive',
+           });
+           // On continue quand même la sauvegarde, mais le push ne marchera pas
+        }
+      }
 
       const { error } = await apiClient.updateMyNotifications(updates);
       if (error) throw new Error(error.message);
@@ -226,6 +298,17 @@ export function SettingsModal({ open, onOpenChange, role }: SettingsModalProps) 
                       onCheckedChange={setMedicalCertifEmail}
                     />
                   </div>
+
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="medical-certif-push" className="text-sm">
+                      Par notification push
+                    </Label>
+                    <Switch
+                      id="medical-certif-push"
+                      checked={medicalCertifPush}
+                      onCheckedChange={setMedicalCertifPush}
+                    />
+                  </div>
                 </div>
               </>
             )}
@@ -317,6 +400,50 @@ export function SettingsModal({ open, onOpenChange, role }: SettingsModalProps) 
                       id="expired-payment-email"
                       checked={expiredPaymentEmail}
                       onCheckedChange={setExpiredPaymentEmail}
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="expired-payment-push" className="text-sm">
+                      Par notification push
+                    </Label>
+                    <Switch
+                      id="expired-payment-push"
+                      checked={expiredPaymentPush}
+                      onCheckedChange={setExpiredPaymentPush}
+                    />
+                  </div>
+                </div>
+
+                {/* Vérification Coach Renouvellement */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 pb-2 border-b">
+                    <FileText className="w-4 h-4 text-primary" />
+                    <h3 className="font-medium text-sm">Vérification Documents & Paiements</h3>
+                  </div>
+                  <p className="text-xs text-muted-foreground -mt-2">
+                    Être notifié en copie quand l'adhérent doit fournir un justificatif ou réglement, pour validation manuelle.
+                  </p>
+
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="renewal-verify-email" className="text-sm">
+                      Par email
+                    </Label>
+                    <Switch
+                      id="renewal-verify-email"
+                      checked={renewalVerifyEmail}
+                      onCheckedChange={setRenewalVerifyEmail}
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="renewal-verify-push" className="text-sm">
+                      Par notification push
+                    </Label>
+                    <Switch
+                      id="renewal-verify-push"
+                      checked={renewalVerifyPush}
+                      onCheckedChange={setRenewalVerifyPush}
                     />
                   </div>
                 </div>

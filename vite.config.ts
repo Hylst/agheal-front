@@ -12,8 +12,14 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     VitePWA({
+      strategies: 'injectManifest',
+      srcDir: 'src',
+      filename: 'sw.ts',
       registerType: 'autoUpdate',
       includeAssets: ['favicon.png', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'og-image.png'],
+      injectManifest: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,json}'],
+      },
       manifest: {
         name: "AGHeal - Activité Physique Adaptée",
         short_name: "AGHeal",
@@ -47,11 +53,6 @@ export default defineConfig(({ mode }) => ({
           }
         ]
       },
-      workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,json}'],
-        navigateFallback: '/index.html',
-        navigateFallbackAllowlist: [/^(?!\/api)/], // Ne pas fallback sur index.html pour les /api/*
-      }
     })
   ],
   resolve: {

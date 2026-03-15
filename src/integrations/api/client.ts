@@ -300,6 +300,15 @@ class ApiClient {
     return this.request<{ success: boolean }>(`/groups/${id}`, "DELETE");
   }
 
+  // ─── Push Notifications ───────────────────────────────────────────────────
+  async subscribeToPush(subscription: PushSubscription) {
+    return this.request<{ success: boolean }>("/push/subscribe", "POST", subscription);
+  }
+
+  async unsubscribeFromPush(endpoint: string) {
+    return this.request<{ success: boolean }>("/push/unsubscribe", "POST", { endpoint });
+  }
+
   // ─── Contact ──────────────────────────────────────────────────────────────
   async sendContact(data: { name: string; email: string; message: string }) {
     return this.request<{ success: boolean }>("/contact", "POST", data);
