@@ -6,7 +6,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Info,
   User,
@@ -310,9 +309,8 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
             </TabsTrigger>
           </TabsList>
 
-          {/* L'application d'une hauteur fixe sur le ScrollArea est primordiale dans un DialogContent max-h */}
-          <ScrollArea className="flex-1 h-[50vh] sm:h-[60vh] mt-4 border rounded-xl bg-card">
-            <div className="p-4 sm:p-6">
+          {/* On utilise overflow-y-auto pour forcer l'affichage de l'ascenseur natif et s'assurer que ça scrolle */}
+          <div className="flex-1 overflow-y-auto h-[50vh] sm:h-[60vh] mt-4 border rounded-xl bg-card p-4 sm:p-6">
 
               {/* ---- ONGLET : FONCTIONNALITÉS ---- */}
               <TabsContent value="features" className="m-0 space-y-6 animate-in fade-in zoom-in-95 duration-200">
@@ -429,8 +427,7 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
                 </div>
               </TabsContent>
 
-            </div>
-          </ScrollArea>
+          </div>
         </Tabs>
       </DialogContent>
     </Dialog>
