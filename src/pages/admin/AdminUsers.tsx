@@ -25,6 +25,7 @@ type User = {
   id: string;
   first_name: string | null;
   last_name: string | null;
+  email: string | null;
   phone: string | null;
   statut_compte: string | null;
   user_roles: { role: string }[];
@@ -126,9 +127,11 @@ export default function AdminUsers() {
     }
   };
 
+  // Filtre par nom, téléphone ou email
   const filteredUsers = users.filter((user) => {
     const fullName = `${user.first_name} ${user.last_name}`.toLowerCase();
-    return fullName.includes(search.toLowerCase()) || user.phone?.includes(search);
+    const q = search.toLowerCase();
+    return fullName.includes(q) || user.phone?.includes(search) || user.email?.toLowerCase().includes(q);
   });
 
   if (loading) {
