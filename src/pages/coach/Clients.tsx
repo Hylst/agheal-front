@@ -13,7 +13,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { ArrowLeft, Search, Users, Edit, Eye, CreditCard } from 'lucide-react';
+import { ArrowLeft, Search, Users, Edit, Eye, CreditCard, Shield } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
 import { format } from 'date-fns';
@@ -63,6 +63,7 @@ export default function Clients() {
   const [renewalDate, setRenewalDate] = useState('');
   const [medicalCertifDate, setMedicalCertifDate] = useState('');
   const [saving, setSaving] = useState(false);
+  const [roleUpdating, setRoleUpdating] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [groupFilter, setGroupFilter] = useState<string>('all');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
@@ -187,6 +188,58 @@ export default function Clients() {
       });
     } finally {
       setSaving(false);
+    }
+  };
+
+  // Gestion des rôles (admin uniquement)
+  const handleRoleToggle = async (targetRole: 'coach' | 'admin') => {
+    if (!selectedClient || !user) return;
+    const currentRoles = selectedClient.roles || [];
+    const hasRole = currentRoles.includes(targetRole);
+
+    // Protection : l'admin ne peut pas se retirer son propre rôle admin
+    if (hasRole && targetRole === 'admin' && selectedClient.id === user.id) {
+      toast({
+        title: 'Action refusée',
+        description: 'Vous ne pouvez pas vous retirer votre propre rôle administrateur.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setRoleUpdating(targetRole);
+    try {
+      if (hasRole) {
+        const { error } = await apiClient.removeUserRole(selectedClient.id, targetRole);
+        if (error) throw new Error(error.message);
+      } else {
+        const { error } = await apiClient.addUserRole(selectedClient.id, targetRole);
+        if (error) throw new Error(error.message);
+      }
+
+      // Mise à jour optimiste locale
+      const newRoles = hasRole
+        ? currentRoles.filter(r => r !== targetRole)
+        : [...currentRoles, targetRole];
+      setSelectedClient(prev => prev ? { ...prev, roles: newRoles } : prev);
+      setClients(prev =>
+        prev.map(c => c.id === selectedClient.id ? { ...c, roles: newRoles } : c)
+      );
+
+      toast({
+        title: 'Rôle mis à jour',
+        description: hasRole
+          ? `Rôle "${targetRole}" retiré.`
+          : `Rôle "${targetRole}" ajouté.`,
+      });
+    } catch (error: any) {
+      toast({
+        title: 'Erreur',
+        description: error.message || 'Impossible de modifier le rôle.',
+        variant: 'destructive',
+      });
+    } finally {
+      setRoleUpdating(null);
     }
   };
 
@@ -681,6 +734,40 @@ export default function Clients() {
                     </div>
                   )}
                 </div>
+
+                {/* Rôles (Admin uniquement) */}
+                {isAdmin && (
+                  <div className="border-t pt-4">
+                    <Label className="flex items-center gap-2 font-semibold mb-3">
+                      <Shield className="w-4 h-4 text-primary" />
+                      Rôles (Admin)
+                    </Label>
+                    <div className="flex flex-wrap gap-2">
+                      {(['coach', 'admin'] as const).map(r => {
+                        const hasRole = (selectedClient.roles || []).includes(r);
+                        const isSelfAdmin = r === 'admin' && selectedClient.id === user?.id;
+                        const isLoading = roleUpdating === r;
+                        return (
+                          <Button
+                            key={r}
+                            size="sm"
+                            variant={hasRole ? 'default' : 'outline'}
+                            className={hasRole ? 'bg-primary text-primary-foreground' : ''}
+                            disabled={isLoading || isSelfAdmin}
+                            onClick={() => handleRoleToggle(r)}
+                            title={isSelfAdmin ? 'Vous ne pouvez pas modifier votre propre rôle admin' : ''}
+                          >
+                            <Shield className="w-3.5 h-3.5 mr-1.5" />
+                            {isLoading ? '...' : (hasRole ? `Retirer ${r}` : `Ajouter ${r}`)}
+                          </Button>
+                        );
+                      })}
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      Le rôle "adhérent" est permanent et ne peut pas être retiré.
+                    </p>
+                  </div>
+                )}
               </div>
             )}
 
