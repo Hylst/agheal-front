@@ -16,9 +16,9 @@ Liste des améliorations et fonctionnalités prévues pour les prochaines versio
   - Alerte certificat médical (M-1)
   - Alerte expiration coach (J+1)
 
-- [ ] **Notifications Push**
-  - Intégration d'un service de notifications push
-  - Configuration des préférences utilisateur
+- [x] **Notifications Push**
+  - Intégration d'un service de notifications push (VAPID / Service Worker)
+  - Configuration des préférences utilisateur depuis les paramètres
 
 ---
 
@@ -107,7 +107,7 @@ Liste des améliorations et fonctionnalités prévues pour les prochaines versio
 
 ## 🛠️ Incohérences à résorber (UI/Front)
 
-- [x] **InfoModal : Onglet manquant** : Le CHANGELOG v1.5.5 et la documentation annoncent 5 onglets incluant "Roadmap et nouveautés", mais le composant `InfoModal.tsx` n'a actuellement que 4 onglets. Il faut implémenter ce 5ème onglet.
+- [x] **InfoModal : Onglet manquant** : Le 5ème onglet "Roadmap et nouveautés" a été implémenté et le défilement vertical ajouté pour tous les onglets.
 
 ---
 
@@ -129,7 +129,11 @@ Liste des améliorations et fonctionnalités prévues pour les prochaines versio
 - [x] **Améliorations Accessibilité (Dialogs)** (Mars 2026)
 - [x] **Gestion des certificats médicaux (M-1)** (Mars 2026)
 - [x] **Automated payment status expiration (J+1)** (Mars 2026)
-- [x] **Proprietary Licensing & Copyright** (Mars 2026)
+- [x] Proprietary Licensing & Copyright (Mars 2026)
+- [x] **Notification Push (Web Push)** via VAPID et Service Worker (Mars 2026)
+- [x] **Campagnes d'e-mails programmables** avec exécution CRON (Mars 2026)
+- [x] **Historique Centralisé des Communications** (Mars 2026)
+- [x] Consolidations SQL et fusion au sein de `init.sql` (Mars 2026)
 
 ---
 

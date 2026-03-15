@@ -57,7 +57,10 @@ C:\wamp64\www\agheal-api\            ← Backend PHP (API REST)
 │   │   ├── AdminController.php       # Gestion utilisateurs/rôles
 │   │   ├── ClientController.php      # Vue coach des adhérents
 │   │   ├── ContactController.php     # Formulaire de contact
-│   │   └── CommunicationController.php # Gestion des communications ciblées
+│   │   ├── CommunicationController.php # Gestion des communications in-app
+│   │   ├── EmailCampaignController.php # Gestion des campagnes d'e-mails
+│   │   ├── PushController.php        # Inscriptions Web Push
+│   │   └── HistoryController.php     # Registre historique des messages
 │   ├── Middleware/
 │   │   └── AuthMiddleware.php        # Vérification JWT
 │   └── Services/
@@ -65,7 +68,8 @@ C:\wamp64\www\agheal-api\            ← Backend PHP (API REST)
 │
 ├── mysql/                            # Scripts SQL (init, alter, seed)
 ├── scripts/                          # Scripts utilitaires et CRON
-│   └── cron_daily.php               # Tâche quotidienne (rappels & expirations)
+│   ├── cron_daily.php               # Tâche quotidienne (rappels & expirations)
+│   └── cron_hourly.php              # Tâche horaire (e-mails différés)
 ├── bin/                              # Scripts legacy / maintenance
 ├── vendor/                           # Dépendances Composer
 ├── .env                              # Config BDD et JWT
@@ -203,7 +207,10 @@ Client HTTP pour l'API PHP :
 | `registrations` | Inscriptions aux séances |
 | `groups` | Groupes d'adhérents |
 | `user_groups` | Affectation adhérent ↔ groupe |
-| `communications` | Paramètres éditoriaux et messages ciblés |
+| `communications` | Paramètres éditoriaux et messages in-app ciblés |
+| `email_campaigns` | Campagnes d'e-mails programmés |
+| `message_history`| Historique immuable de l'envoi de chaque message |
+| `push_subscriptions`| Enregistrements de souscriptions Web Push (VAPID) |
 | `logs` | Journal d'activité (Audit Administratif) |
 | `payments_history` | Historique des règlements (Passage à "À jour") |
 | `password_resets` | Tokens de réinitialisation |

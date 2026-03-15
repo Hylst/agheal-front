@@ -138,8 +138,6 @@ export function SettingsModal({ open, onOpenChange, role }: SettingsModalProps) 
         ? {
           notify_scheduled_sessions_email: scheduledSessionsEmail,
           notify_scheduled_sessions_push: scheduledSessionsPush,
-          notify_renewal_reminder_email: renewalReminderEmail,
-          notify_renewal_reminder_push: renewalReminderPush,
           notify_expired_payment_email: expiredPaymentEmail,
           notify_expired_payment_push: expiredPaymentPush,
           notify_renewal_verify_email: renewalVerifyEmail,
@@ -152,11 +150,13 @@ export function SettingsModal({ open, onOpenChange, role }: SettingsModalProps) 
           notify_new_sessions_push: newSessionsPush,
           notify_medical_certif_email: medicalCertifEmail,
           notify_medical_certif_push: medicalCertifPush,
+          notify_renewal_reminder_email: renewalReminderEmail,
+          notify_renewal_reminder_push: renewalReminderPush,
         };
 
       const enablePush = isCoachOrAdmin 
-        ? (scheduledSessionsPush || renewalReminderPush || expiredPaymentPush || renewalVerifyPush)
-        : (sessionReminderPush || newSessionsPush || medicalCertifPush);
+        ? (scheduledSessionsPush || expiredPaymentPush || renewalVerifyPush)
+        : (sessionReminderPush || newSessionsPush || medicalCertifPush || renewalReminderPush);
 
       if (enablePush) {
         const success = await handlePushSubscription();
@@ -310,6 +310,39 @@ export function SettingsModal({ open, onOpenChange, role }: SettingsModalProps) 
                     />
                   </div>
                 </div>
+
+                {/* Renewal Reminders (End of Paid Period) */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 pb-2 border-b">
+                    <RefreshCw className="w-4 h-4 text-secondary" />
+                    <h3 className="font-medium text-sm">Fin de période payée</h3>
+                  </div>
+                  <p className="text-xs text-muted-foreground -mt-2">
+                    Recevoir un rappel la veille de la fin de votre période payée de sport/coaching.
+                  </p>
+
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="renewal-reminder-email" className="text-sm">
+                      Par email
+                    </Label>
+                    <Switch
+                      id="renewal-reminder-email"
+                      checked={renewalReminderEmail}
+                      onCheckedChange={setRenewalReminderEmail}
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="renewal-reminder-push" className="text-sm">
+                      Par notification push
+                    </Label>
+                    <Switch
+                      id="renewal-reminder-push"
+                      checked={renewalReminderPush}
+                      onCheckedChange={setRenewalReminderPush}
+                    />
+                  </div>
+                </div>
               </>
             )}
 
@@ -349,38 +382,6 @@ export function SettingsModal({ open, onOpenChange, role }: SettingsModalProps) 
                   </div>
                 </div>
 
-                {/* Renewal Reminders */}
-                <div className="space-y-4">
-                  <div className="flex items-center gap-2 pb-2 border-b">
-                    <RefreshCw className="w-4 h-4 text-secondary" />
-                    <h3 className="font-medium text-sm">Rappel de renouvellement</h3>
-                  </div>
-                  <p className="text-xs text-muted-foreground -mt-2">
-                    Envoi automatique d'un rappel aux adhérents la veille de leur date de renouvellement (7h)
-                  </p>
-
-                  <div className="flex items-center justify-between">
-                    <Label htmlFor="renewal-reminder-email" className="text-sm">
-                      Par email
-                    </Label>
-                    <Switch
-                      id="renewal-reminder-email"
-                      checked={renewalReminderEmail}
-                      onCheckedChange={setRenewalReminderEmail}
-                    />
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <Label htmlFor="renewal-reminder-push" className="text-sm">
-                      Par notification push
-                    </Label>
-                    <Switch
-                      id="renewal-reminder-push"
-                      checked={renewalReminderPush}
-                      onCheckedChange={setRenewalReminderPush}
-                    />
-                  </div>
-                </div>
 
                 {/* Expired Payment Alerts */}
                 <div className="space-y-4">

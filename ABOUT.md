@@ -99,9 +99,12 @@ Les **Activités** sont des modèles de séances réutilisables.
 L'onglet **Informations** prend la forme d'un panneau central qui permet de :
 1. Lire à propos de la genèse de l'application
 2. Accéder aux guides d'utilisation selon les droits (Adhérent, Coach, Admin)
-3. Lire les communications :
-   - Les coachs et admins peuvent écrire des messages cibles à tous, à un groupe ou un individu spécifiquement.
-   - Si la communication est taggée "urgente", elle sera affichée en rouge sur le tableau de bord des destinataires.
+3. Lire la Roadmap et les nouveautés prévues
+4. Lire et gérer les communications :
+   - Les coachs et admins disposent de 3 onglets de gestion : **"Dans l'application"**, **"E-mails programmables"**, et **"Historique"**.
+   - Ils peuvent écrire des messages in-app ciblés à tous, à un groupe ou un individu. Si la communication est taggée "urgente", elle sera affichée en rouge sur le tableau de bord des destinataires.
+   - Ils peuvent programmer des **Campagnes d'e-mails** (envoi différé) paramétrables avec du formatage HTML.
+   - L'historique permet de tracer et consulter chaque message passé (in-app ou e-mail).
 
 ---
 
@@ -177,16 +180,16 @@ Pour éviter toute erreur critique :
 
 ### Rappels de séances
 
-Les adhérents reçoivent automatiquement un email la veille de leurs séances inscrites.
+Les adhérents reçoivent automatiquement un email (et optionnellement une notification Web Push) la veille de leurs séances inscrites.
 
 ### Paramètres (icône ⚙️) :
 
 | Option | Description |
 |--------|-------------|
-| **Rappel séances** | Email/push la veille des séances |
-| **Rappel renouvellement** | Notification automatique aux adhérents pour l'abonnement |
-| **Rappel Certificat** | Alerte 1 mois avant l'expiration du certificat médical |
-| **Alerte Expiration** | (Coach) Prévenir par mail si un abonnement expire |
+| **Rappel séances** | Email et/ou Push la veille des séances |
+| **Rappel renouvellement** | Notification Email et/ou Push aux adhérents pour l'abonnement |
+| **Rappel Certificat** | Alerte Email et/ou Push 1 mois avant l'expiration du certificat médical |
+| **Alerte Expiration** | (Coach) Prévenir par Email ou Push si un abonnement client expire |
 
 ---
 

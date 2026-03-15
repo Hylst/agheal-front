@@ -25,6 +25,7 @@ import Clients from "./pages/coach/Clients";
 import Groups from "./pages/coach/Groups";
 import AdminUsers from "./pages/admin/AdminUsers";
 import Communications from "./pages/coach/Communications";
+import Payments from "./pages/coach/Payments";
 import NotFound from "./pages/NotFound";
 
 /** Navigation mobile globale — masquée sur les pages publiques **/
@@ -159,6 +160,14 @@ const App = () => (
               element={
                 <ProtectedRoute allowedRoles={['coach', 'admin']}>
                   <Communications />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/coach/payments"
+              element={
+                <ProtectedRoute allowedRoles={['coach', 'admin']}>
+                  <Payments />
                 </ProtectedRoute>
               }
             />

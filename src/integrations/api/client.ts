@@ -198,6 +198,10 @@ class ApiClient {
     return this.request<{ data: any[] }>("/communications");
   }
 
+  async getMessageHistory() {
+    return this.request<{ data: any[] }>("/history");
+  }
+
   async getMyCommunications() {
     return this.request<{ data: any[] }>("/communications/my");
   }
@@ -307,6 +311,28 @@ class ApiClient {
 
   async unsubscribeFromPush(endpoint: string) {
     return this.request<{ success: boolean }>("/push/unsubscribe", "POST", { endpoint });
+  }
+
+  // ─── Payments ──────────────────────────────────────────────────────────────
+  async getPayments(filters?: { user_id?: string; method?: string; received_by?: string }) {
+    const query = new URLSearchParams();
+    if (filters?.user_id) query.append("user_id", filters.user_id);
+    if (filters?.method) query.append("method", filters.method);
+    if (filters?.received_by) query.append("received_by", filters.received_by);
+    const params = query.toString() ? `?${query.toString()}` : "";
+    return this.request<{ data: any[] }>(`/payments${params}`);
+  }
+
+  async getPaymentsSummary() {
+    return this.request<any>("/payments/summary");
+  }
+
+  async createPayment(data: Record<string, any>) {
+    return this.request<{ message: string }>("/payments", "POST", data);
+  }
+
+  async deletePayment(id: string) {
+    return this.request<{ message: string }>(`/payments/${id}`, "DELETE");
   }
 
   // ─── Contact ──────────────────────────────────────────────────────────────

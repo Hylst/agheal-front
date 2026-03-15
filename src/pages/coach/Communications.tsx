@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  ArrowLeft, Plus, Trash2, AlertCircle, Send, MessageSquare, Pencil, X, Check, Mail, MessageCircle, Clock, CheckCircle2
+  ArrowLeft, Plus, Trash2, AlertCircle, Send, MessageSquare, Pencil, X, Check, Mail, MessageCircle, Clock, CheckCircle2, History
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -42,6 +42,22 @@ interface EmailCampaign {
   last_name?: string;
 }
 
+interface MessageHistory {
+  id: number;
+  author_id: string;
+  message_type: "in_app" | "email";
+  target_type: "all" | "group" | "user";
+  target_id: string | null;
+  subject: string | null;
+  content: string;
+  created_at: string;
+  author_first_name?: string;
+  author_last_name?: string;
+  target_user_first_name?: string;
+  target_user_last_name?: string;
+  target_group_name?: string;
+}
+
 interface Group { id: number; name: string; }
 interface Client { id: string; first_name: string; last_name: string; }
 
@@ -51,6 +67,7 @@ export default function Communications() {
 
   const [communications, setCommunications] = useState<Communication[]>([]);
   const [emailCampaigns, setEmailCampaigns] = useState<EmailCampaign[]>([]);
+  const [history, setHistory] = useState<MessageHistory[]>([]);
   const [groups, setGroups] = useState<Group[]>([]);
   const [clients, setClients] = useState<Client[]>([]);
   const [loading, setLoading] = useState(true);
@@ -81,15 +98,17 @@ export default function Communications() {
     try {
       setLoading(true);
 
-      const [commsRes, emailsRes, groupsRes, clientsRes] = await Promise.all([
+      const [commsRes, emailsRes, historyRes, groupsRes, clientsRes] = await Promise.all([
         apiClient.getCommunicationsTargets(),
         apiClient.getEmailCampaigns(),
+        apiClient.getMessageHistory(),
         apiClient.getGroups(),
         apiClient.getClients(),
       ]);
 
       if (!commsRes.error) setCommunications((commsRes.data as any)?.data ?? []);
       if (!emailsRes.error) setEmailCampaigns((emailsRes.data as any)?.data ?? []);
+      if (!historyRes.error) setHistory((historyRes.data as any)?.data ?? []);
       
       // Adaptation pour les réponses qui peuvent être soit { groups: [] } soit [] directement
       if (!groupsRes.error) {
@@ -234,9 +253,10 @@ export default function Communications() {
         </div>
 
         <Tabs defaultValue="inapp" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-6">
-            <TabsTrigger value="inapp" className="flex gap-2"><MessageCircle className="w-4 h-4" /> Dans l'application</TabsTrigger>
-            <TabsTrigger value="email" className="flex gap-2"><Mail className="w-4 h-4" /> E-mails programmables</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-1 md:grid-cols-3 mb-6 h-auto">
+            <TabsTrigger value="inapp" className="flex gap-2 py-2"><MessageCircle className="w-4 h-4" /> Dans l'application</TabsTrigger>
+            <TabsTrigger value="email" className="flex gap-2 py-2"><Mail className="w-4 h-4" /> E-mails programmables</TabsTrigger>
+            <TabsTrigger value="history" className="flex gap-2 py-2"><History className="w-4 h-4" /> Historique complet</TabsTrigger>
           </TabsList>
 
           {/* ONGLET 1: IN APP */}
@@ -455,6 +475,47 @@ export default function Communications() {
                             </Button>
                           </div>
                         )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* ONGLET 3: HISTORIQUE */}
+          <TabsContent value="history">
+            <Card>
+              <CardHeader><CardTitle className="text-lg flex items-center gap-2"><History className="w-5 h-5 text-primary" /> Journal complet des messages ({history.length})</CardTitle></CardHeader>
+              <CardContent>
+                {loading ? <p className="text-muted-foreground text-center py-6">Chargement...</p> : history.length === 0 ? (
+                  <p className="text-muted-foreground italic text-center py-6">L'historique est vide.</p>
+                ) : (
+                  <div className="space-y-4">
+                    {history.map((msg) => (
+                      <div key={msg.id} className="relative rounded-lg p-5 border shadow-sm bg-muted/20 hover:bg-muted/40 transition-colors">
+                        <div className="flex flex-wrap items-center gap-2 mb-3">
+                          {msg.message_type === "email" ? (
+                            <Badge className="bg-blue-500 hover:bg-blue-600"><Mail className="w-3 h-3 mr-1" /> E-mail</Badge>
+                          ) : (
+                            <Badge className="bg-primary/80"><MessageCircle className="w-3 h-3 mr-1" /> In-App</Badge>
+                          )}
+                          <Badge variant="outline">
+                            {msg.target_type === "all" ? "🌐 Tous les adhérents" :
+                             msg.target_type === "group" ? `👥 Groupe : ${msg.target_group_name || msg.target_id}` :
+                             `👤 Adhérent : ${((msg.target_user_first_name || "") + " " + (msg.target_user_last_name || "")).trim() || msg.target_id}`}
+                          </Badge>
+                          <span className="text-xs text-muted-foreground ml-auto font-medium">
+                            {new Date(msg.created_at).toLocaleString("fr-FR")}
+                          </span>
+                        </div>
+                        <div className="text-sm space-y-2">
+                          <p className="text-muted-foreground text-xs font-medium border-b pb-2 mb-2">
+                            Auteur : {msg.author_first_name} {msg.author_last_name}
+                          </p>
+                          {msg.subject && <h4 className="font-semibold text-foreground">Sujet : {msg.subject}</h4>}
+                          <p className="text-foreground whitespace-pre-wrap">{msg.content}</p>
+                        </div>
                       </div>
                     ))}
                   </div>

@@ -195,11 +195,12 @@ L'application est optimisée pour smartphone et tablette :
 
 ## 🔔 Système de Rappels & Automates
 
-- **M-1 Certificat Médical** : Rappel automatique par email aux adhérents pour le renouvellement de leur certificat.
-- **J-7 Abonnement** : Rappel de paiement avant l'échéance de la date de renouvellement.
-- **J+1 Expiration** : Bascule automatique du statut en "En attente" et alerte email immédiate aux coachs.
-- **Veille de séance** : Rappel aux inscrits et aux coachs (listing planning).
-- **Nouvelles séances** : Alerte email lors de la publication de nouveaux créneaux par les coachs.
+- **Push Notifications (Web Push)** : Support natif PWA sur mobile et dekstop, activable par réglage granulaire dans les paramètres utilisateur.
+- **M-1 Certificat Médical** : Rappel automatique J-30 par email et/ou Push aux adhérents pour le renouvellement de leur certificat sportif.
+- **J-7 Abonnement** : Rappel de paiement email et/ou push avant l'échéance de la date de renouvellement.
+- **J+1 Expiration** : Bascule automatique du statut en "En attente" et alerte immédiate aux coachs (Email/Push).
+- **Veille de séance** : Rappel email et/ou push aux inscrits.
+- **Campagnes Email Programmables** : Planification de mailing (HTML) géré par envoi différé automatique (`cron_hourly.php`).
 
 ---
 

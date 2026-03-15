@@ -11,19 +11,24 @@ Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/)
 
 ## [1.5.5] - Mars 2026
 
-### ✨ Système de Communications Ciblées & Modal Info
+### ✨ Système de Communications Ciblées & E-mails Programmables
 
-- **Base de Données** : Migration du vieux système d'information (`app_info`) vers une table `communications` performante pour le ciblage.
-- **Backend API** : Ajout d'un système robuste (CRUD) de communications (à tous, par groupe, ou par profil).
-- **Dashboard & MobileNav** : Remplacement de l'icone pour faire apparaître un grand Modal central (InfoModal) de consultation qui se filtre par rôles.
-- **InfoModal** : Composant de 5 onglets expliquant la démarche de l'Application (L'Auteur), le fonctionnement pour coachs et admins, la roadmap, et les nouveautés.
-- **Interface Adhérents** : Affichage discret en bas de l'InfoModal des différents messages, mis en exergue s'ils sont désignés "urgents", forçant un affichage Rouge sur le Dashboard personnel.
+- **Base de Données** : Ajout de l'historique de messages immuable (`message_history`) et de l'outil de gestion des campagnes (`email_campaigns`). Les tables et vue ont été fusionnées dans `init.sql`.
+- **Backend API** : Ajout d'un système robuste (CRUD) de communications in-app, d'e-mails programmables (HTML et texte) et d'un contrôleur d'historique.
+- **Communications (Coach/Admin)** : Interface scindée en 3 onglets ("Dans l'application", "E-mails programmables", "Historique complet").
+- **InfoModal** : Composant de 5 onglets expliquant la démarche de l'Application (L'Auteur), le fonctionnement pour coachs et admins, la roadmap, et les nouveautés. Navigation verticale par défilement ajustée.
+- **Interface Adhérents** : Affichage discret en bas de l'InfoModal des différents messages in-app, mis en exergue s'ils sont désignés "urgents".
 
-### ✨ Certificats Médicaux & Expirations d'Abonnement
+### ✨ Notifications Web Push & Alertes
+- **Backend & Frontend** : Implémentation complète de `minishlink/web-push`, Service Worker (PWA), et gestion des abonnements push.
+- **SettingsModal** : Séparation granulaire des paramètres Email / Push pour Adhérents (rappels séances, certificats sportifs, fin de période) et pour Coachs (alertes abonnements en attente, certificats M-1).
+- **CRON** : Déploiement de tâches automatisées régulières (`cron_daily.php` et `cron_hourly.php`) pour l'exécution des campagnes, des alertes J-1 / M-1 et rappels automatiques.
 
-- **SettingsModal** : Ajout de l'option d'alerte par e-mail (M-1) pour l'expiration du certificat médical (Adhérent).
-- **SettingsModal** : Ajout de l'option d'alerte par e-mail pour prévenir d'une expiration d'abonnement / paiement en attente (Coach/Admin).
-- **Profile** : Affichage de la date d'expiration du certificat médical pour l'Adhérent (lecture seule).
+### ✨ Certificats Médicaux & Règlements
+
+- **SettingsModal** : Ajout de l'option d'alerte par e-mail et push (M-1) pour l'expiration du certificat médical (Adhérent).
+- **SettingsModal** : Ajout des alertes (Coach/Admin) pour prévenir d'une expiration d'abonnement / paiement en attente.
+- **Profil** : Affichage de la date d'expiration du certificat médical pour l'Adhérent (lecture seule).
 - **Clients (Coach)** : Ajout du champ de sélection de la date d'expiration du certificat médical à l'édition d'une fiche client.
 
 ### ⚖️ Légal
