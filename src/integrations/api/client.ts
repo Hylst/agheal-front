@@ -101,7 +101,7 @@ class ApiClient {
   }
 
   async getProfile(userId: string) {
-    return this.request<{ user: any }>(`/profiles/${userId}`);
+    return this.request<any>(`/profiles/${userId}`);
   }
 
   async updateProfile(userId: string, data: Record<string, any>) {
@@ -119,6 +119,10 @@ class ApiClient {
   // ─── Users & Roles (Admin) ───────────────────────────────────────────────
   async getUsers() {
     return this.request<{ users: any[] }>("/admin/users");
+  }
+
+  async getCoaches() {
+    return this.request<{ coaches: any[] }>("/admin/coaches");
   }
 
   async toggleUserStatus(userId: string, status: "actif" | "bloque") {

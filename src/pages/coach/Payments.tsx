@@ -112,19 +112,20 @@ export default function Payments() {
     if (data) {
       const all = Array.isArray(data) ? data : (data as any).clients || [];
       setClients(all.map((c: any) => ({ id: c.id, first_name: c.first_name, last_name: c.last_name, email: c.email })));
-      // Extract coaches (users with coach or admin role)
-      const coachList = all.filter((c: any) => {
-        const roles = c.roles || [];
-        return roles.includes("coach") || roles.includes("admin");
-      });
-      setCoaches(coachList.map((c: any) => ({ id: c.id, first_name: c.first_name, last_name: c.last_name, email: c.email })));
+    }
+  };
+
+  const fetchCoaches = async () => {
+    const { data } = await apiClient.getCoaches();
+    if (data?.coaches) {
+      setCoaches(data.coaches.map((c: any) => ({ id: c.id, first_name: c.first_name, last_name: c.last_name, email: c.email })));
     }
   };
 
   useEffect(() => {
     const init = async () => {
       setLoading(true);
-      await Promise.all([fetchPayments(), fetchSummary(), fetchClients()]);
+      await Promise.all([fetchPayments(), fetchSummary(), fetchClients(), fetchCoaches()]);
       setLoading(false);
     };
     init();
