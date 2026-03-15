@@ -45,9 +45,13 @@ Liste des améliorations et fonctionnalités prévues pour les prochaines versio
 
 ---
 
-## 💳 Gestion des paiements (Priorité basse)
+## 💳 Gestion des paiements (Priorité haute)
 
-- [ ] **Intégration Stripe**
+- [x] **Système de suivi des règlements**
+  - [x] Saisie des règlements (montant, mode, date, coach, commentaires).
+  - [x] Dashboard de gestion des paiements filtrable.
+  - [x] Evolution mensuelle des encaissements.
+- [ ] **Intégration Stripe** (Optionnel / Futur)
   - Paiement en ligne des cotisations
   - Suivi automatique des règlements
   - Factures automatiques

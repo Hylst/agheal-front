@@ -2,7 +2,7 @@
 
 **Auteur :** Geoffroy Streit  
 **Année :** 2025  
-**Mis à jour :** 2026-03-09
+**Mis à jour :** 2026-03-15
 
 Ce document décrit l'architecture technique et l'organisation du code source de l'application AGHeal.
 
@@ -60,6 +60,7 @@ C:\wamp64\www\agheal-api\            ← Backend PHP (API REST)
 │   │   ├── CommunicationController.php # Gestion des communications in-app
 │   │   ├── EmailCampaignController.php # Gestion des campagnes d'e-mails
 │   │   ├── PushController.php        # Inscriptions Web Push
+│   │   ├── PaymentController.php     # Logique des paiements (v1.8.0)
 │   │   └── HistoryController.php     # Registre historique des messages
 │   ├── Middleware/
 │   │   └── AuthMiddleware.php        # Vérification JWT
@@ -96,6 +97,7 @@ Pages principales de l'application :
 | `Profile.tsx` | `/profile` | Profil utilisateur |
 | `History.tsx` | `/history` | Historique des séances |
 | `Information.tsx` | `/information` | Page d'informations + contact |
+| `Payments.tsx` | `/coach/payments` | Gestion des règlements (v1.8.0) |
 | `NotFound.tsx` | `*` | Page 404 |
 
 ### `/src/pages/coach/`

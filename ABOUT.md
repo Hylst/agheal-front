@@ -215,6 +215,20 @@ Vous pouvez modifier 3 champs de communication :
 
 ---
 
+## 💳 Gestion des règlements (Coach & Admin)
+
+Depuis le tableau de bord, la tuile **"Règlements"** permet d'accéder à l'interface de gestion financière.
+
+### Fonctionnalités :
+1. **Saisie** : Enregistrement rapide d'un montant, date, mode (espèces, chèque, virement) et coach destinataire.
+2. **Commentaires** : Possibilité d'ajouter des notes internes sur chaque transaction.
+3. **Historique** : Vue complète de tous les paiements avec filtres multicritères (par adhérent, par mode, par coach).
+4. **Analyse** : Graphiques et indicateurs de performance (Total encaissé, évolution mensuelle, répartition).
+
+*Note : La suppression d'un règlement record est réservée aux Administrateurs.*
+
+---
+
 ## 📊 Fonctionnement des inscriptions
 
 ### Comment un adhérent s'inscrit :

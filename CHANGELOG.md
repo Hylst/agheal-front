@@ -9,6 +9,14 @@ Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/)
 
 ---
 
+## [1.8.0] - Mars 2026
+
+### ✨ Système de Gestion des Règlements
+- **Backend API** : Création du `PaymentController` avec gestion complète des règlements (CRUD) et calculs d'agrégations pour le dashboard.
+- **Frontend (Coach/Admin)** : Ajout d'une page complète `/coach/payments` permettant la saisie des règlements, la consultation d'un historique filtrable et l'analyse via un dashboard dédié (KPIs, barres d'évolution).
+- **Base de Données** : Enrichissement de `payments_history` avec les champs `payment_method` (espèces, chèque, virement) et `comment`.
+- **Dashboard** : Intégration d'une nouvelle tuile "Règlements" sur le tableau de bord principal.
+
 ## [1.5.5] - Mars 2026
 
 ### ✨ Système de Communications Ciblées & E-mails Programmables
