@@ -13,7 +13,7 @@ Ce guide explique en détail le fonctionnement de l'application AGHeal, destiné
 2. Rendez-vous sur l'adresse de l'application
 3. Connectez-vous avec :
    - **Email + mot de passe**
-   - **Compte Google** (bouton "Continuer avec Google")
+   - **Compte Google** ✅ — connexion en un clic via votre compte Gmail (inscription automatique si premier accès)
 
 ### Mot de passe oublié ?
 

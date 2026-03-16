@@ -9,6 +9,22 @@ Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/)
 
 ---
 
+## [1.8.5] - Mars 2026
+
+### 🔐 Authentification Google OAuth 2.0
+- **Backend** : Ajout de `GoogleAuthController` (PHP) avec flux OAuth 2.0 complet (redirect, callback CSRF, upsert user, JWT AGHeal). Dépendance `league/oauth2-google` ajoutée.
+- **Frontend** : Ajout de la page `GoogleCallback.tsx` — reçoit le JWT dans l'URL après le consent Google et connecte l'utilisateur sans rechargement. Ajout de `loadUser()` dans `useAuth`. Bouton "Continuer avec Google" dans `Login.tsx` désormais fonctionnel.
+- **Routes** : `GET /auth/google` et `GET /auth/google/callback` côté API. `/auth/google/callback` côté SPA.
+
+### 🐛 Corrections de bugs (BUG-02 à BUG-13)
+- Suppression des doubles appels `requireAuth+requireRole` (BUG-02, BUG-10)
+- Fix type `getProfile()` TS (BUG-03)
+- Suppression auto-insert paiement fantôme (BUG-05)
+- Endpoint dédié `GET /admin/coaches` pour la liste "Reçu par" (BUG-07)
+- Alias route `/admin/clients` + lien Dashboard adapté au rôle (BUG-08)
+- Filtre email dans recherche AdminUsers + type User mis à jour (BUG-11)
+- Sécurisation des `fetch()` dans `PaymentController::summary()` (BUG-13)
+
 ## [1.8.0] - Mars 2026
 
 ### ✨ Système de Gestion des Règlements

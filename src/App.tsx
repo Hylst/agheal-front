@@ -27,12 +27,13 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import Communications from "./pages/coach/Communications";
 import Payments from "./pages/coach/Payments";
 import NotFound from "./pages/NotFound";
+import GoogleCallback from "./pages/GoogleCallback";
 
 /** Navigation mobile globale — masquée sur les pages publiques **/
 function GlobalMobileNav() {
   const { user } = useAuth();
   const location = useLocation();
-  const publicRoutes = ['/', '/login', '/signup', '/reset-password'];
+  const publicRoutes = ['/', '/login', '/signup', '/reset-password', '/auth/google/callback'];
   if (!user || publicRoutes.includes(location.pathname)) return null;
   return <MobileNav />;
 }
@@ -51,6 +52,8 @@ const App = () => (
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            {/* Reçoit le JWT après le redirect Google OAuth */}
+            <Route path="/auth/google/callback" element={<GoogleCallback />} />
             <Route
               path="/dashboard"
               element={

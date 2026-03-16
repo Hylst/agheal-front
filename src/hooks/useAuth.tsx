@@ -25,6 +25,7 @@ interface AuthContextType {
   signUp: (email: string, password: string, firstName: string, lastName: string) => Promise<void>;
   signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
+  loadUser: () => Promise<void>; // expose pour GoogleCallback
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -157,7 +158,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ session, user, role, roles, loading, signIn, signUp, signInWithGoogle, signOut }}>
+    <AuthContext.Provider value={{ session, user, role, roles, loading, signIn, signUp, signInWithGoogle, signOut, loadUser: fetchCurrentUser }}>
       {children}
     </AuthContext.Provider>
   );

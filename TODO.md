@@ -7,6 +7,13 @@ Liste des améliorations et fonctionnalités prévues pour les prochaines versio
 
 ---
 
+## ✅ Récemment accompli (Mars 2026)
+
+- [x] **Authentification Google OAuth 2.0** — Connexion et inscription via Google fonctionnelles (backend PHP + frontend React)
+- [x] **Corrections BUG-02 à BUG-13** — Double auth, auto-insert paiements, filtre coaches, alias routes admin, filtre email, fetch() sécurisés
+
+---
+
 ## 🔔 Notifications (Priorité haute)
 
 - [x] **Envoi automatique de notifications par email**
