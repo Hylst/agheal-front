@@ -244,6 +244,7 @@ Depuis le tableau de bord, la tuile **"Règlements"** permet d'accéder à l'int
 | Adhérent bloqué | ❌ Inscription impossible |
 | Séance complète | ❌ Plus de places |
 | Séance non publiée | ❌ Non visible |
+| Séance dans > 7 jours | ❌ Inscription fermée ("J-7") |
 
 ---
 

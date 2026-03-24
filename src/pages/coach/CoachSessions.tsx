@@ -4,7 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, Clock, MapPin, Users, Plus, Edit, Trash2, ArrowLeft } from 'lucide-react';
+import { Calendar, Clock, MapPin, Users, Plus, Edit, Trash2, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { toast } from '@/hooks/use-toast';
@@ -211,6 +211,14 @@ export default function CoachSessions() {
                     )}
                   </div>
                   <div className="flex gap-2 ml-4">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      title="Pointer les présences"
+                      onClick={() => navigate(`/coach/sessions/${session.id}/attendance`)}
+                    >
+                      <CheckCircle2 className="w-4 h-4 text-green-600" />
+                    </Button>
                     <Button
                       variant="outline"
                       size="icon"

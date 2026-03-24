@@ -253,6 +253,35 @@ class ApiClient {
     );
   }
 
+  // ─── Attendance (Coach/Admin) ─────────────────────────────────────────────
+  async getAttendance(sessionId: number | string) {
+    return this.request<{
+      session: any;
+      attendees: any[];
+      count_registered: number;
+      count_attended: number;
+    }>(`/sessions/${sessionId}/attendance`);
+  }
+
+  async updateAttendance(
+    sessionId: number | string,
+    attendances: { user_id: string; attended: boolean }[],
+  ) {
+    return this.request<{ message: string; updated: number; walk_ins_added: number }>(
+      `/sessions/${sessionId}/attendance`,
+      "PUT",
+      { attendances },
+    );
+  }
+
+  async getAttendanceCandidates(sessionId: number | string, search?: string) {
+    const q = search ? `?q=${encodeURIComponent(search)}` : "";
+    return this.request<{ candidates: any[] }>(
+      `/sessions/${sessionId}/attendance/candidates${q}`,
+    );
+  }
+
+
   // ─── Session Types (Activities) ───────────────────────────────────────────
   async getSessionTypes() {
     return this.request<{ session_types: any[] }>("/session-types");

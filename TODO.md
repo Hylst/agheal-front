@@ -7,145 +7,60 @@ Liste des améliorations et fonctionnalités prévues pour les prochaines versio
 
 ---
 
-## ✅ Récemment accompli (Mars 2026)
+## 📱 Application mobile (Priorité haute)
 
-- [x] **Authentification Google OAuth 2.0** — Connexion et inscription via Google fonctionnelles (backend PHP + frontend React)
-- [x] **Corrections BUG-02 à BUG-13** — Double auth, auto-insert paiements, filtre coaches, alias routes admin, filtre email, fetch() sécurisés
-
----
-
-## 🔔 Notifications (Priorité haute)
-
-- [x] **Envoi automatique de notifications par email**
-  - Rappel la veille des séances inscrites
-  - Rappel de renouvellement aux adhérents
-  - Notification des nouvelles séances proposées
-  - Alerte certificat médical (M-1)
-  - Alerte expiration coach (J+1)
-
-- [x] **Notifications Push**
-  - Intégration d'un service de notifications push (VAPID / Service Worker)
-  - Configuration des préférences utilisateur depuis les paramètres
-
----
-
-## 📱 Application mobile (Priorité moyenne)
-
-- [ ] **Progressive Web App (PWA)**
+- [ ] **Progressive Web App (PWA) Avancée**
   - Installation sur l'écran d'accueil
-  - Fonctionnement hors-ligne basique
-  - Notifications push natives
+  - Fonctionnement hors-ligne étendu via Dexie.js (mise en cache des bases, synchro bi-directionnelle différée) pour faire l'appel en zone sans réseau.
+  - Enrichissement des notifications web push natives (déjà intégrées, à diversifier).
+
+---
+
+## 📅 Améliorations du calendrier (Priorité moyenne)
+
+- [ ] **Synchronisation calendrier externe (`.ics`)**
+  - Export iCal des séances s'intégrant dynamiquement dans Google Calendar et Outlook pour les adhérents.
+
+- [ ] **Vue semaine pour professionnels**
+  - Affichage hebdomadaire des séances (drag & drop) pour déplacer les séances plus rapidement depuis l'interface d'administration.
 
 ---
 
 ## 📊 Statistiques et rapports (Priorité moyenne)
 
-- [ ] **Tableau de bord statistiques**
-  - Nombre d'inscriptions par séance
-  - Taux de participation
-  - Évolution des adhérents
+- [ ] **Tableau de bord de statistiques avancées**
+  - Graphiques de taux d'occupation des séances (capacité vs. présence).
+  - Évolution mensuelle / annuelle des inscriptions.
+  - Statistiques sur l'assiduité d'un groupe ou d'un adhérent.
 
-- [ ] **Export des données**
-  - Export CSV des adhérents
-  - Export des historiques de présence
-  - Rapports de paiement
-
----
-
-## 💳 Gestion des paiements (Priorité haute)
-
-- [x] **Système de suivi des règlements**
-  - [x] Saisie des règlements (montant, mode, date, coach, commentaires).
-  - [x] Dashboard de gestion des paiements filtrable.
-  - [x] Evolution mensuelle des encaissements.
-- [ ] **Intégration Stripe** (Optionnel / Futur)
-  - Paiement en ligne des cotisations
-  - Suivi automatique des règlements
-  - Factures automatiques
+- [ ] **Exports comptables et d'activité**
+  - Export CSV consolidé des adhérents (incluant dates certificats et validité abonnement).
+  - Export des données financières (facturation / règlements) au format CSV pour l'expertise-comptable.
 
 ---
 
-## 📅 Améliorations du calendrier (Priorité basse)
+## 👥 Fonctionnalités supplémentaires (Priorité basse)
 
-- [ ] **Synchronisation calendrier externe**
-  - Export iCal
-  - Synchronisation Google Calendar
-  - Synchronisation Outlook
+- [ ] **Intégration Stripe pour Paiements en Ligne** 
+  - Module optionnel de paiement CB pour l'inscription d'un nouvel adhérent ou le renouvellement de cotisation.
+  - Génération de factures automatisée.
 
-- [ ] **Vue semaine**
-  - Affichage hebdomadaire des séances
-  - Glisser-déposer pour déplacer les séances
-
----
-
-## 👥 Fonctionnalités sociales (Priorité basse)
-
-- [ ] **Messagerie interne**
-  - Messages entre coach et adhérent
-  - Notifications de message
-
-- [ ] **Commentaires sur les séances**
-  - Retours des participants
-  - Notes de satisfaction
+- [ ] Système de liste d'attente pour séances complètes (déclenchement auto de notifications si place libérée).
+- [ ] Commentaire et évaluation de fin de séance (retour sur effort / feedback à destination du coach).
+- [ ] Séances récurrentes automatiques (sans devoir utiliser la duplication logicielle à l'avance).
 
 ---
 
-## 🔧 Améliorations techniques
+## ✅ Historique des réalisations récentes (Mars 2026)
 
-- [ ] **Performance**
-  - Mise en cache des données
-  - Optimisation des requêtes
-
-- [ ] **Tests automatisés**
-  - Tests unitaires
-  - Tests d'intégration
-
-- [ ] **Logs avancés**
-  - Historique détaillé des actions
-  - Interface de consultation des logs pour l'admin
+- [x] **Gestion avancée des Séances** : Fenêtre de réservation de 7 jours maximum et contrôles d'édition contextuels pour les coachs dans le calendrier public.
+- [x] **Paiements** : Système de suivi des règlements (Dashboard dédié, filtre, Saisie).
+- [x] **Authentification Google OAuth 2.0** : Connexion directe avec inscription automatique si inconnu.
+- [x] **Sécurité (Bugs 02 à 13)** : Correction des doubles auth, suppression des inserts fantômes, sécurisation JWT des endpoints de calculs.
+- [x] **Notifications** : Déploiement du moteur de campagnes et d'e-mails programmables (Push et Mail) pour rappels J-1 de séance, M-1 pour certificats médicaux et alertes de renouvellement.
+- [x] **Audits DB** : Consolidation et synchronisation intégrale de l'init DB (`init.sql`, triggers `uuid` / `auto-profiling`).
+- [x] InfoModal : Composant didactique mis à jour pour intégrer la Roadmap et expliciter le projet (défilement réparé).
 
 ---
 
-## 💡 Suggestions à étudier
-
-- Système de liste d'attente pour séances complètes
-- Séances récurrentes automatiques
-- Gestion de plusieurs organisations
-- Multi-langue (français/anglais)
-- **Suivi de progression Adhérent** : historique et bilan personnel des séances (annoncé dans l'InfoModal)
-
----
-
-## 🛠️ Incohérences à résorber (UI/Front)
-
-- [x] **InfoModal : Onglet manquant** : Le 5ème onglet "Roadmap et nouveautés" a été implémenté et le défilement vertical ajouté pour tous les onglets.
-
----
-
-## ✅ Terminé récemment
-
-- [x] Audit complet de la base de données et alignement avec l'API PHP (Mars 2026)
-- [x] Scripts d'initialisation et de nettoyage (`init.sql`, `init_trigger.sql`, `cleanup.sql`)
-- [x] Correction du SSL et des endpoints API sur Coolify
-- [x] Page Informations avec contenu éditorial
-- [x] Champs de communication modifiables (Admin/Coach)
-- [x] Préférences de notifications dans les paramètres
-- [x] Masquage du statut règlement pour coachs/admin
-- [x] **Gestion de la facturation et historisation** (Mars 2026)
-- [x] **Sécurité administrative et Audit Logs** (Mars 2026)
-- [x] **Automatisation des rappels par email (J-7)** (Mars 2026)
-- [x] Documentation complète (README, ABOUT, CHANGELOG, STRUCTURE)
-- [x] **Correction des erreurs 500 (Mismatch arguments API)** (Mars 2026)
-- [x] **Script de Seeding de Démo complet** (Lieux, Activités, Planning réel) (Mars 2026)
-- [x] **Améliorations Accessibilité (Dialogs)** (Mars 2026)
-- [x] **Gestion des certificats médicaux (M-1)** (Mars 2026)
-- [x] **Automated payment status expiration (J+1)** (Mars 2026)
-- [x] Proprietary Licensing & Copyright (Mars 2026)
-- [x] **Notification Push (Web Push)** via VAPID et Service Worker (Mars 2026)
-- [x] **Campagnes d'e-mails programmables** avec exécution CRON (Mars 2026)
-- [x] **Historique Centralisé des Communications** (Mars 2026)
-- [x] Consolidations SQL et fusion au sein de `init.sql` (Mars 2026)
-
----
-
-*Liste maintenue par Geoffroy Streit - 2025*
+*Liste maintenue par Geoffroy Streit - 2026*

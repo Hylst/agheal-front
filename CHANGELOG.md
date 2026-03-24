@@ -9,6 +9,12 @@ Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/)
 
 ---
 
+## [1.9.0] - Mars 2026
+
+### ✨ Gestion des Séances (Évolution)
+- **Planning Public (`/sessions`)** : Afin de limiter le remplissage trop long à l'avance, les inscriptions par les adhérents ne peuvent s'effectuer que dans une **fenêtre de 7 jours glissants**. Les séances hors délai sont en lecture seule pour éviter des réservations abusives plusieurs semaines à l'avance.
+- **Interface de Gestion (`/sessions`)** : Ajout à la volée des contrôles d'édition (Boutons Modifier / Supprimer) dans la modale de détail d'une séance ouverte sur le planning public (réservé aux Coachs et Administrateurs) afin d'accélérer la gestion sans repasser par le planning privé.
+
 ## [1.8.5] - Mars 2026
 
 ### 🔐 Authentification Google OAuth 2.0
