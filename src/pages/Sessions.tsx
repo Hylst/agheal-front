@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Calendar, Clock, MapPin, Users, Filter, ArrowLeft, List, CalendarDays } from 'lucide-react';
-import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, isSameMonth } from 'date-fns';
+import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, isSameMonth, differenceInDays } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { toast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -33,10 +33,11 @@ type Session = {
   session_types: { name: string } | null;
   locations: { name: string; address: string | null } | null;
   registrations: { id: number }[];
+  limit_registration_7_days: boolean | number;
 };
 
 export default function Sessions() {
-  const { user } = useAuth();
+  const { user, role } = useAuth();
   const navigate = useNavigate();
   const [sessions, setSessions] = useState<Session[]>([]);
   const [loading, setLoading] = useState(true);
@@ -132,7 +133,8 @@ export default function Sessions() {
     return (session.registrations[0] as any)?.is_user_registered || false;
   };
 
-  const getAvailabilityBadge = (current: number, max: number, min: number) => {
+  const getAvailabilityBadge = (current: number, max: number, min: number, isClosedBecause7Days: boolean) => {
+    if (isClosedBecause7Days) return <Badge variant="secondary" className="bg-gray-200 text-gray-700">Ouverture à J-7</Badge>;
     const remaining = max - current;
     if (remaining === 0) return <Badge variant="destructive">Complet</Badge>;
     if (remaining <= 3) return <Badge className="bg-orange-500">Presque complet</Badge>;
@@ -267,18 +269,22 @@ export default function Sessions() {
               {filteredSessions.map((session) => {
                 const registered = isUserRegistered(session);
                 const currentParticipants = (session.registrations[0] as any)?.count || 0;
+                
+                // Calcul pour ouverture à 7 jours
+                const daysUntilSession = differenceInDays(new Date(session.date), new Date());
+                const isClosedBecause7Days = (session.limit_registration_7_days === true || session.limit_registration_7_days === 1) && daysUntilSession > 7;
 
                 return (
                   <Card
                     key={session.id}
-                    className="p-6 hover:shadow-lg transition-shadow cursor-pointer"
+                    className={`p-6 hover:shadow-lg transition-shadow cursor-pointer ${isClosedBecause7Days ? 'opacity-70 bg-gray-50' : ''}`}
                     onClick={() => handleOpenDialog(session)}
                   >
                     <div className="space-y-4">
                       <div>
                         <div className="flex items-start justify-between mb-2">
                           <h3 className="text-xl font-bold text-foreground">{session.title}</h3>
-                          {getAvailabilityBadge(currentParticipants, session.max_people, session.min_people)}
+                          {getAvailabilityBadge(currentParticipants, session.max_people, session.min_people, isClosedBecause7Days)}
                         </div>
                         {session.session_types && (
                           <Badge variant="outline" className="mb-2">
@@ -415,7 +421,12 @@ export default function Sessions() {
           </Card>
         )}
 
-        {selectedSession && (
+        {selectedSession && (() => {
+          const currentParticipants = (selectedSession.registrations[0] as any)?.count || 0;
+          const daysUntilSession = differenceInDays(new Date(selectedSession.date), new Date());
+          const isClosedBecause7DaysModal = (selectedSession.limit_registration_7_days === true || selectedSession.limit_registration_7_days === 1) && daysUntilSession > 7;
+          
+          return (
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <DialogContent className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
               <DialogHeader>
@@ -455,12 +466,13 @@ export default function Sessions() {
                       <Users className="w-5 h-5 text-muted-foreground" />
                       <div className="flex items-center gap-2">
                         <span>
-                          {(selectedSession.registrations[0] as any)?.count || 0} / {selectedSession.max_people} participants
+                          {currentParticipants} / {selectedSession.max_people} participants
                         </span>
                         {getAvailabilityBadge(
-                          (selectedSession.registrations[0] as any)?.count || 0,
+                          currentParticipants,
                           selectedSession.max_people,
-                          selectedSession.min_people
+                          selectedSession.min_people,
+                          isClosedBecause7DaysModal
                         )}
                       </div>
                     </div>
@@ -487,7 +499,7 @@ export default function Sessions() {
                   )}
                 </div>
 
-                <div className="pt-4 border-t">
+                <div className="pt-4 border-t flex flex-col gap-2">
                   {isUserRegistered(selectedSession) ? (
                     <Button
                       variant="outline"
@@ -505,21 +517,57 @@ export default function Sessions() {
                       onClick={() => {
                         handleRegister(
                           selectedSession.id,
-                          (selectedSession.registrations[0] as any)?.count || 0,
+                          currentParticipants,
                           selectedSession.max_people
                         );
                         setDialogOpen(false);
                       }}
-                      disabled={((selectedSession.registrations[0] as any)?.count || 0) >= selectedSession.max_people}
+                      disabled={currentParticipants >= selectedSession.max_people || isClosedBecause7DaysModal}
                     >
-                      S'inscrire
+                      {isClosedBecause7DaysModal ? 'Inscriptions fermées (Ouverture à J-7)' : 'S\'inscrire'}
                     </Button>
+                  )}
+                  
+                  {/* Raccourcis pour les Admin & Coachs uniquement */}
+                  {(role === 'admin' || role === 'coach') && (
+                    <div className="mt-4 pt-4 border-t border-dashed flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground mr-4">Gestion rapide (Coach)</span>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="secondary"
+                          size="sm"
+                          onClick={() => navigate(`/coach/sessions/${selectedSession.id}/edit`)}
+                        >
+                          Modifier
+                        </Button>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={async () => {
+                            if (window.confirm('Voulez-vous vraiment supprimer cette séance ? Les inscrits seront désinscrits.')) {
+                              setDialogOpen(false);
+                              try {
+                                const { error } = await apiClient.deleteSession(selectedSession.id.toString());
+                                if (error) throw new Error(error.message);
+                                toast({ title: 'Séance supprimée' });
+                                fetchSessions();
+                              } catch (e: any) {
+                                toast({ title: 'Erreur', description: 'Impossible de supprimer', variant: 'destructive' });
+                              }
+                            }
+                          }}
+                        >
+                          Supprimer
+                        </Button>
+                      </div>
+                    </div>
                   )}
                 </div>
               </div>
             </DialogContent>
           </Dialog>
-        )}
+          );
+        })()}
       </div>
     </div>
   );

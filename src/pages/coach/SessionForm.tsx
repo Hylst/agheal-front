@@ -42,6 +42,7 @@ export default function SessionForm() {
     equipment_clients: '',
     equipment_location: '',
     status: 'published',
+    limit_registration_7_days: false,
   });
 
   useEffect(() => {
@@ -94,6 +95,7 @@ export default function SessionForm() {
           equipment_clients: session.equipment_clients || '',
           equipment_location: session.equipment_location || '',
           status: session.status,
+          limit_registration_7_days: session.limit_registration_7_days === 1 || session.limit_registration_7_days === true,
         });
       }
     } catch (error) {
@@ -130,6 +132,7 @@ export default function SessionForm() {
         equipment_clients: formData.equipment_clients || null,
         equipment_location: formData.equipment_location || null,
         status: formData.status,
+        limit_registration_7_days: formData.limit_registration_7_days,
         created_by: user.id,
       };
 
@@ -443,6 +446,24 @@ export default function SessionForm() {
                   <SelectItem value="cancelled">Annulée</SelectItem>
                 </SelectContent>
               </Select>
+            </div>
+
+            <div className="pt-6 border-t">
+              <div className="flex items-center space-x-3">
+                <Switch
+                  id="limit_registration_7_days"
+                  checked={formData.limit_registration_7_days}
+                  onCheckedChange={(checked) => setFormData({ ...formData, limit_registration_7_days: checked })}
+                />
+                <div className="space-y-1">
+                  <Label htmlFor="limit_registration_7_days" className="text-base">
+                    N'autoriser les inscriptions que 7 jours avant la séance
+                  </Label>
+                  <p className="text-sm text-muted-foreground">
+                    Si activé, la séance sera affichée "Sous réserve de modifications" jusqu'à J-7. Les inscriptions seront bloquées avant cette date. (Option demandée pour ouverture semaine par semaine)
+                  </p>
+                </div>
+              </div>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
