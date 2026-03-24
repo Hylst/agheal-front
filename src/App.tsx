@@ -27,6 +27,7 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import Communications from "./pages/coach/Communications";
 import Payments from "./pages/coach/Payments";
 import SessionAttendance from "./pages/coach/SessionAttendance";
+import Stats from "./pages/coach/Stats";
 import NotFound from "./pages/NotFound";
 import GoogleCallback from "./pages/GoogleCallback";
 
@@ -124,6 +125,14 @@ const App = () => (
               element={
                 <ProtectedRoute allowedRoles={['coach', 'admin']}>
                   <SessionAttendance />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/coach/stats"
+              element={
+                <ProtectedRoute allowedRoles={['coach', 'admin']}>
+                  <Stats />
                 </ProtectedRoute>
               }
             />

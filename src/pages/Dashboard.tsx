@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Calendar, Users, MapPin, LogOut, Settings, Dumbbell, CalendarPlus, FolderOpen, UserCheck, Info, History, AlertTriangle, MessageSquare, CreditCard } from 'lucide-react';
+import { Calendar, Users, MapPin, LogOut, Settings, Dumbbell, CalendarPlus, FolderOpen, UserCheck, Info, History, AlertTriangle, MessageSquare, CreditCard, BarChart3 } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Link } from 'react-router-dom';
 import { SettingsModal } from '@/components/SettingsModal';
@@ -293,6 +293,24 @@ export default function Dashboard() {
               </Card>
             </div>
           )}
+          {(role === 'coach' || role === 'admin') && (
+            <div className="snap-start flex-shrink-0 w-64">
+              <Card className="h-full hover:shadow-accent transition-all cursor-pointer hover:scale-105">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-xl flex items-center justify-center mb-2">
+                    <BarChart3 className="w-6 h-6 text-white" />
+                  </div>
+                  <CardTitle>Statistiques</CardTitle>
+                  <CardDescription>Historique, présences, adhérents</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Link to="/coach/stats">
+                    <Button className="w-full bg-gradient-to-br from-teal-500 to-cyan-600">Voir les stats</Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            </div>
+          )}
         </div>
 
         {/* ========= DESKTOP : grille classique (md+) ========= */}
@@ -504,6 +522,26 @@ export default function Dashboard() {
                 <Link to="/coach/groups">
                   <Button className="w-full bg-gradient-to-br from-orange-500 to-amber-500">
                     Gérer les groupes
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Card Statistiques (Coach/Admin) */}
+          {(role === 'coach' || role === 'admin') && (
+            <Card className="hover:shadow-accent transition-all cursor-pointer hover:scale-105">
+              <CardHeader>
+                <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-xl flex items-center justify-center mb-2">
+                  <BarChart3 className="w-6 h-6 text-white" />
+                </div>
+                <CardTitle>Statistiques</CardTitle>
+                <CardDescription>Historique, présences, adhérents</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Link to="/coach/stats">
+                  <Button className="w-full bg-gradient-to-br from-teal-500 to-cyan-600">
+                    Voir les stats
                   </Button>
                 </Link>
               </CardContent>

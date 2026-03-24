@@ -372,6 +372,68 @@ class ApiClient {
   async sendContact(data: { name: string; email: string; message: string }) {
     return this.request<{ success: boolean }>("/contact", "POST", data);
   }
+
+  // ─── Stats & Logs ──────────────────────────────────────────────────────────
+  async getStatsOverview() {
+    return this.request<any>('/stats/overview');
+  }
+
+  async getStatsSessions(months = 6) {
+    return this.request<any>(`/stats/sessions?months=${months}`);
+  }
+
+  async getStatsSessionDetail(sessionId: string) {
+    return this.request<any>(`/stats/sessions/${sessionId}/detail`);
+  }
+
+  async getStatsMembersOverview() {
+    return this.request<any>('/stats/members');
+  }
+
+  async getStatsPayments(months = 12) {
+    return this.request<any>(`/stats/payments?months=${months}`);
+  }
+
+  async getStatsAttendance(months = 6) {
+    return this.request<any>(`/stats/attendance?months=${months}`);
+  }
+
+  async getStatsLogs(limit = 50) {
+    return this.request<any>(`/stats/logs?limit=${limit}`);
+  }
+
+  /** Téléchargement d'un log JSON individuel (déclenche download navigateur) */
+  downloadStatsLog(logId: string) {
+    const token = localStorage.getItem('access_token');
+    const url = `${API_URL}/stats/logs/${logId}/download`;
+    fetch(url, { headers: { Authorization: `Bearer ${token}` } })
+      .then(r => r.blob())
+      .then(blob => {
+        const objUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = objUrl;
+        a.download = `log-${logId.slice(0,8)}.json`;
+        a.click();
+        URL.revokeObjectURL(objUrl);
+      });
+  }
+
+  /** Export CSV de toutes les séances (déclenche download navigateur) */
+  downloadSessionsCsv(months = 12) {
+    const token = localStorage.getItem('access_token');
+    const url = `${API_URL}/stats/logs/export-csv?months=${months}`;
+    fetch(url, { headers: { Authorization: `Bearer ${token}` } })
+      .then(r => r.blob())
+      .then(blob => {
+        const objUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = objUrl;
+        a.download = `sessions-export-${new Date().toISOString().slice(0,10)}.csv`;
+        a.click();
+        URL.revokeObjectURL(objUrl);
+      });
+  }
 }
 
 export const apiClient = new ApiClient();
+
