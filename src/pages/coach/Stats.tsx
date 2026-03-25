@@ -405,7 +405,7 @@ export default function Stats() {
                         {members.payment_status.map((r: any, i: number) => (
                           <div key={i} className="flex justify-between py-2 text-sm">
                             <span className="capitalize">{r.payment_status?.replace('_', ' ')}</span>
-                            <Badge variant={r.payment_status === 'regle' ? 'default' : 'destructive'}>{r.count}</Badge>
+                            <Badge variant={r.payment_status === 'a_jour' ? 'default' : 'destructive'}>{r.count}</Badge>
                           </div>
                         ))}
                       </div>
