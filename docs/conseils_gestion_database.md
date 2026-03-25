@@ -1,6 +1,6 @@
 # Conseils de Gestion de la Base de Données AGHeal
 
-> Guide pratique pour sauvegarder, restaurer et maintenir la base de données MySQL du projet AGHeal, à l'usage d'un non-spécialiste.
+> Guide pratique pour sauvegarder, restaurer et maintenir la base de données MySQL du projet AGHeal
 
 ---
 
@@ -34,7 +34,7 @@ Tous les scripts SQL sont centralisés dans `agheal-api/mysql/`.
 
 ## 2. Reconstruire la BDD from zéro
 
-Si vous perdez tout et devez tout reconstruire (nouveau serveur, crash total) :
+Si on perd tout et doit tout reconstruire (nouveau serveur, crash total) :
 
 ```sql
 -- Étape 0 : Créer la base
@@ -60,9 +60,9 @@ USE `agheal`;
 
 | Copie | Où | Fréquence |
 |---|---|---|
-| 1 sauvegarde locale | Dossier sur votre PC (ex. `D:\Backups\agheal\`) | Quotidienne |
+| 1 sauvegarde locale | Dossier sur PC (ex. `D:\Backups\agheal\`) | Quotidienne |
 | 1 sauvegarde distante | Google Drive, OneDrive ou clé USB externe | Hebdomadaire |
-| 1 sauvegarde chez l'hébergeur | Panneau d'hébergement o2switch | Mensuelle / avant toute mise à jour majeure |
+| 1 sauvegarde chez l'hébergeur | Panneau d'hébergement | Mensuelle / avant toute mise à jour majeure |
 
 ### 📅 Cadence recommandée
 
@@ -74,7 +74,7 @@ USE `agheal`;
 
 ## 4. Export / Import avec HeidiSQL (gratuit)
 
-HeidiSQL est l'outil que vous utilisez déjà. C'est parfait pour des sauvegardes manuelles.
+HeidiSQL est l'outil parfait pour des sauvegardes manuelles.
 
 ### Export (sauvegarde)
 
@@ -98,13 +98,13 @@ HeidiSQL est l'outil que vous utilisez déjà. C'est parfait pour des sauvegarde
 6. Exécuter
 
 > [!WARNING]
-> Si vous restaurez sur une base existante, les tables seront **supprimées et recréées** si vous avez activé `DROP TABLE IF EXISTS`. Vos données en production seront perdues si vous vous trompez de serveur.
+> Si restauration sur une base existante, les tables seront **supprimées et recréées** si `DROP TABLE IF EXISTS` est activé. Les données en production seront perdues si confusions de serveur.
 
 ---
 
 ## 5. Export / Import en ligne de commande
 
-Pour les utilisateurs plus avancés ou pour automatiser.
+Pour utilisateurs avancés ou pour automatiser.
 
 ### Export via mysqldump
 
@@ -128,7 +128,7 @@ mysql -u root -p agheal < agheal_backup_2026-03-26.sql
 
 ### Automatiser avec un script PowerShell (Windows / WAMP)
 
-Créez un fichier `backup_agheal.ps1` :
+Création d'un fichier `backup_agheal.ps1` :
 
 ```powershell
 $date = Get-Date -Format "yyyy-MM-dd"
@@ -139,7 +139,7 @@ New-Item -ItemType Directory -Force $backupDir | Out-Null
 Write-Host "Sauvegarde OK : agheal_$date.sql"
 ```
 
-*(Adaptez le chemin vers `mysqldump.exe` selon votre version de WAMP)*
+*(Adapter le chemin vers `mysqldump.exe` selon la version de WAMP)*
 
 ---
 
@@ -147,7 +147,7 @@ Write-Host "Sauvegarde OK : agheal_$date.sql"
 
 ### Scénario 1 : Suppression accidentelle de quelques lignes
 
-Si vous avez une sauvegarde récente :
+Si on a une sauvegarde récente :
 1. Identifier les lignes perdues (via les logs ou la mémoire)
 2. Ouvrir la sauvegarde et extraire uniquement les INSERT concernés
 3. Les réexécuter dans HeidiSQL
@@ -160,13 +160,13 @@ Si vous avez une sauvegarde récente :
 
 ### Scénario 3 : Crash total du serveur
 
-1. Réinstaller MySQL/WAMP
+1. Réinstaller MariaDB sur serveur
 2. Recréer la base : `CREATE DATABASE agheal;`
 3. Exécuter `init.sql` → `init_trigger.sql`
 4. Restaurer votre backup de données : `agheal_backup_AAAA-MM-JJ.sql`
 
 > [!TIP]
-> Les logs MySQL (fichier `mysql_error.log` dans le dossier de données WAMP) peuvent vous aider à diagnostiquer la cause d'un crash.
+> Les logs MySQL (fichier `mysql_error.log` dans le dossier de données du serveur de base de données) peuvent aider à diagnostiquer la cause d'un crash.
 
 ---
 
@@ -174,7 +174,7 @@ Si vous avez une sauvegarde récente :
 
 Signes : requêtes qui plantent, erreurs `Table 'xxx' is marked as crashed`.
 
-### Réparation via WAMP (MyISAM uniquement)
+### Réparation via MariaDB (MyISAM uniquement)
 
 ```sql
 REPAIR TABLE nom_de_la_table;
@@ -193,20 +193,20 @@ mysqlcheck -u root -p --repair agheal
 
 ## 8. Hébergement de production (agheal.hylst.fr)
 
-### Accès à PhpMyAdmin chez o2switch
+### Accès à PhpMyAdmin chez hostinger
 
-1. Connectez-vous au cPanel de votre hébergeur (o2switch)
-2. Ouvrez **phpMyAdmin**
-3. Sélectionnez la base `agheal` (ou le nom que vous avez utilisé)
+1. Connexion au cPanel de l'hébergeur (hostinger)
+2. Ouvrir **phpMyAdmin**
+3. Sélectionner la base `agheal` 
 4. Onglet **Exporter** → format SQL → Télécharger
 
-### Sauvegarde automatique chez o2switch
+### Sauvegarde automatique chez hostinger
 
-o2switch propose des **sauvegardes automatiques quotidiennes** conservées 14 jours. Pour les consulter :
+hostinger propose des **sauvegardes automatiques quotidiennes** conservées 14 jours. Pour les consulter :
 - cPanel → **JetBackup** → Bases de données → Sélectionner la date souhaitée
 
 > [!IMPORTANT]
-> Même si l'hébergeur fait des backups automatiques, **ne vous fiez jamais uniquement à eux**. Faites vos propres exports réguliers dans un dossier Git privé ou Google Drive.
+> Même si l'hébergeur fait des backups automatiques, **ne jamais se fier uniquement à eux**. Faire ses propres exports réguliers dans un dossier Git privé ou Google Drive.
 
 ### Déployer une mise à jour de schéma en production
 
@@ -218,4 +218,4 @@ o2switch propose des **sauvegardes automatiques quotidiennes** conservées 14 jo
 
 ---
 
-*Document généré le 26/03/2026 — Projet AGHeal*
+*Document créé le 26/03/2026 — Projet AGHeal*
