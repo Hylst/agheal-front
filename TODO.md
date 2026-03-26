@@ -7,59 +7,58 @@ Liste des améliorations et fonctionnalités prévues pour les prochaines versio
 
 ---
 
-## 📱 Application mobile (Priorité haute)
+## ✅ Terminé récemment (Mars 2026 — v1.9.1)
 
-- [ ] **Progressive Web App (PWA) Avancée**
-  - Installation sur l'écran d'accueil
-  - Fonctionnement hors-ligne étendu via Dexie.js (mise en cache des bases, synchro bi-directionnelle différée) pour faire l'appel en zone sans réseau.
-  - Enrichissement des notifications web push natives (déjà intégrées, à diversifier).
+- [x] **Présences (Appel)** : Interface de pointage pour les coachs lors de la séance, ajout de walk-ins, traçabilité complète.
+- [x] **Statistiques & Exports** : Dashboard 6 onglets (KPIs, Séances, Présences, Démographie, Paiements, Logs). Export CSV et JSON.
+- [x] **Gestion avancée des Séances** : Fenêtre de réservation J-7, contrôles d'édition contextuels dans le planning public, masquage automatique des séances passées.
+- [x] **Paiements** : Suivi des règlements (saisie, historique filtrable, dashboard dédié).
+- [x] **Google OAuth 2.0** : Connexion directe avec inscription automatique.
+- [x] **Communications** : Campagnes e-mail programmables, messages in-app ciblés, historique.
+- [x] **Notifications Web Push** : Configuration granulaire par type d'alerte.
+- [x] **Centralisation SQL** : `seed.sql` v2.0 corrigé et centralisé dans `agheal-api/mysql/`. Scripts obsolètes archivés.
+- [x] **Bug Stats 403** : Corrigé (`roles` tableau vs `role` string dans le JWT).
+- [x] **Badge paiement** : Correction `'regle'` → `'a_jour'` dans `Stats.tsx`.
+- [x] **Documentation pédagogique** : `explications_pedagogiques_completes.md` (14 sections) + `conseils_gestion_database.md`.
+- [x] **Audits DB** : `init.sql`, `init_trigger.sql`, `migrate_attendance.sql` synchronisés avec l'API.
 
 ---
 
-## 📅 Améliorations du calendrier (Priorité moyenne)
+## 📱 Priorité haute
+
+- [ ] **PWA hors-ligne avancée**
+  - Cache local avec Dexie.js pour faire l'appel en zone sans réseau.
+  - Synchro bi-directionnelle différée (conflict-resolution).
+  - Enrichissement des notifications push (déjà intégrées, à diversifier : rappels ponctuels, annulations).
+
+---
+
+## 📅 Priorité moyenne
 
 - [ ] **Synchronisation calendrier externe (`.ics`)**
-  - Export iCal des séances s'intégrant dynamiquement dans Google Calendar et Outlook pour les adhérents.
+  - Export iCal intégrable dynamiquement dans Google Calendar / Outlook.
 
-- [ ] **Vue semaine pour professionnels**
-  - Affichage hebdomadaire des séances (drag & drop) pour déplacer les séances plus rapidement depuis l'interface d'administration.
+- [ ] **Vue semaine avec drag & drop (Coach)**
+  - Affichage hebdomadaire et déplacement rapide des séances.
 
----
-
-## 📊 Statistiques et rapports (Priorité moyenne)
-
-- [ ] **Tableau de bord de statistiques avancées**
-  - Graphiques de taux d'occupation des séances (capacité vs. présence).
-  - Évolution mensuelle / annuelle des inscriptions.
-  - Statistiques sur l'assiduité d'un groupe ou d'un adhérent.
-
-- [ ] **Exports comptables et d'activité**
-  - Export CSV consolidé des adhérents (incluant dates certificats et validité abonnement).
-  - Export des données financières (facturation / règlements) au format CSV pour l'expertise-comptable.
+- [ ] **Export comptable séparé**
+  - Extraction des données financières filtrées par période au format compatible comptable.
 
 ---
 
-## 👥 Fonctionnalités supplémentaires (Priorité basse)
+## 👥 Priorité basse
 
-- [ ] **Intégration Stripe pour Paiements en Ligne** 
-  - Module optionnel de paiement CB pour l'inscription d'un nouvel adhérent ou le renouvellement de cotisation.
-  - Génération de factures automatisée.
+- [ ] **Paiements en ligne (Stripe)**
+  - Module optionnel : paiement CB à l'inscription ou au renouvellement de cotisation. Génération automatique de facture PDF.
 
-- [ ] Système de liste d'attente pour séances complètes (déclenchement auto de notifications si place libérée).
-- [ ] Commentaire et évaluation de fin de séance (retour sur effort / feedback à destination du coach).
-- [ ] Séances récurrentes automatiques (sans devoir utiliser la duplication logicielle à l'avance).
+- [ ] **Liste d'attente**
+  - Pour les séances complètes : inscription en file d'attente + notification automatique si une place se libère.
 
----
+- [ ] **Évaluation post-séance**
+  - Feedback de l'adhérent après la séance (effort perçu, commentaire). Retours agrégés visibles par le coach.
 
-## ✅ Historique des réalisations récentes (Mars 2026)
-
-- [x] **Gestion avancée des Séances** : Fenêtre de réservation de 7 jours maximum et contrôles d'édition contextuels pour les coachs dans le calendrier public.
-- [x] **Paiements** : Système de suivi des règlements (Dashboard dédié, filtre, Saisie).
-- [x] **Authentification Google OAuth 2.0** : Connexion directe avec inscription automatique si inconnu.
-- [x] **Sécurité (Bugs 02 à 13)** : Correction des doubles auth, suppression des inserts fantômes, sécurisation JWT des endpoints de calculs.
-- [x] **Notifications** : Déploiement du moteur de campagnes et d'e-mails programmables (Push et Mail) pour rappels J-1 de séance, M-1 pour certificats médicaux et alertes de renouvellement.
-- [x] **Audits DB** : Consolidation et synchronisation intégrale de l'init DB (`init.sql`, triggers `uuid` / `auto-profiling`).
-- [x] InfoModal : Composant didactique mis à jour pour intégrer la Roadmap et expliciter le projet (défilement réparé).
+- [ ] **Séances récurrentes**
+  - Planification de séances à répétition automatique (hebdo, bimensuel) sans duplication manuelle.
 
 ---
 

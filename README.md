@@ -1,39 +1,37 @@
 # AGHeal — Application de gestion de séances sportives
 
-> **Version actuelle : 1.9.0** | [Voir le CHANGELOG](./CHANGELOG.md) | [Voir le TODO](./TODO.md)
+> **Version actuelle : 1.9.1** | [Fonctionnalités](./FEATURES.md) | [CHANGELOG](./CHANGELOG.md) | [TODO](./TODO.md) | [Structure](./STRUCTURE.md)
 
 ## 👤 Auteur & Droits
-**Geoffroy Streit** - Développeur apprenant.
+**Geoffroy Streit** - Développeur apprenant.  
 *© 2026 Geoffroy Streit. Tous droits réservés. Code source propriétaire, non libre de droits.*
 
-## 🧭 Architecture — Expliqué simplement
+---
 
-L'application est composée de **3 morceaux distincts** qui tournent en même temps :
+## 🧭 Architecture — Vue d'ensemble
+
+L'application est composée de **3 couches distinctes** :
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│  1. FRONTEND (React)          → http://localhost:5173           │
-│     Ce que vous voyez dans le navigateur (HTML/CSS/JavaScript)  │
-│     Code dans : d:\0CODE\AntiGravity\AGheal\                   │
-│     Lancé avec : npm run dev                                    │
-├─────────────────────────────────────────────────────────────────┤
-│  2. BACKEND PHP (Apache/WAMP) → http://localhost:8081           │
-│     L'API REST : reçoit les requêtes du frontend,               │
-│     lit/écrit en base de données, renvoie du JSON.              │
-│     Code dans : C:\wamp64\www\agheal-api\                       │
-│     Lancé automatiquement par WAMP.                             │
-├─────────────────────────────────────────────────────────────────┤
-│  3. BASE DE DONNÉES MySQL     → localhost:3306                  │
-│     Stocke les utilisateurs, séances, profils…                  │
-│     Données dans : C:\wamp64\bin\mysql\mysql8.4.7\data\agheal\  │
-│     Lancé automatiquement par WAMP.                             │
-│     Accessible via phpMyAdmin : http://localhost:8081/phpmyadmin│
-└─────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────┐
+│  1. FRONTEND (React + TypeScript)    → http://localhost:5173      │
+│     Ce que vous voyez dans le navigateur (HTML/CSS/JavaScript)   │
+│     Code dans : d:\0CODE\AntiGravity\AGheal\                    │
+│     Démarrage  : npm run dev                                      │
+├──────────────────────────────────────────────────────────────────┤
+│  2. BACKEND PHP (Apache via WAMP)    → http://localhost:8081      │
+│     L'API REST : reçoit les requêtes, lit/écrit en BDD, JSON.    │
+│     Code dans : d:\0CODE\AntiGravity\agheal-api\                │
+│     Démarrage  : automatique via WAMP (Apache)                    │
+├──────────────────────────────────────────────────────────────────┤
+│  3. BASE DE DONNÉES MySQL            → localhost:3306             │
+│     Stocke utilisateurs, séances, présences, paiements…          │
+│     Démarrage  : automatique via WAMP                             │
+│     Accès      : http://localhost:8081/phpmyadmin (root/root123)  │
+└──────────────────────────────────────────────────────────────────┘
 ```
 
-**Ce n'est PAS une application Node.js.** Le backend est en **PHP pur** qui tourne via Apache (WAMP). Node.js sert uniquement à faire tourner React en développement (`npm run dev`).
-
-Il n'y a **plus d'appels à Supabase, ni à des Edge Functions**.
+> **Note :** Le backend est en **PHP pur** (pas de Laravel/Symfony). Node.js sert uniquement à faire tourner React en développement (`npm run dev`).
 
 ---
 
@@ -41,95 +39,65 @@ Il n'y a **plus d'appels à Supabase, ni à des Edge Functions**.
 
 ### Étape 1 — Démarrer WAMP (Apache + MySQL)
 
-> WAMP doit être **actif** (icône verte dans la barre des tâches Windows en bas à droite)
+> WAMP doit être **actif** (icône **verte** dans la barre des tâches Windows)
 
-Si WAMP est bloqué / ne répond plus :
-
-1. **Tuer le processus manuellement** :
-   - `Ctrl+Alt+Suppr` → Gestionnaire des tâches
-   - Chercher `wampmanager.exe` → clic droit → **Terminer la tâche**
-   - Chercher aussi `httpd.exe` et `mysqld.exe` → Terminer la tâche sur les deux
-2. **Relancer WAMP** : Double-clic sur l'icône WAMP sur le bureau
-3. Attendre que l'icône devienne **verte** (peut prendre 10-20 secondes)
-
-Si WAMP ne démarre pas (icône orange = un service n'a pas démarré) :
-- Le port 80 ou 8081 est probablement pris par un autre programme
-- Clic droit sur l'icône WAMP → Outils → Tester les ports
+Si WAMP est bloqué :
+1. `Ctrl+Alt+Suppr` → Gestionnaire des tâches → terminer `wampmanager.exe`, `httpd.exe`, `mysqld.exe`
+2. Relancer WAMP depuis le bureau — attendre l'icône verte (10–20 sec)
+3. Si l'icône reste orange : un port (80, 8081) est pris → clic droit sur WAMP → Outils → Tester les ports
 
 ### Étape 2 — Lancer le frontend React
 
 ```powershell
-# Dans le dossier d:\0CODE\AntiGravity\AGheal
+cd d:\0CODE\AntiGravity\AGheal
 npm run dev
 ```
 
 ### Étape 3 — Ouvrir l'application
 
-➡️ **http://localhost:5173** (le frontend React)
-
-> ⚠️ Ne pas aller sur http://localhost:8081 — c'est l'API PHP, elle renvoie du JSON brut.
+➡️ **http://localhost:5173** (frontend)  
+⚠️ `http://localhost:8081` = l'API PHP (retourne du JSON brut, pas l'interface)
 
 ---
 
 ## 📂 Où se trouvent les fichiers ?
 
-| Composant | Emplacement |
-|-----------|-------------|
+| Composant | Emplacement local |
+|-----------|------------------|
 | **Frontend React** | `d:\0CODE\AntiGravity\AGheal\` |
-| **Backend PHP (API)** | `C:\wamp64\www\agheal-api\` |
-| **Base de données MySQL** | Gérée par WAMP, accessible via phpMyAdmin |
-| **Dump SQL** | `d:\0CODE\AntiGravity\AGheal\agheal.sql` |
+| **Backend PHP (API)** | `d:\0CODE\AntiGravity\agheal-api\` (symlink ou copié dans `C:\wamp64\www\`) |
+| **Scripts SQL (source canonique)** | `d:\0CODE\AntiGravity\agheal-api\mysql\` |
 | **Config frontend** | `d:\0CODE\AntiGravity\AGheal\.env` |
-| **Config backend** | `C:\wamp64\www\agheal-api\.env` |
+| **Config backend** | `d:\0CODE\AntiGravity\agheal-api\.env` |
+| **phpMyAdmin** | http://localhost:8081/phpmyadmin |
 
 ---
 
-## 🔑 Comptes de test
+## 🔑 Comptes de test (après exécution de `seed.sql`)
 
 | Email | Mot de passe | Rôle |
 |---|---|---|
 | `admin@agheal-adaptmovement.fr` | `password` | Admin |
-| `guillaume@agheal.fr` | `password` | Coach + Adhérent |
+| `guillaume@adaptmovement.fr` | `password` | Coach + Adhérent |
 | `amandine@adaptmovement.fr` | `password` | Coach + Adhérent |
 | `marie.dupont@email.fr` | `password` | Adhérent |
 | `jean.michel@email.fr` | `password` | Adhérent |
-
-> **Note :** Les comptes créés via le formulaire d'inscription ont leur propre mot de passe.
-
----
-
-## 📁 Structure du projet
-
-```
-AGheal/                          ← Frontend React (ce dossier)
-├── src/
-│   ├── pages/                   ← Les écrans de l'application
-│   ├── hooks/useAuth.tsx        ← Gestion connexion/déconnexion
-│   ├── integrations/api/client.ts  ← Client HTTP vers l'API PHP
-│   └── components/             ← Composants réutilisables (boutons, etc.)
-├── .env                         ← URL de l'API PHP (VITE_API_URL)
-└── vite.config.ts               ← Config du serveur de dev (port 5173)
-
-C:\wamp64\www\agheal-api\        ← Backend PHP (API REST)
-├── public/index.php             ← Point d'entrée unique (routeur)
-├── src/Controllers/             ← Logique métier (Auth, Séances, etc.)
-├── src/Database.php             ← Connexion MySQL
-├── src/Config/database.php      ← Configuration de connexion DB
-├── mysql/                       ← Scripts SQL (création, migration)
-│   ├── init.sql                 ← Créer les tables
-│   ├── init_trigger.sql         ← Triggers UUID et auto-profiling
-│   └── seed_demo_data.sql       ← Données de démonstration
-└── .env                         ← Config DB (DB_HOST, DB_USER, DB_PASS)
-```
+| `sylvie.martin@email.fr` | `password` | Adhérent |
+| `paul.bernard@email.fr` | `password` | Adhérent |
 
 ---
 
-## 🗄️ Accéder à la base de données
+## 🗄️ Base de données — Reconstruction from scratch
 
-- **phpMyAdmin** : http://localhost:8081/phpmyadmin
-  - Identifiants : `root` / `root123`
-  - Base : `agheal`
-- **Directement depuis WAMP** : clic gauche sur l'icône WAMP → phpMyAdmin
+Pour reconstruire la BDD entièrement, exécuter dans l'ordre dans HeidiSQL :
+
+```
+1. agheal-api/mysql/init.sql              → Crée toutes les tables et vues
+2. agheal-api/mysql/init_trigger.sql      → Crée le trigger d'auto-profiling
+3. agheal-api/mysql/seed.sql              → Insère les données de test (local uniquement)
+```
+
+> `migrate_attendance.sql` n'est **pas** nécessaire lors d'une création from scratch — les colonnes sont déjà dans `init.sql`.
 
 ---
 
@@ -140,7 +108,7 @@ C:\wamp64\www\agheal-api\        ← Backend PHP (API REST)
 VITE_API_URL=http://localhost:8081/agheal-api/public
 ```
 
-### Backend PHP — `C:\wamp64\www\agheal-api\.env`
+### Backend PHP — `d:\0CODE\AntiGravity\agheal-api\.env`
 ```
 DB_HOST=127.0.0.1
 DB_PORT=3306
@@ -154,54 +122,52 @@ FRONTEND_URL=http://localhost:5173
 
 ---
 
-## 🌐 Déploiement Production (Coolify)
-
-L'application est déployée sur un VPS Hostinger géré par Coolify.
+## 🌐 Déploiement Production (Coolify / Hostinger VPS)
 
 | Composant | URL | Technologie |
 |-----------|-----|-------------|
-| **Frontend** | [https://agheal.hylst.fr](https://agheal.hylst.fr) | Nixpacks (React/Vite) |
-| **API Backend** | [https://api.agheal.hylst.fr](https://api.agheal.hylst.fr) | Docker (PHP 8.1 / Apache) |
+| **Frontend** | https://agheal.hylst.fr | Nixpacks (React/Vite) |
+| **API Backend** | https://api.agheal.hylst.fr | Docker (PHP 8.1 / Apache) |
 | **Base de données** | Réseau interne Coolify | MariaDB |
 
-### Variables d'environnement Production
-- **Frontend** : `VITE_API_URL=https://api.agheal.hylst.fr`
-- **Backend** : `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME` (configurés dans Coolify)
-
----
-
-## 📂 Documentation Technique (`/docs`)
-
-Les documents de référence pour la conception sont :
-- [01_MCD_Merise.md](file:///d:/0CODE/AntiGravity/AGheal/docs/01_MCD_Merise.md) : Schéma de données complet.
-- [02_UML_Classes.md](file:///d:/0CODE/AntiGravity/AGheal/docs/02_UML_Classes.md) : Modèle objet et logique métier.
-- [03_UML_Use_Cases_Activites.md](file:///d:/0CODE/AntiGravity/AGheal/docs/03_UML_Use_Cases_Activites.md) : Processus et cas d'utilisation.
-- [use_cases.md](file:///d:/0CODE/AntiGravity/AGheal/use_cases.md) : Inventaire détaillé des fonctionnalités par rôle.
+**Variables d'environnement Production :**
+- Frontend : `VITE_API_URL=https://api.agheal.hylst.fr`
+- Backend : `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME` configurés dans Coolify
 
 ---
 
 ## 📱 Responsive Mobile
 
-L'application est optimisée pour smartphone et tablette :
 - Design **mobile-first** avec Tailwind CSS (breakpoints `sm`, `md`, `lg`)
-- **Clients** : vue en **cartes** sur mobile, tableau sur desktop
-- **Filtres** : empilés verticalement sur mobile
-- **Modals** : hauteur max `90vh`, contenu scrollable
-- **Boutons d'action** : `full-width` sur mobile
+- **Navigation** : Barre en bas de l'écran sur mobile (MobileNav)
+- **Clients** : Vue en **cartes** sur mobile, tableau sur desktop
+- **Modals** : Hauteur max `90vh`, contenu scrollable
 - **Tableaux** : scrollables horizontalement sur mobile
-- **Navigation** : titres et boutons réduits sur petits écrans
 
 ---
 
 ## 🔔 Système de Rappels & Automates
 
-- **Push Notifications (Web Push)** : Support natif PWA sur mobile et dekstop, activable par réglage granulaire dans les paramètres utilisateur.
-- **M-1 Certificat Médical** : Rappel automatique J-30 par email et/ou Push aux adhérents pour le renouvellement de leur certificat sportif.
-- **J-7 Abonnement** : Rappel de paiement email et/ou push avant l'échéance de la date de renouvellement.
-- **J+1 Expiration** : Bascule automatique du statut en "En attente" et alerte immédiate aux coachs (Email/Push).
-- **Veille de séance** : Rappel email et/ou push aux inscrits.
-- **Campagnes Email Programmables** : Planification de mailing (HTML) géré par envoi différé automatique (`cron_hourly.php`).
+| Déclencheur | Événement | Canal |
+|-------------|-----------|-------|
+| J-1 séance | Rappel avant la séance | Email + Push |
+| M-1 certificat | Renouvellement certificat médical | Email + Push |
+| J-7 abonnement | Rappel avant échéance | Email + Push |
+| J+1 expired | Bascule statut → "en attente" | Email coach + Push |
 
 ---
 
-*Documentation maintenue par Geoffroy Streit - 2026*
+## 📂 Documentation Technique (`/docs`)
+
+| Fichier | Contenu |
+|---------|---------|
+| [explications_pedagogiques_completes.md](./docs/explications_pedagogiques_completes.md) | Guide complet A→Z pour débutant (14 sections) |
+| [conseils_gestion_database.md](./docs/conseils_gestion_database.md) | Sauvegarde, restauration, gestion BDD |
+| [01_MCD_Merise.md](./docs/01_MCD_Merise.md) | Schéma de données Merise |
+| [02_UML_Classes.md](./docs/02_UML_Classes.md) | Modèle objet UML |
+| [03_UML_Use_Cases_Activites.md](./docs/03_UML_Use_Cases_Activites.md) | Processus et cas d'utilisation UML |
+| [use_cases.md](./use_cases.md) | Inventaire des fonctionnalités par rôle |
+
+---
+
+*Documentation maintenue par Geoffroy Streit — 2026*

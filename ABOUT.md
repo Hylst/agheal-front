@@ -1,296 +1,232 @@
 # Guide d'utilisation - AGHeal
 
 **Auteur :** Geoffroy Streit  
-**Année :** 2025
+**Version :** 1.9.1 — Mars 2026
 
-Ce guide explique en détail le fonctionnement de l'application AGHeal, destiné aux coachs et à l'administrateur.
+Ce guide explique le fonctionnement de l'application AGHeal, destiné aux coachs, administrateurs et adhérents.
 
 ---
 
 ## 📱 Accéder à l'application
 
-1. Ouvrez votre navigateur (Chrome, Safari, Firefox...)
-2. Rendez-vous sur l'adresse de l'application
+1. Ouvrez votre navigateur (Chrome, Safari, Firefox…)
+2. Rendez-vous sur **https://agheal.hylst.fr** (en production) ou **http://localhost:5173** (en local)
 3. Connectez-vous avec :
    - **Email + mot de passe**
-   - **Compte Google** ✅ — connexion en un clic via votre compte Gmail (inscription automatique si premier accès)
+   - **Compte Google** — connexion en un clic (inscription automatique si premier accès)
 
 ### Mot de passe oublié ?
-
-1. Sur la page de connexion, cliquez sur **"Mot de passe oublié ?"**
-2. Entrez votre adresse email
-3. Consultez votre boîte mail et cliquez sur le lien reçu
+1. Cliquez sur **"Mot de passe oublié ?"** sur la page de connexion
+2. Entrez votre email
+3. Consultez votre boîte mail → cliquez sur le lien reçu
 4. Définissez un nouveau mot de passe
 
 ---
 
 ## 🏠 Le Tableau de bord (Dashboard)
 
-Après connexion, vous arrivez sur le **Tableau de bord**. C'est la page centrale de l'application.
+Après connexion, vous arrivez sur le **Tableau de bord**. Son contenu varie selon votre rôle.
 
-### Ce que vous voyez en tant que Coach/Admin :
+### Tuiles disponibles selon le rôle
 
-| Section | Description |
-|---------|-------------|
-| **Séances** | Voir toutes les séances programmées |
-| **Mon Profil** | Modifier vos informations personnelles |
-| **Historique** | Voir les séances passées |
-| **Planning Coach** | Vue d'ensemble de vos séances |
-| **Activités** | Créer et gérer les types d'activités |
-| **Planification** | Créer de nouvelles séances |
-| **Clients** | Gérer les fiches des adhérents |
-| **Lieux** | Gérer les emplacements des séances |
-| **Alertes** | Indicateur orange si règlement en attente |
-| **Profil** | Consulter ses infos administratives |
-| **Informations** | Page d'information publique |
+| Tuile | Coach/Admin | Adhérent |
+|-------|-------------|----------|
+| Séances | ✅ | ✅ |
+| Mon Profil | ✅ | ✅ |
+| Historique | ✅ | ✅ |
+| Informations | ✅ | ✅ |
+| Planification | ✅ | ❌ |
+| Planning Coach | ✅ | ❌ |
+| Clients | ✅ | ❌ |
+| Activités | ✅ | ❌ |
+| Lieux | ✅ | ❌ |
+| Groupes | ✅ | ❌ |
+| Règlements | ✅ | ❌ |
+| Statistiques | ✅ | ❌ |
+| Alerte règlement | ✅ (si en attente) | ❌ |
 
 ---
 
-## 📅 Créer une séance (Planification)
+## 📅 Gérer les Séances (Coach)
 
-### Étape par étape :
+### Créer une séance
 
-1. Cliquez sur **"Planification"** dans le tableau de bord
-2. Remplissez le formulaire :
-   - **Type d'activité** : Choisissez parmi les activités créées
-   - **Titre** : Nom de la séance
-   - **Description** : Détails (se remplit automatiquement selon l'activité)
-   - **Lieu** : Où se déroule la séance
-   - **Date** : Jour de la séance
-   - **Heure de début et fin**
-   - **Nombre de participants** : Minimum et maximum
-   - **Équipements** : Ce qu'il faut apporter
-
-3. **Option de duplication** : Dupliquez la séance sur 1 à 12 semaines
+1. Cliquez sur **"Planification"** → **"Nouvelle séance"**
+2. Remplissez : type d'activité, titre, lieu, date, heure début/fin, capacité min/max
+3. **Duplication** : activez l'option pour créer la même séance sur 1 à 12 semaines
 4. Cliquez sur **"Créer la séance"**
 
-### 💡 Astuce
-Créez d'abord vos **Activités** et **Lieux** pour gagner du temps !
+### Modifier/Supprimer depuis le planning public
+
+Sur la page **Séances** (planning public), en tant que coach, une séance ouverte en modal affiche des boutons **Modifier** et **Supprimer** directement accessibles — sans devoir repasser par le Planning Coach.
+
+### Fenêtre d'inscription J-7
+
+Les adhérents ne peuvent s'inscrire qu'aux séances **dans les 7 prochains jours**. Les séances plus lointaines sont visibles mais en lecture seule. Les séances passées sont **automatiquement masquées** du planning.
 
 ---
 
-## 🏃 Gérer les Activités
+## ✅ Faire l'appel (Présences)
 
-Les **Activités** sont des modèles de séances réutilisables.
-
-### Créer une activité :
-
-1. Allez dans **"Activités"**
-2. Cliquez sur **"Nouvelle activité"**
-3. Remplissez :
-   - **Nom** : Ex: "Musculation Santé", "Marche Nordique"
-   - **Description** : Explication de l'activité
-   - **Lieu par défaut** : Optionnel, sera pré-rempli
-4. Enregistrez
+1. Dans **Planning Coach** ou **Séances**, cliquez sur une séance
+2. Ouvrez l'onglet **"Présences"**
+3. **Cochez** chaque adhérent présent → l'heure d'arrivée est enregistrée automatiquement
+4. **Adhérent de dernière minute (walk-in) ?** → utilisez la barre de recherche "Rechercher un adhérent non-inscrit…" pour l'ajouter directement à la séance
+5. Cliquez **"Sauvegarder l'appel"** → un log est créé automatiquement (nom coach, inscrits, présents, walk-ins)
 
 ---
 
-## 📍 Gérer les Lieux
+## 📊 Statistiques & Historique (Coach / Admin)
 
-### Créer un lieu :
+Accessible via la tuile **"Statistiques"** sur le tableau de bord.
 
-1. Allez dans **"Lieux"**
-2. Cliquez sur **"Nouveau lieu"**
-3. Remplissez le nom, l'adresse et éventuellement des notes
-4. Enregistrez
+### Les 6 onglets
 
-## 🗣️ Informations et Communications
+| Onglet | Contenu |
+|--------|---------|
+| **Vue d'ensemble** | KPIs globaux (membres, séances passées, taux présence, total règlements) |
+| **Séances** | Historique détaillé. Clic sur une séance → liste des inscrits et présents |
+| **Présences** | Taux par type, évolution mensuelle, Top 10 adhérents assidus |
+| **Adhérents** | Pyramide des âges, groupes, statuts paiements, validité certificats |
+| **Paiements** | CA mensuel, répartition par méthode (espèce/chèque/virement) |
+| **Logs** | Liste brute des appels sauvegardés. Téléchargement JSON par log |
 
-L'onglet **Informations** prend la forme d'un panneau central qui permet de :
-1. Lire à propos de la genèse de l'application
-2. Accéder aux guides d'utilisation selon les droits (Adhérent, Coach, Admin)
-3. Lire la Roadmap et les nouveautés prévues
-4. Lire et gérer les communications :
-   - Les coachs et admins disposent de 3 onglets de gestion : **"Dans l'application"**, **"E-mails programmables"**, et **"Historique"**.
-   - Ils peuvent écrire des messages in-app ciblés à tous, à un groupe ou un individu. Si la communication est taggée "urgente", elle sera affichée en rouge sur le tableau de bord des destinataires.
-   - Ils peuvent programmer des **Campagnes d'e-mails** (envoi différé) paramétrables avec du formatage HTML.
-   - L'historique permet de tracer et consulter chaque message passé (in-app ou e-mail).
+### Exporter en CSV
+
+Cliquez sur **"Exporter (CSV)"** → fichier Excel-compatible (UTF-8 avec BOM) avec tout l'historique des séances et présences.
+
+### Télécharger un log JSON
+
+Dans l'onglet **Logs**, cliquez sur l'icône de téléchargement d'une entrée pour obtenir le fichier JSON de cet appel.
 
 ---
 
 ## 👥 Gérer les Clients (Adhérents)
 
-### Accéder aux fiches clients :
-
 1. Cliquez sur **"Clients"** dans le tableau de bord
-2. Vous voyez la liste de tous les adhérents
+2. Recherchez, filtrez par groupe, triez alphabétiquement
 
-### Ce que vous pouvez faire :
+### Ce que vous pouvez modifier dans la fiche client
 
-| Action | Description |
-|--------|-------------|
-| **Voir le profil** | Cliquez sur un adhérent |
-| **Modifier** | Statut règlement, date renouvellement, certificat médical, remarques |
-| **Groupes** | Assigner jusqu'à 3 groupes |
-| **Bloquer** | L'adhérent ne peut plus s'inscrire |
-| **Supprimer** | Action définitive |
-
-### 📝 Remarques Coach
-Ce champ est **privé** : l'adhérent ne le voit pas. Utilisez-le pour :
-- Précautions à prendre
-- Équipements spéciaux
-- Rappels personnels
+| Champ | Visible par l'adhérent ? |
+|-------|--------------------------|
+| Date de renouvellement | ✅ (lecture seule) |
+| Statut de règlement | ✅ (lecture seule) |
+| Date certificat médical | ✅ (lecture seule) |
+| Remarques coach | ❌ privé |
+| Groupes | ❌ non affiché |
 
 ---
 
-### 💳 Gestion des règlements & Abonnements
-L'application simplifie le suivi administratif pour les coachs et les adhérents.
+## 💳 Gestion des Règlements (Coach & Admin)
 
-| Acteur | Ce qu'il peut voir / faire |
-|--------|----------------------------|
-| **Adhérent** | Voit son statut (À jour / En attente) et sa date de renouvellement sur son profil. |
-| **Coach** | Met à jour le statut et la date de renouvellement. Chaque passage "À jour" est historisé. |
-| **Alertes** | Un bandeau orange apparaît sur le Dashboard si un règlement est en attente. |
-| **Emails** | Un rappel automatique est envoyé 7 jours avant l'échéance de l'abonnement. |
-| **Expiration** | Si la date est dépassée, le statut passe à "En attente" et le coach est alerté par e-mail. |
+Depuis la tuile **"Règlements"** :
 
-### 🩺 Certificats Médicaux
-Le suivi des certificats est automatisé pour garantir la sécurité des pratiquants :
-- **Coach** : Renseigne la date d'expiration dans la fiche client.
-- **Adhérent** : Consulte sa date d'échéance directement sur son profil.
-- **Rappel** : Un email est envoyé 1 mois avant la date d'expiration à l'adhérent.
+1. **Saisir un paiement** : montant, date, mode (espèces/chèque/virement), coach destinataire, commentaire
+2. **Historique** : vue complète avec filtres multicritères
+3. **Dashboard** : graphiques d'évolution mensuelle et répartition par mode
+4. **Passage "À jour"** : met à jour `payment_status` du client et historise la transaction
 
-### 🔐 Sécurité Administrative
-Pour éviter toute erreur critique :
-- **Auto-blocage** : Un administrateur ne peut pas se bloquer lui-même ni se retirer son propre rôle d'admin.
-- **Confirmation obligatoire** : Toute attribution d'un rôle "Coach" ou "Admin" nécessite une confirmation explicite.
-- **Journalisation** : Toutes les modifications de rôles ou de statuts sont enregistrées dans un journal d'audit (logs).
+> La suppression d'un règlement est réservée aux Administrateurs.
+
+---
+
+## 📍 Gérer les Lieux & Activités
+
+### Créer un lieu
+1. Aller dans **"Lieux"** → **"Nouveau lieu"** → remplir le nom, l'adresse, les notes → Enregistrer
+
+### Créer une activité (type de séance)
+1. Aller dans **"Activités"** → **"Nouvelle activité"** → nom, description, lieu par défaut → Enregistrer  
+2. Ce lieu sera pré-rempli automatiquement lors de la création d'une séance de ce type.
+
+> La suppression d'un lieu ou d'une activité met à `NULL` leur référence dans les séances existantes — l'historique est conservé.
 
 ---
 
 ## 👨‍👩‍👧‍👦 Gérer les Groupes
 
-### Créer un groupe :
+1. **Créer un groupe** : "Groupes" → "Nouveau groupe" → nom + description → Enregistrer
+2. **Assigner un adhérent** : Ouvrir la fiche client → sélectionner jusqu'à **3 groupes** → Enregistrer
 
-1. Allez dans **"Groupes"**
-2. Cliquez sur **"Nouveau groupe"**
-3. Donnez un nom et une description
-4. Enregistrez
+Les groupes permettent de filtrer les clients et de cibler les communications in-app.
 
-### Assigner un adhérent :
+---
 
-1. Allez dans **"Clients"**
-2. Ouvrez la fiche d'un adhérent
-3. Sélectionnez jusqu'à 3 groupes
-4. Enregistrez
+## 🗣️ Informations & Communications
+
+L'onglet **Informations** donne accès à un panneau central (5 onglets) :
+
+| Onglet | Contenu |
+|--------|---------|
+| L'Application | Genèse et mission d'AGHeal |
+| Guide Adhérent | Comment s'inscrire, consulter le planning |
+| Guide Coach/Admin | Comment gérer les séances, clients, stats |
+| Roadmap | Fonctionnalités prévues |
+| Nouveautés (Coach/Admin) | Communications in-app + e-mails programmables |
+
+### Pour les Coachs/Admin — Créer une communication
+
+- **"Dans l'application"** : message ciblé (tous/groupe/individu). Si "urgent" → affiché en rouge sur le dashboard des destinataires.
+- **"E-mails programmables"** : campagne HTML ou texte avec date/heure d'envoi différé.
+- **"Historique"** : trace immuable de tous les messages envoyés.
 
 ---
 
 ## 🔔 Notifications automatiques
 
-### Rappels de séances
+| Type | Canal | Déclenchement |
+|------|-------|---------------|
+| Rappel séance | Email + Push | J-1 avant la séance |
+| Rappel certificat | Email + Push | M-1 avant expiration |
+| Rappel abonnement | Email + Push | J-7 avant échéance |
+| Alerte expiration | Email coach + Push | J+1 après échéance |
 
-Les adhérents reçoivent automatiquement un email (et optionnellement une notification Web Push) la veille de leurs séances inscrites.
-
-### Paramètres (icône ⚙️) :
-
-| Option | Description |
-|--------|-------------|
-| **Rappel séances** | Email et/ou Push la veille des séances |
-| **Rappel renouvellement** | Notification Email et/ou Push aux adhérents pour l'abonnement |
-| **Rappel Certificat** | Alerte Email et/ou Push 1 mois avant l'expiration du certificat médical |
-| **Alerte Expiration** | (Coach) Prévenir par Email ou Push si un abonnement client expire |
+**Configurer vos préférences** : icône ⚙️ (Paramètres) → section Notifications → activer/désactiver Email et/ou Push individuellement.
 
 ---
 
-## ✉️ Formulaire de contact
+## 🔐 Niveaux d'accès
 
-Sur la page **Informations**, un formulaire de contact permet aux utilisateurs d'envoyer un message aux coachs.
+| Rôle | Ce qu'il peut faire |
+|------|---------------------|
+| **Adhérent** | S'inscrire aux séances, voir son profil, son historique, les informations |
+| **Coach** | + Gérer séances, présences, clients, lieux, groupes, paiements, stats |
+| **Admin** | + Gérer les rôles, bloquer des comptes, supervision complète |
 
-Les messages sont envoyés par email à l'équipe AGHeal.
+> Un utilisateur peut avoir plusieurs rôles simultanément (ex : coach + adhérent).
 
----
-
-## ℹ️ Page Informations
-
-Cette page présente AGHeal à tous les utilisateurs.
-
-### Pour les Coachs/Admin uniquement :
-
-Vous pouvez modifier 3 champs de communication :
-
-1. **Informations complémentaires** : Infos générales
-2. **Précisions** : Détails supplémentaires
-3. **Communication spéciale** : Messages urgents ou temporaires
-
----
-
-## 💳 Gestion des règlements (Coach & Admin)
-
-Depuis le tableau de bord, la tuile **"Règlements"** permet d'accéder à l'interface de gestion financière.
-
-### Fonctionnalités :
-1. **Saisie** : Enregistrement rapide d'un montant, date, mode (espèces, chèque, virement) et coach destinataire.
-2. **Commentaires** : Possibilité d'ajouter des notes internes sur chaque transaction.
-3. **Historique** : Vue complète de tous les paiements avec filtres multicritères (par adhérent, par mode, par coach).
-4. **Analyse** : Graphiques et indicateurs de performance (Total encaissé, évolution mensuelle, répartition).
-
-*Note : La suppression d'un règlement record est réservée aux Administrateurs.*
-
----
-
-## 📊 Fonctionnement des inscriptions
-
-### Comment un adhérent s'inscrit :
-
-1. Connexion à l'application
-2. Aller dans **"Séances"**
-3. Choisir une séance et cliquer sur **"S'inscrire"**
-
-### Règles automatiques :
-
-| Règle | Effet |
-|-------|-------|
-| Adhérent bloqué | ❌ Inscription impossible |
-| Séance complète | ❌ Plus de places |
-| Séance non publiée | ❌ Non visible |
-| Séance dans > 7 jours | ❌ Inscription fermée ("J-7") |
-
----
-
-## 🔐 Sécurité et accès
-
-### Les 3 niveaux d'accès :
-
-| Rôle | Permissions |
-|------|-------------|
-| **Adhérent** | S'inscrire aux séances, voir son profil, voir les infos |
-| **Coach** | + Gérer séances, clients, groupes, lieux |
-| **Admin** | + Gérer les rôles, voir les logs |
-
-### Données protégées :
-
+### Données protégées
 - Les **remarques coach** ne sont jamais visibles par les adhérents
 - Le **statut de règlement** est en lecture seule pour les adhérents
-- Chaque utilisateur ne voit que ses propres données personnelles
+- Un admin ne peut pas **se bloquer lui-même** ni **se retirer ses propres droits**
 
 ---
 
 ## ❓ Questions fréquentes
 
-### Je ne vois pas un adhérent dans la liste ?
-Vérifiez que l'adhérent a bien créé son compte et complété son profil.
+**Je ne vois pas une séance dans le planning ?**  
+→ La séance est peut-être passée (masquée automatiquement), en brouillon, ou annulée.
 
-### Un adhérent ne peut pas s'inscrire ?
-Vérifiez :
-1. Son statut de compte (actif ou bloqué ?)
-2. La séance est-elle publiée ?
-3. La séance est-elle complète ?
+**Un adhérent ne peut pas s'inscrire ?**  
+→ Vérifier : statut compte (bloqué ?), capacité maximale atteinte ?, séance publiée ?, séance dans les 7 prochains jours ?
 
-### Comment annuler une séance ?
-Modifiez la séance et changez son statut en "Annulée".
+**Comment annuler une séance ?**  
+→ Modifier la séance → changer le statut en "Annulée".
+
+**Comment voir les séances passées ?**  
+→ Page **Historique** (pour l'adhérent) ou onglet **Séances** du dashboard Statistiques (coach/admin).
 
 ---
 
 ## 📞 Besoin d'aide ?
 
-### Questions techniques
-Contactez **Geoffroy Streit** (Auteur de l'application)
-
-### Questions sur les séances
-- **Amandine** : amandine.motsch@agheal.fr
-- **Guillaume** : guillaume.trautmann@agheal.fr
+| Contact | Pour quoi ? |
+|---------|-------------|
+| **Geoffroy Streit** | Questions techniques / développement |
+| **Amandine** — amandine.motsch@agheal.fr | Questions sur les séances |
+| **Guillaume** — guillaume.trautmann@agheal.fr | Questions sur les séances |
 
 ---
 
-*Guide rédigé par Geoffroy Streit - 2025*
+*Guide rédigé par Geoffroy Streit — Mars 2026*

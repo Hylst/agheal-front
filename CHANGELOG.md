@@ -1,314 +1,150 @@
 # Historique des modifications - AGHeal
 
 **Auteur :** Geoffroy Streit  
-**Année :** 2025
+**Année :** 2025–2026
 
-Toutes les modifications notables de ce projet sont documentées dans ce fichier.
-
+Toutes les modifications notables de ce projet sont documentées dans ce fichier.  
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/).
+
+---
+
+## [1.9.1] - 26 Mars 2026
+
+### 🔧 Base de données — Centralisation & Correction
+- **`seed.sql` v2.0** : Réécriture complète du script de données de test. Corrections de schéma : `password_hash` (au lieu de `password`), `email_confirmed_at` (TIMESTAMP), IDs de groupes en CHAR(36) UUID fixes, IDs de séances valides (≤36 chars), `received_by` (au lieu de `coach_id`), enum `espece` (sans 's'). Ajout d'un bloc de nettoyage en tête pour rendre le script idempotent (rejouable sans erreur).
+- **Centralisation SQL** : Tous les scripts SQL sont maintenant dans `agheal-api/mysql/`. `seed.sql` supprimé du dossier frontend. `*.sql` retiré du `.gitignore` du frontend.
+- **Archives SQL** : 9 scripts obsolètes (`seed_demo_data.sql`, `add_notifications_and_push.sql`, `add_payments_management.sql`, `migration_communications.sql`, `patch_email_campaigns.sql`, `add_missing_indexes.sql`, `update_schema.sql`, `debug_migration.php`, `fix_schema.php`) déplacés dans `docs/archive/`.
+- **Guide BDD** : Nouveau document `docs/conseils_gestion_database.md` : stratégie de sauvegarde 3-2-1, procédure de reconstruction from scratch, export HeidiSQL et mysqldump, gestion des crashs.
+
+### 🐛 Corrections de bugs
+- **`Stats.tsx`** : Badge statut paiement toujours rouge car comparaison contre `'regle'` (inexistant en BDD). Corrigé en `'a_jour'`.
+- **`StatsController.php`** : Vérification des rôles avec `array_intersect` sur le tableau `roles` du JWT (au lieu de `role` string inexistant) → corrige l'erreur 403 sur la page Statistiques pour les coachs.
+- **`SessionController.php`** : Filtre temporel `CONCAT(date, end_time) >= NOW()` ajouté — les séances passées n'apparaissent plus dans le planning public.
+
+### 📚 Documentation
+- **`docs/explications_pedagogiques_completes.md`** : Réécriture complète — 14 sections (vs 6 initialement) : structure fichiers, JWT, rôles, parcours A→Z, module stats, design patterns, déploiement, glossaire 17 termes.
+- **`docs/conseils_gestion_database.md`** : Nouveau guide gestion BDD (sauvegarde, restauration, hébergeur Hostinger).
 
 ---
 
 ## [1.9.0] - Mars 2026
 
 ### ✨ Gestion des Séances (Évolution)
-- **Planning Public (`/sessions`)** : Afin de limiter le remplissage trop long à l'avance, les inscriptions par les adhérents ne peuvent s'effectuer que dans une **fenêtre de 7 jours glissants**. Les séances hors délai sont en lecture seule pour éviter des réservations abusives plusieurs semaines à l'avance.
-- **Interface de Gestion (`/sessions`)** : Ajout à la volée des contrôles d'édition (Boutons Modifier / Supprimer) dans la modale de détail d'une séance ouverte sur le planning public (réservé aux Coachs et Administrateurs) afin d'accélérer la gestion sans repasser par le planning privé.
+- **Planning Public (`/sessions`)** : Fenêtre d'inscription de **7 jours glissants** — les séances hors délai sont en lecture seule pour éviter les réservations trop à l'avance. Colonne `limit_registration_7_days` ajoutée sur `sessions`.
+- **Interface de Gestion** : Boutons Modifier/Supprimer ajoutés directement dans la modale du planning public (réservé Coachs/Admins).
+
+### ✨ Gestion des Présences (Appel)
+- **Backend API** : Création de `AttendanceController.php` — marquer présent, enregistrer l'horodatage, ajouter des participants de dernière minute (walk-ins).
+- **Frontend** : Interface de pointage accessible depuis les détails d'une séance. Recherche instantanée pour ajouter des adhérents non-inscrits à la volée.
+- **Base de données** : Ajout des champs `attended` et `attended_at` dans `registrations`. Script `migrate_attendance.sql` fourni pour les bases existantes.
+
+### 📊 Dashboard Statistiques & Exports
+- **Backend API** : `StatsController.php` avec 8 endpoints d'agrégation (KPIs, démographie, présences, historique financier, logs de pointage).
+- **Frontend** : Page `/coach/stats` — 6 onglets : Vue d'ensemble, Séances, Présences, Adhérents, Paiements, Logs. Graphiques en barres CSS pur.
+- **Exports** : Téléchargement de logs individuels en JSON, export global CSV avec BOM UTF-8 pour Excel.
+- **Logs** : Enregistrement automatique dans la table `logs` à chaque sauvegarde d'appel (nom coach, type séance, inscrits/présents, walk-ins).
 
 ## [1.8.5] - Mars 2026
 
 ### 🔐 Authentification Google OAuth 2.0
-- **Backend** : Ajout de `GoogleAuthController` (PHP) avec flux OAuth 2.0 complet (redirect, callback CSRF, upsert user, JWT AGHeal). Dépendance `league/oauth2-google` ajoutée.
-- **Frontend** : Ajout de la page `GoogleCallback.tsx` — reçoit le JWT dans l'URL après le consent Google et connecte l'utilisateur sans rechargement. Ajout de `loadUser()` dans `useAuth`. Bouton "Continuer avec Google" dans `Login.tsx` désormais fonctionnel.
-- **Routes** : `GET /auth/google` et `GET /auth/google/callback` côté API. `/auth/google/callback` côté SPA.
+- **Backend** : `GoogleAuthController` — flux OAuth 2.0 complet (redirect, callback CSRF, upsert user, JWT AGHeal).
+- **Frontend** : `GoogleCallback.tsx` — reçoit le JWT dans l'URL après consent Google. Bouton "Continuer avec Google" dans `Login.tsx` fonctionnel.
+- **Routes** : `GET /auth/google` et `GET /auth/google/callback`.
 
 ### 🐛 Corrections de bugs (BUG-02 à BUG-13)
 - Suppression des doubles appels `requireAuth+requireRole` (BUG-02, BUG-10)
-- Fix type `getProfile()` TS (BUG-03)
+- Fix type `getProfile()` TypeScript (BUG-03)
 - Suppression auto-insert paiement fantôme (BUG-05)
-- Endpoint dédié `GET /admin/coaches` pour la liste "Reçu par" (BUG-07)
+- Endpoint dédié `GET /admin/coaches` pour "Reçu par" (BUG-07)
 - Alias route `/admin/clients` + lien Dashboard adapté au rôle (BUG-08)
-- Filtre email dans recherche AdminUsers + type User mis à jour (BUG-11)
+- Filtre email dans recherche AdminUsers (BUG-11)
 - Sécurisation des `fetch()` dans `PaymentController::summary()` (BUG-13)
 
 ## [1.8.0] - Mars 2026
 
 ### ✨ Système de Gestion des Règlements
-- **Backend API** : Création du `PaymentController` avec gestion complète des règlements (CRUD) et calculs d'agrégations pour le dashboard.
-- **Frontend (Coach/Admin)** : Ajout d'une page complète `/coach/payments` permettant la saisie des règlements, la consultation d'un historique filtrable et l'analyse via un dashboard dédié (KPIs, barres d'évolution).
-- **Base de Données** : Enrichissement de `payments_history` avec les champs `payment_method` (espèces, chèque, virement) et `comment`.
-- **Dashboard** : Intégration d'une nouvelle tuile "Règlements" sur le tableau de bord principal.
+- **Backend API** : `PaymentController` avec CRUD complet et agrégations.
+- **Frontend** : Page `/coach/payments` — saisie, historique filtrable, dashboard (KPIs, barres d'évolution).
+- **Base de Données** : Enrichissement de `payments_history` avec `payment_method` (espèce/chèque/virement) et `comment`.
 
 ## [1.5.5] - Mars 2026
 
-### ✨ Système de Communications Ciblées & E-mails Programmables
-
-- **Base de Données** : Ajout de l'historique de messages immuable (`message_history`) et de l'outil de gestion des campagnes (`email_campaigns`). Les tables et vue ont été fusionnées dans `init.sql`.
-- **Backend API** : Ajout d'un système robuste (CRUD) de communications in-app, d'e-mails programmables (HTML et texte) et d'un contrôleur d'historique.
-- **Communications (Coach/Admin)** : Interface scindée en 3 onglets ("Dans l'application", "E-mails programmables", "Historique complet").
-- **InfoModal** : Composant de 5 onglets expliquant la démarche de l'Application (L'Auteur), le fonctionnement pour coachs et admins, la roadmap, et les nouveautés. Navigation verticale par défilement ajustée.
-- **Interface Adhérents** : Affichage discret en bas de l'InfoModal des différents messages in-app, mis en exergue s'ils sont désignés "urgents".
+### ✨ Communications Ciblées & E-mails Programmables
+- `message_history` et `email_campaigns` fusionnés dans `init.sql`.
+- CRUD communications in-app et e-mails programmables (HTML). Interface 3 onglets : "Dans l'application", "E-mails programmables", "Historique".
+- `InfoModal` : 5 onglets avec roadmap et guide par rôle.
 
 ### ✨ Notifications Web Push & Alertes
-- **Backend & Frontend** : Implémentation complète de `minishlink/web-push`, Service Worker (PWA), et gestion des abonnements push.
-- **SettingsModal** : Séparation granulaire des paramètres Email / Push pour Adhérents (rappels séances, certificats sportifs, fin de période) et pour Coachs (alertes abonnements en attente, certificats M-1).
-- **CRON** : Déploiement de tâches automatisées régulières (`cron_daily.php` et `cron_hourly.php`) pour l'exécution des campagnes, des alertes J-1 / M-1 et rappels automatiques.
+- `minishlink/web-push`, Service Worker (PWA), `PushController`, `SettingsModal` granulaire.
+- CRON `cron_daily.php` / `cron_hourly.php` : alertes J-1 séance, M-1 certificat, J-7 abonnement.
 
 ### ✨ Certificats Médicaux & Règlements
-
-- **SettingsModal** : Ajout de l'option d'alerte par e-mail et push (M-1) pour l'expiration du certificat médical (Adhérent).
-- **SettingsModal** : Ajout des alertes (Coach/Admin) pour prévenir d'une expiration d'abonnement / paiement en attente.
-- **Profil** : Affichage de la date d'expiration du certificat médical pour l'Adhérent (lecture seule).
-- **Clients (Coach)** : Ajout du champ de sélection de la date d'expiration du certificat médical à l'édition d'une fiche client.
-
-### ⚖️ Légal
-- **Licence** : Ajout d'un fichier `LICENSE` propriétaire empêchant la redistribution du code et définition sur "UNLICENSED" dans le `package.json`.
+- Affichage date certif sur profil adhérent. Saisie par coach. Rappel email M-1.
 
 ## [1.5.3] - Mars 2026
 
 ### 🐛 Bug Fixes & Refactoring
-
-- **Backend / Séances** : Correction de la désinscription à une séance (Erreur 500 corrigée due au nommage `{id}` vs `$sessionId`).
-- **Frontend / Séances** : Affichage correct du nombre total d'inscrits dans la vue détaillée d'une séance (correction du compteur bloqué à 1 lié à l'agrégation SQL).
-- **Coach / Lieux** : Mise à jour immédiate (optimistic UI) lors de la modification ou suppression d'un lieu (corrige le bug d'affichage persistant).
-- **Coach / Clients** : Refonte du composant avec ajout du tri (alphabétique/inverse), filtre par groupe, et recherche unifiée intégrant les e-mails + bouton Reset.
-- **Dépendances** : Audit de code et nettoyage intensif. Suppression de 19 paquets NPM (ex: supabase, recharts, radix-ui inexploités) et de 19 composants Wrappers orphelins. Build testé avec succès.
-
-## [1.5.2] - Mars 2026
-
-### 📱 Responsive Mobile — Suite
-
-- **Groups** : Vue en **cartes** sur mobile (tableau conservé sur sm+) — nom, détails, compteur membres, boutons Éditer/Supprimer full-width
-- **Locations** : Vue en **cartes** sur mobile (tableau conservé sur sm+) — nom, adresse, notes, icône MapPin, boutons action full-width
-- **Profile** : Sections "Informations de santé", "Précisions utiles" et "Mes groupes" regroupées dans un **Accordion repliable** sur mobile (affichage linéaire classique conservé sur sm+)
-- **Toast/Notifications** : Positionnement en **bas de l'écran** sur mobile (`bottom-16`, au-dessus de la barre de navigation), conservé en bas-droite sur desktop
-
-### 🧭 Navigation Mobile
-
-- **MobileNav** : Nouveau composant de navigation bas de page (`fixed bottom-0`) — icônes + labels, indicateur de page active
-- **Dashboard** : Carousel horizontal natif (`snap-x`, `overflow-x-auto`) pour tuiles sur mobile, grille `grid-cols-2/3` conservée sur desktop
-- **AlertDialogs** : Tous les modaux de confirmation patché `max-h-[90vh] overflow-y-auto` pour compatibilité mobile
-
----
-
-## [1.5.1] - Mars 2026
-
-
-### 🎨 Responsive Mobile — Audit Complet
-
-- **Toutes les pages** : Padding adaptatif `p-4 sm:p-8` sur l'ensemble des vues
-- **Titres adaptatifs** : `text-2xl` sur mobile → `text-4xl` sur desktop (`h1`, `h2`)
-- **Dashboard** : Bouton "Déconnexion" — texte masqué sur mobile, icône seule conservée
-- **SettingsModal** : Hauteur plafonnée à `90vh`, contenu scrollable, boutons sticky full-width
-- **Clients** : Vue en **cartes** sur mobile (tableau masqué), filtres empilés verticalement
-- **CoachSessions** : Header en colonne, bouton "Créer une séance" full-width mobile
-- **Groups** : CardHeader en colonne, tableau horizontal scrollable
-- **Locations** : Titre adaptatif, bouton "Ajouter" full-width, tableau scrollable
-- **AdminUsers** : Boutons rôles/statut passent sous le nom de l'utilisateur sur mobile
-- **Profile** : Boutons Enregistrer/Annuler full-width sur mobile
-- **Sessions** : Filtres empilés, boutons vue (Liste/Calendrier) icône seule sur mobile, modal scrollable
-- **History** : Cartes padding réduit, titres h2 adaptatifs
-
----
+- Correction désinscription séance (Erreur 500 nommage `{id}` vs `$sessionId`).
+- Affichage correct du nombre total d'inscrits dans la vue séance.
+- Refonte Clients : tri alphabétique, filtre par groupe, recherche unifiée.
+- Nettoyage : suppression de 19 paquets NPM et 19 composants orphelins.
 
 ## [1.5.0] - Mars 2026
 
 ### 🐛 Correctifs — Activités & Séances
+- Types des IDs corrigés de `int` → `string` dans les contrôleurs.
+- Pré-sélection du lieu et type par défaut lors de la création d'une séance.
+- Mise à jour immédiate des modifications de séances.
 
-- **Lieu par défaut** : Correction de la non-persistance lors de la création ou modification d'une activité (type UUID mal converti avec `parseInt`)
-- **Mise à jour des séances** : Les modifications (titre, lieu, type) sont maintenant reflétées immédiatement après enregistrement
-- **Backend** : Types des IDs corrigés de `int` → `string` dans les contrôleurs `SessionController`, `LocationController`, `GroupController`, `SessionTypeController`
-- **Frontend** : Suppression des `parseInt()` sur les champs UUID dans `Activities.tsx` et `Schedule.tsx`
-- **Pré-sélection** : Lieu et type par défaut de l'activité sont maintenant pré-remplis lors de la création d'une séance
-
-### 🔐 Sécurité & Rôles
-
-- **Profil (Admin/Coach)** : Statistut de règlement masqué dans les modals et fiches clients pour les comptes Admin et Coach
-
-### 🎨 UI — Animations & Page Login
-
-- **Login** : Zoom ×2 au survol du logo AGheal
-- **Page /information** : Effets de survol améliorés sur les blocs (zoom, highlight, shadow), logo AGheal intégré en bas de page
-
-### 🔧 Nettoyage Codebase
-
-- Fichiers Supabase obsolètes déplacés dans un dossier `archive/`
-- Script `migrate-from-supabase.sql` supprimé
-- Warning de type dans `Database.php::lastInsertId()` corrigé
-
----
+### 🎨 UI — Animations
+- Login : zoom ×2 au survol du logo. Page `/information` : effets de survol améliorés.
 
 ## [1.4.0] - Mars 2026
 
 ### ✨ Gestion de la Facturation & Abonnements
-- **Historisation automatique** : Création de la table `payments_history` et enregistrement des transactions lors du passage au statut "À jour".
-- **Visibilité Adhérent** : Affichage du statut de règlement et de la date de renouvellement sur le profil utilisateur.
-- **Alertes Proactives** : Bandeau d'alerte sur le Dashboard pour les règlements en attente.
-- **Filtres Coach** : Filtrage de la liste des clients par statut de paiement.
-- **Automatisation** : Script de rappel par email (7 jours avant échéance) et basculement automatique en "En attente" le jour J.
-
-### 🔐 Sécurité & Administration
-- **Prévention du "Lockout"** : Triggers SQL et contrôles applicatifs empêchant un admin de se retirer ses propres droits ou de se bloquer.
-- **Audit Logging** : Journalisation de toutes les actions administratives (changement de rôle, blocage) dans la table `logs`.
-- **UX Améliorée** : Ajout de boîtes de dialogue de confirmation pour les changements de rôles sensibles.
-
-### 🔧 Améliorations Techniques
-- Indexation de la base de données sur les dates de renouvellement pour optimiser les performances des scripts de rappel.
-
----
+- Table `payments_history`, enregistrement des transactions automatiques.
+- Bandeau d'alerte sur le Dashboard pour les règlements en attente.
+- Script de rappel email (7 jours avant échéance), basculement automatique en "En attente".
+- Protection anti-lockout admin : triggers SQL empêchant de se retirer ses propres droits.
 
 ## [1.3.0] - Mars 2026
 
-### ✨ Ajouté
-
-- **Audit & Synchronisation Base de Données**
-  - Refonte totale du script `init.sql` pour correspondre à l'API PHP.
-  - Création de `init_trigger.sql` (Fonction UUIDv4 et Trigger d'auto-profiling).
-  - Script `cleanup.sql` pour une réinitialisation propre.
-  - Suppression des tables inutilisées (`maintenance_types`, `reminders`, `vehicles`, etc.).
-
-### 🔧 Modifié
-
-- **Déploiement Coolify**
-  - Correction des endpoints API pour forcer le HTTPS (SSL Mixed Content).
-  - Optimisation des variables d'environnement pour la connexion DB.
-
----
+### ✨ Base de données — Refonte Totale
+- Réécriture de `init.sql` (synchronisation avec l'API PHP).
+- Création de `init_trigger.sql` (trigger d'auto-profiling + UUID).
+- Suppression des tables inutilisées (`maintenance_types`, `reminders`, etc.).
 
 ## [1.2.1] - Février 2026
 
-### ✨ Ajouté
-
-- Page interactive d’explications (HTML/CSS/JS) pour coachs et admin
-- Cartographie simplifiée des modules, de la logique métier et des tables MySQL
-- Schéma animé interactif pour visualiser les flux et la mission de l’app
-- Conseils d’utilisation supplémentaires issus du guide ABOUT
-
----
+### ✨ Documentation
+- Page interactive HTML/CSS/JS d'explications pour coachs et admin.
+- Schéma animé des flux et de la mission de l'application.
 
 ## [1.2.0] - Décembre 2025
 
 ### ✨ Ajouté
-
-- **Authentification Google OAuth**
-  - Bouton "Continuer avec Google" sur les pages Login et Signup
-  - Création automatique du profil utilisateur
-  - Configuration dans les paramètres backend
-
-- **Réinitialisation de mot de passe**
-  - Page dédiée `/reset-password`
-  - Formulaire de demande par email
-  - Gestion du token Supabase pour le nouveau mot de passe
-
-- **Formulaire de contact**
-  - Intégré à la page Informations
-  - Envoi d'email aux coachs via Edge Function
-  - Validation des champs
-
-- **Notifications par email**
-  - Edge Function `send-session-reminders`
-  - Rappel automatique la veille des séances
-  - Configuration Cron pour exécution quotidienne
-
-- **Documentation complète**
-  - `DEPLOYMENT.md` : Guide de déploiement Docker/Coolify
-  - `STRUCTURE.md` : Architecture technique du projet
-  - Mise à jour de `README.md` et `ABOUT.md`
-
----
+- Google OAuth (bouton + flux backend), réinitialisation de mot de passe, formulaire de contact.
+- Notifications email via Edge Function (`send-session-reminders`).
+- Documentation : `DEPLOYMENT.md`, `STRUCTURE.md`.
 
 ## [1.1.0] - Décembre 2025
 
 ### ✨ Ajouté
-
-- **Page Informations**
-  - Présentation de l'équipe AGHeal
-  - Description des activités
-  - Coordonnées de contact
-  - Champs de communication modifiables (Admin/Coach)
-
-- **Paramètres de notifications**
-  - Rappels de séances par email/push
-  - Rappels de renouvellement automatiques
-
-- **Gestion avancée des clients**
-  - Remarques coach (privées)
-  - Statut de règlement masqué pour les adhérents
-  - Date de renouvellement
-
-### 🔧 Modifié
-
-- Amélioration de l'interface responsive
-- Optimisation des requêtes base de données
-
----
+- Page Informations (équipe, activités, contact). Paramètres de notifications. Gestion avancée clients (remarques coach, statut règlement masqué, date renouvellement).
 
 ## [1.0.0] - Décembre 2025
 
 ### ✨ Fonctionnalités initiales
-
-- **Authentification**
-  - Connexion par email/mot de passe
-  - Système de rôles (Admin, Coach, Adhérent)
-  - Confirmation automatique des emails
-
-- **Gestion des séances**
-  - Création, modification, suppression de séances
-  - Duplication sur plusieurs semaines
-  - Affichage calendrier et liste
-  - Gestion des inscriptions
-
-- **Gestion des activités**
-  - Création de types d'activités
-  - Lieu par défaut configurable
-  - Description automatique
-
-- **Gestion des lieux**
-  - Création et modification des emplacements
-  - Adresse et notes
-
-- **Gestion des clients**
-  - Fiches adhérents complètes
-  - Statut de règlement
-  - Avatar personnalisé
-  - Blocage de compte
-
-- **Gestion des groupes**
-  - Création de groupes
-  - Assignation des adhérents (jusqu'à 3 groupes)
-
-### 🔐 Sécurité
-
-- Politiques RLS (Row Level Security) sur toutes les tables
-- Protection des données personnelles
-- Séparation des rôles dans une table dédiée
-- Accès restreint selon les rôles
-
-### 🎨 Interface
-
-- Design responsive (mobile et desktop)
-- Mode sombre/clair automatique
-- Animations fluides avec Framer Motion
-- Composants accessibles (Shadcn/UI)
-
----
-
-## À venir
-
-- Relecture métier de la page Explications avec l’équipe coach
-
-Voir le fichier [TODO.md](./TODO.md) pour les fonctionnalités prévues.
+- Authentification email/mdp + rôles (Admin, Coach, Adhérent).
+- CRUD séances (création, modification, suppression, duplication multi-semaines, affichage calendrier/liste, inscriptions).
+- Gestion activités, lieux, clients, groupes (jusqu'à 3 groupes/adhérent).
+- Design responsive, mode sombre/clair, composants Shadcn/UI.
 
 ---
 
 ## Légende
-
-- ✨ **Ajouté** : Nouvelles fonctionnalités
-- 🔧 **Modifié** : Changements dans les fonctionnalités existantes
-- 🐛 **Corrigé** : Corrections de bugs
-- 🗑️ **Supprimé** : Fonctionnalités supprimées
-- 🔐 **Sécurité** : Corrections de vulnérabilités
+- ✨ **Ajouté** | 🔧 **Modifié** | 🐛 **Corrigé** | 🗑️ **Supprimé** | 🔐 **Sécurité** | 📊 **Analytics** | 📚 **Documentation**
 
 ---
 
-*Historique maintenu par Geoffroy Streit - 2025*
+*Historique maintenu par Geoffroy Streit - 2025-2026*
