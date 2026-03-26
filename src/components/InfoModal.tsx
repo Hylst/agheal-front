@@ -63,24 +63,24 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
       <p className="text-muted-foreground leading-relaxed">Découvrez l'arsenal complet des outils à votre disposition pour animer vos séances, gérer l'administratif léger et assurer un suivi personnalisé et sécuritaire de vos groupes.</p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
         <div className="p-4 bg-muted/30 rounded-xl border border-border/50 flex flex-col gap-2">
-            <div className="flex gap-2 items-center font-semibold text-blue-600 dark:text-blue-400"><Calendar className="w-5 h-5" /> Planification experte</div>
-            <p className="text-sm text-muted-foreground">Création de séances à l'unité ou en série (jours, semaines, mois). Définissez des limites de participants strictes (liste d'attente) ou flexibles. Utilisez les presets de matériel (Pilates, Musculation...) pour gagner du temps lors de la rédaction.</p>
+          <div className="flex gap-2 items-center font-semibold text-blue-600 dark:text-blue-400"><Calendar className="w-5 h-5" /> Planification experte</div>
+          <p className="text-sm text-muted-foreground">Création de séances à l'unité ou en série (jours, semaines, mois). Définissez des limites de participants strictes (liste d'attente) ou flexibles. Utilisez les presets de matériel (Pilates, Musculation...) pour gagner du temps lors de la rédaction.</p>
         </div>
         <div className="p-4 bg-muted/30 rounded-xl border border-border/50 flex flex-col gap-2">
-            <div className="flex gap-2 items-center font-semibold text-purple-600 dark:text-purple-400"><Users className="w-5 h-5" /> Contrôle des présences</div>
-            <p className="text-sm text-muted-foreground">Pilotez les inscriptions : pointez les présents, visualisez les absents. Accédez instantanément au taux de remplissage de vos cours et intervenez manuellement sur la liste si un adhérent rencontre des difficultés avec l'application.</p>
+          <div className="flex gap-2 items-center font-semibold text-purple-600 dark:text-purple-400"><Users className="w-5 h-5" /> Contrôle des présences</div>
+          <p className="text-sm text-muted-foreground">Pilotez les inscriptions : pointez les présents, visualisez les absents. Accédez instantanément au taux de remplissage de vos cours et intervenez manuellement sur la liste si un adhérent rencontre des difficultés avec l'application.</p>
         </div>
         <div className="p-4 bg-muted/30 rounded-xl border border-border/50 flex flex-col gap-2">
-            <div className="flex gap-2 items-center font-semibold text-destructive"><HeartPulse className="w-5 h-5" /> Vigilance Santé Proactive</div>
-            <p className="text-sm text-muted-foreground">Un système d'icônes médicales (🩺) vous alerte instantanément sur la liste d'inscrits. Accédez aux détails confidentiels (blessures, pathologies) pour adapter vos exercices. Gardez l'œil ouvert sur la validité des certificats médicaux.</p>
+          <div className="flex gap-2 items-center font-semibold text-destructive"><HeartPulse className="w-5 h-5" /> Vigilance Santé Proactive</div>
+          <p className="text-sm text-muted-foreground">Un système d'icônes médicales (🩺) vous alerte instantanément sur la liste d'inscrits. Accédez aux détails confidentiels (blessures, pathologies) pour adapter vos exercices. Gardez l'œil ouvert sur la validité des certificats médicaux.</p>
         </div>
         <div className="p-4 bg-muted/30 rounded-xl border border-border/50 flex flex-col gap-2">
-            <div className="flex gap-2 items-center font-semibold text-green-600 dark:text-green-400"><Send className="w-5 h-5" /> Communication multicanale</div>
-            <p className="text-sm text-muted-foreground">Remplacez définitivement WhatsApp et les mails désordonnés. Rédigez des messages applicatifs rapides ("Urgents" ou standards), ou créez des <strong>campagnes d'e-mails programmables</strong> pour un envoi différé ciblé.</p>
+          <div className="flex gap-2 items-center font-semibold text-green-600 dark:text-green-400"><Send className="w-5 h-5" /> Communication multicanale</div>
+          <p className="text-sm text-muted-foreground">Remplacez définitivement WhatsApp et les mails désordonnés. Rédigez des messages applicatifs rapides ("Urgents" ou standards), ou créez des <strong>campagnes d'e-mails programmables</strong> pour un envoi différé ciblé.</p>
         </div>
         <div className="col-span-1 md:col-span-2 p-4 bg-muted/30 rounded-xl border border-border/50 flex flex-col gap-2">
-            <div className="flex gap-2 items-center font-semibold text-amber-600 dark:text-amber-400"><CreditCard className="w-5 h-5" /> Gestion des Règlements</div>
-            <p className="text-sm text-muted-foreground">Simplifiez votre comptabilité : enregistrez facilement la saisie des règlements par adhérent (espèces, chèque ou virement). Obtenez en un clin d'œil depuis le Dashboard l'évolution mensuelle de vos encaissements et la répartition par mode ou par coach !</p>
+          <div className="flex gap-2 items-center font-semibold text-amber-600 dark:text-amber-400"><CreditCard className="w-5 h-5" /> Gestion des Règlements</div>
+          <p className="text-sm text-muted-foreground">Simplifiez votre comptabilité : enregistrez facilement la saisie des règlements par adhérent (espèces, chèque ou virement). Obtenez en un clin d'œil depuis le Dashboard l'évolution mensuelle de vos encaissements et la répartition par mode ou par coach !</p>
         </div>
       </div>
     </div>
@@ -92,16 +92,16 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
       <p className="text-muted-foreground leading-relaxed">Supervisez la globalité. Le rôle Admin hérite des pouvoirs Coach (planification, santé, messages, e-mails programmés) et y ajoute le contrôle structurel, financier et sécuritaire de toute la plateforme AGHeal.</p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
         <div className="p-4 bg-primary/5 rounded-xl border border-primary/20 flex flex-col gap-2">
-            <div className="flex gap-2 items-center font-semibold text-primary"><Shield className="w-5 h-5" /> Supervision & Sécurité</div>
-            <p className="text-sm text-muted-foreground leading-relaxed">Consultez l'annuaire complet. Promouvez un adhérent en Coach, ou nommez un co-Admin. Le système vous protège (auto-blocage impossible). Gérez le statut des membres depuis leur fiche détaillée, activez ou désactivez les accès avec des dialogues de vérification.</p>
+          <div className="flex gap-2 items-center font-semibold text-primary"><Shield className="w-5 h-5" /> Supervision & Sécurité</div>
+          <p className="text-sm text-muted-foreground leading-relaxed">Consultez l'annuaire complet. Promouvez un adhérent en Coach, ou nommez un co-Admin. Le système vous protège (auto-blocage impossible). Gérez le statut des membres depuis leur fiche détaillée, activez ou désactivez les accès avec des dialogues de vérification.</p>
         </div>
         <div className="p-4 bg-destructive/5 rounded-xl border border-destructive/20 flex flex-col gap-2">
-            <div className="flex gap-2 items-center font-semibold text-destructive"><Banknote className="w-5 h-5" /> Règlements & Facturation</div>
-            <p className="text-sm text-muted-foreground leading-relaxed">Le système comptable complet vous permet de générer un tableau de bord analytique (Total encaissé, KPIs par moyen de paiement) et d'appliquer une surveillance experte du statut des paiements des abonnés pour déclencher des anomalies financières sur leur espace.</p>
+          <div className="flex gap-2 items-center font-semibold text-destructive"><Banknote className="w-5 h-5" /> Règlements & Facturation</div>
+          <p className="text-sm text-muted-foreground leading-relaxed">Le système comptable complet vous permet de générer un tableau de bord analytique (Total encaissé, KPIs par moyen de paiement) et d'appliquer une surveillance experte du statut des paiements des abonnés pour déclencher des anomalies financières sur leur espace.</p>
         </div>
         <div className="col-span-1 md:col-span-2 p-4 bg-orange-500/5 rounded-xl border border-orange-500/20 flex flex-col gap-2">
-            <div className="flex gap-2 items-center font-semibold text-orange-600"><Rocket className="w-5 h-5" /> Ingénierie du Référentiel</div>
-            <p className="text-sm text-muted-foreground leading-relaxed">Standardisez votre modèle d'entreprise. Définissez les "Types d'activités" (Yoga, Cardio, HIIT...) avec leurs couleurs personnalisées pour le planning. Créez les "Lieux" de pratique pour un calendrier professionnel sans saisie redondante.</p>
+          <div className="flex gap-2 items-center font-semibold text-orange-600"><Rocket className="w-5 h-5" /> Ingénierie du Référentiel</div>
+          <p className="text-sm text-muted-foreground leading-relaxed">Standardisez votre modèle d'entreprise. Définissez les "Types d'activités" (Yoga, Cardio, HIIT...) avec leurs couleurs personnalisées pour le planning. Créez les "Lieux" de pratique pour un calendrier professionnel sans saisie redondante.</p>
         </div>
       </div>
     </div>
@@ -129,8 +129,8 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
           </p>
           <p className="text-sm leading-relaxed">
             Vous pouvez préciser si vous le souhaitez les champs <strong>Informations de santé</strong> et{" "}
-            <strong>Précisions utiles</strong>. Ces données sont strictement confidentielles envers les autres adhérents, 
-            seuls vos coachs y ont accès. Cela leur permet de mieux adapter les exercices, de cibler leurs conseils, 
+            <strong>Précisions utiles</strong>. Ces données sont strictement confidentielles envers les autres adhérents,
+            seuls vos coachs y ont accès. Cela leur permet de mieux adapter les exercices, de cibler leurs conseils,
             et d'accroître leur vigilance (en cas de blessure antérieure, de limitation physique particulière...).
           </p>
         </div>
@@ -260,7 +260,7 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
   const RoadmapContent = () => (
     <div className="space-y-6">
       <h3 className="text-xl font-semibold text-primary">Nouveautés & Roadmap</h3>
-      
+
       <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-3">
         <div className="flex items-center gap-2 text-lg font-medium text-green-600 dark:text-green-400">
           <Sparkles className="w-5 h-5" />
@@ -330,120 +330,120 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
           {/* On utilise overflow-y-auto pour forcer l'affichage de l'ascenseur natif et s'assurer que ça scrolle */}
           <div className="flex-1 overflow-y-auto h-[50vh] sm:h-[60vh] mt-4 border rounded-xl bg-card p-4 sm:p-6">
 
-              {/* ---- ONGLET : FONCTIONNALITÉS ---- */}
-              <TabsContent value="features" className="m-0 space-y-6 animate-in fade-in zoom-in-95 duration-200">
-                {isAdmin && <FeaturesAdmin />}
-                {isCoach && <FeaturesCoach />}
-                {isAdherent && <FeaturesAdherent />}
-              </TabsContent>
+            {/* ---- ONGLET : FONCTIONNALITÉS ---- */}
+            <TabsContent value="features" className="m-0 space-y-6 animate-in fade-in zoom-in-95 duration-200">
+              {isAdmin && <FeaturesAdmin />}
+              {isCoach && <FeaturesCoach />}
+              {isAdherent && <FeaturesAdherent />}
+            </TabsContent>
 
-              {/* ---- ONGLET : MODE D'EMPLOI ---- */}
-              <TabsContent value="guide" className="m-0 animate-in fade-in zoom-in-95 duration-200">
-                {isAdmin && <GuideAdmin />}
-                {isCoach && <GuideCoach />}
-                {isAdherent && <GuideAdherent />}
-              </TabsContent>
+            {/* ---- ONGLET : MODE D'EMPLOI ---- */}
+            <TabsContent value="guide" className="m-0 animate-in fade-in zoom-in-95 duration-200">
+              {isAdmin && <GuideAdmin />}
+              {isCoach && <GuideCoach />}
+              {isAdherent && <GuideAdherent />}
+            </TabsContent>
 
-              {/* ---- ONGLET : ROADMAP & NOUVEAUTÉS ---- */}
-              <TabsContent value="roadmap" className="m-0 animate-in fade-in zoom-in-95 duration-200">
-                <RoadmapContent />
-              </TabsContent>
+            {/* ---- ONGLET : ROADMAP & NOUVEAUTÉS ---- */}
+            <TabsContent value="roadmap" className="m-0 animate-in fade-in zoom-in-95 duration-200">
+              <RoadmapContent />
+            </TabsContent>
 
-              {/* ---- ONGLET : CRÉATEUR & CONTACT ---- */}
-              <TabsContent value="creator" className="m-0 space-y-6 animate-in fade-in zoom-in-95 duration-200">
-                <div className="flex flex-col sm:flex-row items-start gap-4">
-                  <div className="p-3 bg-primary/10 rounded-full text-primary shrink-0">
-                    <User className="w-8 h-8" />
+            {/* ---- ONGLET : CRÉATEUR & CONTACT ---- */}
+            <TabsContent value="creator" className="m-0 space-y-6 animate-in fade-in zoom-in-95 duration-200">
+              <div className="flex flex-col sm:flex-row items-start gap-4">
+                <div className="p-3 bg-primary/10 rounded-full text-primary shrink-0">
+                  <User className="w-8 h-8" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-1">Geoffroy Streit</h3>
+                  <p className="text-sm text-muted-foreground mb-4">Développeur d'applications web/mobile/bureau.</p>
+                  <div className="space-y-4 text-sm mt-4">
+                    <p className="text-muted-foreground leading-relaxed mb-4">
+                      L'objectif de cette application a été de remplacer les fichiers Excel, les échanges
+                      disparates, les groupes WhatsApp et les chaînes d'e-mails par une plateforme centralisée,
+                      moderne et bienveillante.
+                      <br /><br />
+                      Pensée spécialement pour les activités sportives orientées santé et bien-être,
+                      elle assure un meilleur suivi global : gestion des séances et activités, envois de messages et d'e-mails programmés,
+                      suivi des règlements, et prise en compte confidentielle de vos contraintes physiques et de santé.
+                    </p>
                   </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-1">Geoffroy Streit</h3>
-                    <p className="text-sm text-muted-foreground mb-4">Développeur d'applications web/mobile/bureau.</p>
-                    <div className="space-y-4 text-sm mt-4">
-                      <p className="text-muted-foreground leading-relaxed mb-4">
-                        L'objectif de cette application a été de remplacer les fichiers Excel, les échanges
-                        disparates, les groupes WhatsApp et les chaînes d'e-mails par une plateforme centralisée, 
-                        moderne et bienveillante. 
-                        <br /><br />
-                        Pensée spécialement pour les activités sportives orientées santé et bien-être, 
-                        elle assure un meilleur suivi global : gestion des séances et activités, envois de messages et d'e-mails programmés, 
-                        suivi des règlements, et prise en compte confidentielle de vos contraintes physiques et de santé.
-                      </p>
-                    </div>
-                    <div className="space-y-4 shadow-sm border p-4 bg-muted/20 rounded-xl mt-4">
-                      <div className="flex items-center gap-3 text-sm">
-                        <Mail className="w-5 h-5 text-primary" />
-                        <div>
-                          <p className="font-semibold">Email :</p>
-                          <a href="mailto:geoffroy.streit.dev@gmail.com" className="hover:underline hover:text-primary transition-colors">
-                            geoffroy.streit.dev@gmail.com
-                          </a>
-                        </div>
+                  <div className="space-y-4 shadow-sm border p-4 bg-muted/20 rounded-xl mt-4">
+                    <div className="flex items-center gap-3 text-sm">
+                      <Mail className="w-5 h-5 text-primary" />
+                      <div>
+                        <p className="font-semibold">Email :</p>
+                        <a href="mailto:geoffroy.streit.dev@gmail.com" className="hover:underline hover:text-primary transition-colors">
+                          geoffroy.streit.dev@gmail.com
+                        </a>
                       </div>
-                      <div className="flex items-center gap-3 text-sm">
-                        <Phone className="w-5 h-5 text-primary" />
-                        <div>
-                          <p className="font-semibold">Téléphone :</p>
-                          <p>06.77.13.75.38 <span className="text-muted-foreground">(En cas de problème ou urgence)</span></p>
-                        </div>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm">
+                      <Phone className="w-5 h-5 text-primary" />
+                      <div>
+                        <p className="font-semibold">Téléphone :</p>
+                        <p>06.77.13.75.38 <span className="text-muted-foreground">(En cas de problème ou urgence)</span></p>
                       </div>
                     </div>
                   </div>
                 </div>
-              </TabsContent>
+              </div>
+            </TabsContent>
 
-              {/* ---- ONGLET : MENTIONS LÉGALES / RGPD ---- */}
-              <TabsContent value="legal" className="m-0 space-y-6 animate-in fade-in zoom-in-95 duration-200">
-                <h3 className="text-xl font-semibold text-primary">Mentions Légales & Confidentialité</h3>
+            {/* ---- ONGLET : MENTIONS LÉGALES / RGPD ---- */}
+            <TabsContent value="legal" className="m-0 space-y-6 animate-in fade-in zoom-in-95 duration-200">
+              <h3 className="text-xl font-semibold text-primary">Mentions Légales & Confidentialité</h3>
 
-                <div className="space-y-4">
-                  <div className="bg-muted/30 p-4 rounded-xl border border-border/50">
-                    <div className="flex items-center gap-2 font-semibold mb-2">
-                      <Scale className="w-4 h-4 text-primary" /> Éditeur de l'application
-                    </div>
-                    <p className="text-sm text-muted-foreground mb-2">
-                      Application développée et maintenue par <strong>Geoffroy Streit</strong>, développeur d'applications web/mobile/bureau professionnel.
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      Contact : <a href="mailto:geoffroy.streit.dev@gmail.com" className="text-primary hover:underline">geoffroy.streit.dev@gmail.com</a>
-                    </p>
+              <div className="space-y-4">
+                <div className="bg-muted/30 p-4 rounded-xl border border-border/50">
+                  <div className="flex items-center gap-2 font-semibold mb-2">
+                    <Scale className="w-4 h-4 text-primary" /> Éditeur de l'application
                   </div>
-
-                  <div className="bg-muted/30 p-4 rounded-xl border border-border/50">
-                    <div className="flex items-center gap-2 font-semibold mb-2">
-                      <Lock className="w-4 h-4 text-primary" /> Protection des données (RGPD)
-                    </div>
-                    <ul className="text-sm text-muted-foreground space-y-1 leading-relaxed">
-                      <li>• Les données collectées (nom, e-mail, informations de santé) sont utilisées <strong>uniquement</strong> dans le cadre de la gestion des activités sportives.</li>
-                      <li>• Les informations de santé sont <strong>strictement confidentielles</strong> et accessibles uniquement aux coachs et administrateurs.</li>
-                      <li>• Aucune donnée n'est revendue ni cédée à des tiers.</li>
-                      <li>• Vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Contactez l'administrateur pour exercer ces droits.</li>
-                      <li>• Les mots de passe sont stockés sous forme <strong>chiffrée (hachage bcrypt)</strong>. Ils ne sont jamais lisibles, même par l'administrateur.</li>
-                    </ul>
-                  </div>
-
-                  <div className="bg-muted/30 p-4 rounded-xl border border-border/50">
-                    <div className="flex items-center gap-2 font-semibold mb-2">
-                      <Info className="w-4 h-4 text-primary" /> Cookies & Sessions
-                    </div>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      L'application utilise des cookies de session sécurisés pour maintenir votre connexion.
-                      Ces cookies sont strictement fonctionnels et ne servent pas au suivi publicitaire.
-                      Vous pouvez configurer vos <strong>préférences de cookies</strong> depuis l'icône paramètres en bas de l'application.
-                    </p>
-                  </div>
-
-                  <div className="bg-muted/30 p-4 rounded-xl border border-border/50">
-                    <div className="flex items-center gap-2 font-semibold mb-2">
-                      <HeartPulse className="w-4 h-4 text-primary" /> Responsabilité médicale
-                    </div>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      Les informations de santé renseignées dans l'application sont fournies à titre informatif
-                      et ne constituent pas un avis médical. Elles permettent aux coachs d'adapter leur
-                      accompagnement. Elles ne sauraient remplacer un suivi médical professionnel.
-                    </p>
-                  </div>
+                  <p className="text-sm text-muted-foreground mb-2">
+                    Application développée et maintenue par <strong>Geoffroy Streit</strong>, développeur d'applications web/mobile/bureau professionnel.
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    Contact : <a href="mailto:geoffroy.streit.dev@gmail.com" className="text-primary hover:underline">geoffroy.streit.dev@gmail.com</a>
+                  </p>
                 </div>
-              </TabsContent>
+
+                <div className="bg-muted/30 p-4 rounded-xl border border-border/50">
+                  <div className="flex items-center gap-2 font-semibold mb-2">
+                    <Lock className="w-4 h-4 text-primary" /> Protection des données (RGPD)
+                  </div>
+                  <ul className="text-sm text-muted-foreground space-y-1 leading-relaxed">
+                    <li>• Les données collectées (nom, e-mail, informations de santé) sont utilisées <strong>uniquement</strong> dans le cadre de la gestion des activités sportives.</li>
+                    <li>• Les informations de santé sont <strong>strictement confidentielles</strong> et accessibles uniquement aux coachs et administrateurs.</li>
+                    <li>• Aucune donnée n'est revendue ni cédée à des tiers.</li>
+                    <li>• Vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Contactez l'administrateur pour exercer ces droits.</li>
+                    <li>• Les mots de passe sont stockés sous forme <strong>chiffrée (hachage bcrypt)</strong>. Ils ne sont jamais lisibles, même par l'administrateur.</li>
+                  </ul>
+                </div>
+
+                <div className="bg-muted/30 p-4 rounded-xl border border-border/50">
+                  <div className="flex items-center gap-2 font-semibold mb-2">
+                    <Info className="w-4 h-4 text-primary" /> Cookies & Sessions
+                  </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    L'application utilise des cookies de session sécurisés pour maintenir votre connexion.
+                    Ces cookies sont strictement fonctionnels et ne servent pas au suivi publicitaire.
+                    Vous pouvez configurer vos <strong>préférences de cookies</strong> depuis l'icône paramètres en bas de l'application.
+                  </p>
+                </div>
+
+                <div className="bg-muted/30 p-4 rounded-xl border border-border/50">
+                  <div className="flex items-center gap-2 font-semibold mb-2">
+                    <HeartPulse className="w-4 h-4 text-primary" /> Responsabilité médicale
+                  </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Les informations de santé renseignées dans l'application sont fournies à titre informatif
+                    et ne constituent pas un avis médical. Elles permettent aux coachs d'adapter leur
+                    accompagnement. Elles ne sauraient remplacer un suivi médical professionnel.
+                  </p>
+                </div>
+              </div>
+            </TabsContent>
 
           </div>
         </Tabs>
