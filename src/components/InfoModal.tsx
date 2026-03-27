@@ -25,6 +25,9 @@ import {
   Sparkles,
   CreditCard,
   Banknote,
+  CheckSquare,
+  BarChart2,
+  ClipboardList
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import logoImage from "@/assets/agheal-logo.png";
@@ -49,38 +52,47 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
       <h3 className="text-xl font-semibold text-primary">Vos Fonctionnalités (Adhérent)</h3>
       <p className="text-muted-foreground leading-relaxed">En tant qu'adhérent, l'application vous offre un espace personnel et sécurisé pour faciliter votre pratique sportive.</p>
       <ul className="space-y-3 mt-4">
-        <li className="flex gap-3"><Calendar className="w-5 h-5 text-blue-500 shrink-0" /><div><strong>Planning interactif :</strong> Consultez les séances, le matériel requis et inscrivez-vous en un clic. Recevez un rappel par e-mail la veille de votre séance.</div></li>
-        <li className="flex gap-3"><HeartPulse className="w-5 h-5 text-destructive shrink-0" /><div><strong>Profil Santé confidentiel :</strong> Renseignez vos spécificités de santé pour permettre à vos coachs d'adapter les exercices, en toute confidentialité. Soyez alerté 1 mois avant l'expiration de votre certificat.</div></li>
-        <li className="flex gap-3"><Send className="w-5 h-5 text-green-500 shrink-0" /><div><strong>Communications :</strong> Restez informé grâce aux messages de vos coachs (urgences, alertes) sur le Dashboard et recevez des e-mails informatifs selon votre activité professionnelle ou de groupe.</div></li>
-        <li className="flex gap-3"><Database className="w-5 h-5 text-purple-500 shrink-0" /><div><strong>Suivi d'Abonnement :</strong> Gardez un œil visuel sur la validité de votre abonnement (indicateurs sur le Dashboard) et recevez des rappels avant échéance.</div></li>
+        <li className="flex gap-3"><Calendar className="w-5 h-5 text-blue-500 shrink-0" /><div><strong>Planning interactif :</strong> Consultez les séances futures, le nombre de places disponibles et inscrivez-vous en un clic. Les séances passées disparaissent automatiquement du planning. Recevez un rappel par e-mail la veille de vos séances.</div></li>
+        <li className="flex gap-3"><HeartPulse className="w-5 h-5 text-destructive shrink-0" /><div><strong>Profil Santé confidentiel :</strong> Renseignez vos spécificités santé (blessures, pathologies) pour permettre à vos coachs d'adapter les exercices. Soyez alerté <strong>1 mois avant</strong> l'expiration de votre certificat médical obligatoire.</div></li>
+        <li className="flex gap-3"><ClipboardList className="w-5 h-5 text-purple-500 shrink-0" /><div><strong>Mon Historique :</strong> Consultez l'ensemble de vos séances passées et à venir, avec votre statut de présence pour chacune (présent / absent).</div></li>
+        <li className="flex gap-3"><Send className="w-5 h-5 text-green-500 shrink-0" /><div><strong>Communications :</strong> Restez informé via les messages de vos coachs sur le Dashboard (urgences en rouge, alertes générales). Recevez aussi des e-mails de rappel pour vos abonnements et certificats.</div></li>
+        <li className="flex gap-3"><Database className="w-5 h-5 text-amber-500 shrink-0" /><div><strong>Suivi d'Abonnement :</strong> Voyez en un coup d'œil votre statut de règlement et la date de votre prochain renouvellement directement sur votre Dashboard.</div></li>
       </ul>
+      <div className="mt-4 bg-blue-500/10 p-3 rounded-lg border border-blue-500/20">
+        <p className="text-sm font-semibold text-blue-700 dark:text-blue-400 mb-1">📅 Fenêtre d'inscription</p>
+        <p className="text-sm text-muted-foreground">Vous pouvez vous inscrire uniquement aux séances dans les <strong>7 prochains jours</strong>. Les séances plus éloignées sont visibles mais pas encore ouvertes à l'inscription.</p>
+      </div>
     </div>
   );
 
   const FeaturesCoach = () => (
     <div className="space-y-4">
       <h3 className="text-xl font-semibold text-primary">Vos Fonctionnalités exclusives (Coach)</h3>
-      <p className="text-muted-foreground leading-relaxed">Découvrez l'arsenal complet des outils à votre disposition pour animer vos séances, gérer l'administratif léger et assurer un suivi personnalisé et sécuritaire de vos groupes.</p>
+      <p className="text-muted-foreground leading-relaxed">Découvrez l'arsenal complet des outils à votre disposition pour animer vos séances, gérer l'administratif et assurer un suivi personnalisé de vos groupes.</p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
         <div className="p-4 bg-muted/30 rounded-xl border border-border/50 flex flex-col gap-2">
-          <div className="flex gap-2 items-center font-semibold text-blue-600 dark:text-blue-400"><Calendar className="w-5 h-5" /> Planification experte</div>
-          <p className="text-sm text-muted-foreground">Création de séances à l'unité ou en série (jours, semaines, mois). Définissez des limites de participants strictes (liste d'attente) ou flexibles. Utilisez les presets de matériel (Pilates, Musculation...) pour gagner du temps lors de la rédaction.</p>
+            <div className="flex gap-2 items-center font-semibold text-blue-600 dark:text-blue-400"><Calendar className="w-5 h-5" /> Planification experte</div>
+            <p className="text-sm text-muted-foreground">Création de séances à l'unité ou <strong>en série</strong> (1 à 12 semaines). Capacité min/max configurable. Presets de types (Pilates, Musculation…) avec lieu par défaut. Modification rapide <strong>depuis le planning public</strong>.</p>
         </div>
         <div className="p-4 bg-muted/30 rounded-xl border border-border/50 flex flex-col gap-2">
-          <div className="flex gap-2 items-center font-semibold text-purple-600 dark:text-purple-400"><Users className="w-5 h-5" /> Contrôle des présences</div>
-          <p className="text-sm text-muted-foreground">Pilotez les inscriptions : pointez les présents, visualisez les absents. Accédez instantanément au taux de remplissage de vos cours et intervenez manuellement sur la liste si un adhérent rencontre des difficultés avec l'application.</p>
+            <div className="flex gap-2 items-center font-semibold text-purple-600 dark:text-purple-400"><CheckSquare className="w-5 h-5" /> Appel &amp; Walk-ins</div>
+            <p className="text-sm text-muted-foreground">Pointez les présents en temps réel avec horodatage automatique. Ajoutez des <strong>walk-ins</strong> (adhérents de dernière minute non inscrits) via la barre de recherche. Chaque appel génère un <strong>log traçable</strong>.</p>
         </div>
         <div className="p-4 bg-muted/30 rounded-xl border border-border/50 flex flex-col gap-2">
-          <div className="flex gap-2 items-center font-semibold text-destructive"><HeartPulse className="w-5 h-5" /> Vigilance Santé Proactive</div>
-          <p className="text-sm text-muted-foreground">Un système d'icônes médicales (🩺) vous alerte instantanément sur la liste d'inscrits. Accédez aux détails confidentiels (blessures, pathologies) pour adapter vos exercices. Gardez l'œil ouvert sur la validité des certificats médicaux.</p>
+            <div className="flex gap-2 items-center font-semibold text-destructive"><HeartPulse className="w-5 h-5" /> Vigilance Santé 🩺</div>
+            <p className="text-sm text-muted-foreground">Icône médicale sur chaque inscrit ayant des contraintes physiques. Accès aux détails confidentiels (blessures, pathologies). Visualisation des certificats médicaux expirés ou manquants.</p>
         </div>
         <div className="p-4 bg-muted/30 rounded-xl border border-border/50 flex flex-col gap-2">
-          <div className="flex gap-2 items-center font-semibold text-green-600 dark:text-green-400"><Send className="w-5 h-5" /> Communication multicanale</div>
-          <p className="text-sm text-muted-foreground">Remplacez définitivement WhatsApp et les mails désordonnés. Rédigez des messages applicatifs rapides ("Urgents" ou standards), ou créez des <strong>campagnes d'e-mails programmables</strong> pour un envoi différé ciblé.</p>
+            <div className="flex gap-2 items-center font-semibold text-green-600 dark:text-green-400"><Send className="w-5 h-5" /> Communication multicanale</div>
+            <p className="text-sm text-muted-foreground">Messages in-app ciblés (tous / groupe / individuel), urgents (rouge) ou standards. Campagnes d'<strong>e-mails programmables</strong> avec envoi différé. Remplacement définitif du groupe WhatsApp.</p>
         </div>
-        <div className="col-span-1 md:col-span-2 p-4 bg-muted/30 rounded-xl border border-border/50 flex flex-col gap-2">
-          <div className="flex gap-2 items-center font-semibold text-amber-600 dark:text-amber-400"><CreditCard className="w-5 h-5" /> Gestion des Règlements</div>
-          <p className="text-sm text-muted-foreground">Simplifiez votre comptabilité : enregistrez facilement la saisie des règlements par adhérent (espèces, chèque ou virement). Obtenez en un clin d'œil depuis le Dashboard l'évolution mensuelle de vos encaissements et la répartition par mode ou par coach !</p>
+        <div className="p-4 bg-muted/30 rounded-xl border border-border/50 flex flex-col gap-2">
+            <div className="flex gap-2 items-center font-semibold text-amber-600 dark:text-amber-400"><CreditCard className="w-5 h-5" /> Gestion des Règlements</div>
+            <p className="text-sm text-muted-foreground">Enregistrez les règlements (espèces / chèque / virement). Dashboard mensuel des encaissements. Gestion des statuts (<em>À jour / En attente / Bloqué</em>).</p>
+        </div>
+        <div className="p-4 bg-muted/30 rounded-xl border border-border/50 flex flex-col gap-2">
+            <div className="flex gap-2 items-center font-semibold text-indigo-600 dark:text-indigo-400"><BarChart2 className="w-5 h-5" /> Statistiques &amp; Exports</div>
+            <p className="text-sm text-muted-foreground">Dashboard 6 onglets : KPIs globaux, historique séances, taux de présence, pyramide des âges, paiements, logs d'appel. Export <strong>CSV</strong> global et téléchargement <strong>JSON</strong> par log.</p>
         </div>
       </div>
     </div>
@@ -89,19 +101,23 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
   const FeaturesAdmin = () => (
     <div className="space-y-4">
       <h3 className="text-xl font-semibold text-primary">Le Hub Administrateur</h3>
-      <p className="text-muted-foreground leading-relaxed">Supervisez la globalité. Le rôle Admin hérite des pouvoirs Coach (planification, santé, messages, e-mails programmés) et y ajoute le contrôle structurel, financier et sécuritaire de toute la plateforme AGHeal.</p>
+      <p className="text-muted-foreground leading-relaxed">Supervisez la globalité. Le rôle Admin hérite de <strong>tous les pouvoirs Coach</strong> et y ajoute le contrôle structurel, financier et sécuritaire de toute la plateforme AGHeal.</p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
         <div className="p-4 bg-primary/5 rounded-xl border border-primary/20 flex flex-col gap-2">
-          <div className="flex gap-2 items-center font-semibold text-primary"><Shield className="w-5 h-5" /> Supervision & Sécurité</div>
-          <p className="text-sm text-muted-foreground leading-relaxed">Consultez l'annuaire complet. Promouvez un adhérent en Coach, ou nommez un co-Admin. Le système vous protège (auto-blocage impossible). Gérez le statut des membres depuis leur fiche détaillée, activez ou désactivez les accès avec des dialogues de vérification.</p>
+            <div className="flex gap-2 items-center font-semibold text-primary"><Shield className="w-5 h-5" /> Supervision &amp; Sécurité</div>
+            <p className="text-sm text-muted-foreground leading-relaxed">Annuaire complet. Promotion de rôles (adhérent → coach → admin). Blocage / déblocage de comptes. Forçage de confirmation e-mail. Protection anti-lockout (impossible de se bloquer soi-même).</p>
         </div>
         <div className="p-4 bg-destructive/5 rounded-xl border border-destructive/20 flex flex-col gap-2">
-          <div className="flex gap-2 items-center font-semibold text-destructive"><Banknote className="w-5 h-5" /> Règlements & Facturation</div>
-          <p className="text-sm text-muted-foreground leading-relaxed">Le système comptable complet vous permet de générer un tableau de bord analytique (Total encaissé, KPIs par moyen de paiement) et d'appliquer une surveillance experte du statut des paiements des abonnés pour déclencher des anomalies financières sur leur espace.</p>
+            <div className="flex gap-2 items-center font-semibold text-destructive"><Banknote className="w-5 h-5" /> Règlements &amp; Comptabilité</div>
+            <p className="text-sm text-muted-foreground leading-relaxed">Dashboard analytique complet (total encaissé, taux par méthode). Suppression de règlements (droit exclusif admin). Alertes automatiques à J-7 et à l'expiration.</p>
         </div>
-        <div className="col-span-1 md:col-span-2 p-4 bg-orange-500/5 rounded-xl border border-orange-500/20 flex flex-col gap-2">
-          <div className="flex gap-2 items-center font-semibold text-orange-600"><Rocket className="w-5 h-5" /> Ingénierie du Référentiel</div>
-          <p className="text-sm text-muted-foreground leading-relaxed">Standardisez votre modèle d'entreprise. Définissez les "Types d'activités" (Yoga, Cardio, HIIT...) avec leurs couleurs personnalisées pour le planning. Créez les "Lieux" de pratique pour un calendrier professionnel sans saisie redondante.</p>
+        <div className="p-4 bg-muted/30 rounded-xl border border-border/50 flex flex-col gap-2">
+            <div className="flex gap-2 items-center font-semibold text-indigo-600 dark:text-indigo-400"><BarChart2 className="w-5 h-5" /> Statistiques globales</div>
+            <p className="text-sm text-muted-foreground leading-relaxed">Accès complet au dashboard 6 onglets : vue d'ensemble KPIs, séances historisées, taux présence, pyramide des âges, paiements mensuels, logs d'appels. Export CSV global.</p>
+        </div>
+        <div className="col-span-1 md:col-span-1 p-4 bg-orange-500/5 rounded-xl border border-orange-500/20 flex flex-col gap-2">
+            <div className="flex gap-2 items-center font-semibold text-orange-600"><Rocket className="w-5 h-5" /> Référentiel Activités &amp; Lieux</div>
+            <p className="text-sm text-muted-foreground leading-relaxed">Créez et gérez les types d'activités (Yoga, HIIT…) et les lieux de pratique. Ces référentiels sont partagés par tous les coachs pour un planning cohérent.</p>
         </div>
       </div>
     </div>
@@ -112,26 +128,20 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
   /* ------------------------------------------------------------------ */
   const GuideAdherent = () => (
     <div className="space-y-6">
-      <h3 className="text-xl font-semibold text-primary">Mode d'emploi détaillé — Adhérent</h3>
+      <h3 className="text-xl font-semibold text-primary">Mode d'emploi — Adhérent</h3>
 
       <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-3">
         <div className="flex items-center gap-2 text-lg font-medium">
           <HeartPulse className="w-5 h-5 text-destructive" />
-          <span>Votre Profil & Santé</span>
+          <span>Votre Profil &amp; Santé</span>
         </div>
         <p className="text-sm text-muted-foreground leading-relaxed">
-          Rendez-vous dans l'onglet <strong>Profil</strong> pour mettre à jour vos coordonnées,
-          votre photo et votre date de certificat médical.
+          Rendez-vous dans <strong>Profil</strong> pour mettre à jour vos coordonnées, votre photo et votre date de certificat médical.
         </p>
         <div className="bg-amber-500/10 p-3 rounded-lg border border-amber-500/30">
-          <p className="text-sm font-semibold text-amber-700 dark:text-amber-400 mb-1">
-            💡 Informations de santé — Facultatives mais précieuses
-          </p>
+          <p className="text-sm font-semibold text-amber-700 dark:text-amber-400 mb-1">💡 Informations de santé — Facultatives mais précieuses</p>
           <p className="text-sm leading-relaxed">
-            Vous pouvez préciser si vous le souhaitez les champs <strong>Informations de santé</strong> et{" "}
-            <strong>Précisions utiles</strong>. Ces données sont strictement confidentielles envers les autres adhérents,
-            seuls vos coachs y ont accès. Cela leur permet de mieux adapter les exercices, de cibler leurs conseils,
-            et d'accroître leur vigilance (en cas de blessure antérieure, de limitation physique particulière...).
+            Les champs <strong>Informations de santé</strong> et <strong>Précisions utiles</strong> sont strictement confidentiels. Seuls vos coachs y ont accès. Ils permettent d'adapter les exercices et d'améliorer votre sécurité (blessures antérieures, limitations physiques…).
           </p>
         </div>
       </div>
@@ -139,26 +149,37 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
       <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-2">
         <div className="flex items-center gap-2 text-lg font-medium">
           <Calendar className="w-5 h-5 text-blue-500" />
-          <span>Planning & Inscriptions</span>
+          <span>Planning &amp; Inscriptions</span>
         </div>
         <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
-          <li>• Consultez l'onglet <strong>Planning</strong> pour voir les prochaines séances.</li>
-          <li>• Chaque séance indique le matériel requis et le nombre de places disponibles.</li>
-          <li>• Un simple clic suffit pour s'inscrire ou se désinscrire (merci de le faire à l'avance pour libérer votre place).</li>
-          <li>• Des rappels de confirmation de vos prochaines séances vous seront envoyés par e-mail la veille du cours.</li>
+          <li>• Consultez <strong>Séances</strong> pour voir uniquement les prochaines séances disponibles (les séances passées sont masquées automatiquement).</li>
+          <li>• Chaque fiche séance affiche le lieu, le type d'activité, la capacité et les places restantes.</li>
+          <li>• Inscrivez-vous ou désistez-vous en un clic. L'inscription n'est possible que dans un délai de <strong>7 jours</strong> avant la séance.</li>
+          <li>• Un e-mail de rappel vous est envoyé automatiquement <strong>la veille</strong> de chaque séance.</li>
+        </ul>
+      </div>
+
+      <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-2">
+        <div className="flex items-center gap-2 text-lg font-medium">
+          <ClipboardList className="w-5 h-5 text-purple-500" />
+          <span>Historique</span>
+        </div>
+        <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
+          <li>• La page <strong>Historique</strong> liste toutes vos séances passées et à venir avec votre statut de présence.</li>
+          <li>• Consultez-la pour retrouver les séances manquées ou confirmer vos participations.</li>
         </ul>
       </div>
 
       <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-2">
         <div className="flex items-center gap-2 text-lg font-medium">
           <Send className="w-5 h-5 text-green-500" />
-          <span>Informations & Messages</span>
+          <span>Informations &amp; Messages</span>
         </div>
         <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
-          <li>• Un espace <strong>Messages de vos coachs</strong> est présent sur votre Dashboard pour vous tenir informé.</li>
-          <li>• Vous êtes susceptible de recevoir des messages <strong>généraux</strong> (pour tous), de <strong>groupe</strong>, ou <strong>personnalisés</strong>.</li>
-          <li>• Les alertes urgentes s'afficheront clairement (en rouge) pour que vous ne les manquiez pas (ex: annulation de cours).</li>
-          <li>• Vous recevrez également plusieurs types d'informations <strong>par courriel (e-mail)</strong> concernant votre pratique sportive avec AGHeal : alertes différées de vos coachs, rappels système concernant vos abonnements à renouveler, et rappels 1 mois avant l'expiration de votre certificat médical obligatoire.</li>
+          <li>• L'espace <strong>Messages de vos coachs</strong> sur le Dashboard vous tient informé des actualités du club.</li>
+          <li>• Vous pouvez recevoir des messages généraux, de groupe, ou personnalisés.</li>
+          <li>• Les alertes urgentes (ex : annulation de cours) apparaissent en <span className="text-red-500 font-semibold">rouge</span> en haut de votre Dashboard.</li>
+          <li>• Des e-mails automatiques vous informent des rappels d'abonnement (J-7), des alertes d'expiration de certificat (M-1) et des rappels de séance (J-1).</li>
         </ul>
       </div>
     </div>
@@ -171,45 +192,51 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
       <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-3">
         <div className="flex items-center gap-2 text-lg font-medium">
           <Calendar className="w-5 h-5 text-blue-500" />
-          <span>Gestion fine du Planning</span>
+          <span>Gestion du Planning</span>
         </div>
         <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
-          <li>• <strong>Création à la chaîne :</strong> Utilisez la récurrence (jours, semaines, mois) pour préparer la saison de tous les cours en une minute.</li>
-          <li>• <strong>Jauges et files actives :</strong> Réglez la capacité sur stricte (personne d'autre ne peut venir) ou sur indicative, et utilisez les presets "Musculation", "Pilates" pour afficher instantanément la liste du bon matériel à apporter par les élèves.</li>
+          <li>• <strong>Création à la chaîne :</strong> Utilisez la récurrence (1 à 12 semaines) pour préparer toute la saison en quelques minutes.</li>
+          <li>• <strong>Modification rapide :</strong> Depuis le planning public (Séances), un bouton <em>Modifier</em> ou <em>Supprimer</em> apparaît directement dans la modale d'une séance — sans quitter le planning.</li>
+          <li>• <strong>Capacité :</strong> Réglez les limites min/max. La capacité max est bloquante pour les adhérents. Laissez-la vide pour les séances illimitées.</li>
         </ul>
       </div>
 
       <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-3">
         <div className="flex items-center gap-2 text-lg font-medium">
-          <Users className="w-5 h-5 text-purple-500" />
-          <span>Feuille d'Appel & Secret Médical</span>
+          <CheckSquare className="w-5 h-5 text-purple-500" />
+          <span>Appel de Présences &amp; Walk-ins</span>
         </div>
         <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
-          <li>• <strong>Radar Santé 🩺 :</strong> Sur chaque liste d'inscrits à un cours, l'apparition d'un stéthoscope vous prévient si un élève a une contrainte physique. Cliquez sur sa fiche pour lire sa condition et adapter son échauffement en tout secret.</li>
-          <li>• <strong>Certificats & Administratif :</strong> Repérez en couleur les certificats manquants directement dans votre feuille d'appel connectée sur le terrain. AGHeal relance automatiquement les adhérents 30 jours avant péremption !</li>
+          <li>• <strong>Radar Santé 🩺 :</strong> L'icône stéthoscope signale les inscrits ayant des contraintes physiques. Cliquez pour voir leurs informations et adapter vos exercices.</li>
+          <li>• <strong>Pointage :</strong> Cochez les présents → l'heure d'arrivée est horodatée automatiquement.</li>
+          <li>• <strong>Walk-ins :</strong> Un adhérent arrive sans s'être inscrit ? Recherchez-le dans la barre "Rechercher un adhérent non-inscrit" et ajoutez-le à la séance directement.</li>
+          <li>• <strong>Sauvegarde :</strong> Un clic sur "Sauvegarder l'appel" génère un <strong>log permanent</strong> consultable dans les Statistiques (onglet Logs).</li>
+          <li>• <strong>Certificats :</strong> Les statuts (valide / expiré / manquant) sont visibles sur la feuille d'appel. AGHeal relance automatiquement les adhérents M-1 avant expiration.</li>
+        </ul>
+      </div>
+
+      <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-3">
+        <div className="flex items-center gap-2 text-lg font-medium">
+          <BarChart2 className="w-5 h-5 text-indigo-500" />
+          <span>Statistiques &amp; Exports</span>
+        </div>
+        <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
+          <li>• Accédez au <strong>Dashboard Statistiques</strong> (6 onglets) : Vue d'ensemble, Séances, Présences, Adhérents, Paiements, Logs.</li>
+          <li>• Cliquez sur une séance dans l'onglet <em>Séances</em> pour voir la liste détaillée des inscrits et présents.</li>
+          <li>• <strong>Export CSV</strong> : Exportez tout l'historique en un clic (compatible Excel).</li>
+          <li>• <strong>Téléchargement JSON</strong> : Dans l'onglet Logs, téléchargez le fichier JSON d'un appel pour garder une trace hors-ligne.</li>
         </ul>
       </div>
 
       <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-3">
         <div className="flex items-center gap-2 text-lg font-medium">
           <Send className="w-5 h-5 text-green-500" />
-          <span>Stratégie de Communication</span>
+          <span>Communication &amp; Finance</span>
         </div>
         <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
-          <li>• <strong>Dites adieu à WhatsApp :</strong> Le module Communications vous propose désormais de rédiger des messages applicatifs internes ou de programmer l'envoi de campagnes d'e-mails. Cochez "Global", "Groupe A" ou "Individuel" pour un meilleur ciblage.</li>
-          <li>• <strong>Alerte Rouge :</strong> Si vous activez le bouton "Urgent" sur un message In-app, alors celui-ci devient une bannière rouge agressive qui envahira le Dashboard du ou des membres la prochaine fois qu'ils lanceront l'App.</li>
-          <li>• <strong>Planification d'E-mails :</strong> Anticipez les alertes ou annonces commerciales en programmant la date et de l'heure d'envoi de l'e-mail. Le script de tâche gèrera son routage automatique.</li>
-        </ul>
-      </div>
-
-      <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-3">
-        <div className="flex items-center gap-2 text-lg font-medium">
-          <CreditCard className="w-5 h-5 text-amber-500" />
-          <span>Gestion Financière</span>
-        </div>
-        <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
-          <li>• <strong>Saisie rapide :</strong> Enregistrez les règlements (espèces, chèques, virements) directement depuis la tuile 'Règlements' de votre espace.</li>
-          <li>• <strong>Tableau de Bord :</strong> Analysez l'évolution mensuelle de vos encaissements et filtrez l'historique par type de paiement ou par coach.</li>
+          <li>• <strong>Messages in-app :</strong> Rédigez depuis <em>Informations → onglet Nouveautés</em>. Ciblez tous, un groupe ou un individu. Activez "Urgent" pour un banner rouge sur le Dashboard des destinataires.</li>
+          <li>• <strong>Campagnes e-mail :</strong> Planifiez l'envoi à une date/heure précise. Le serveur s'en charge automatiquement.</li>
+          <li>• <strong>Règlements :</strong> Saisissez encaissements, mode de paiement et commentaire. Visualisez l'évolution mensuelle depuis le Dashboard Règlements.</li>
         </ul>
       </div>
     </div>
@@ -219,36 +246,54 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
     <div className="space-y-6">
       <h3 className="text-xl font-semibold text-primary">Manuel de Supervision — Administrateur</h3>
 
+      <div className="bg-blue-500/5 p-3 rounded-lg border border-blue-500/20 text-sm text-blue-700 dark:text-blue-400">
+        ℹ️ En tant admin, vous avez accès à <strong>toutes les fonctionnalités Coach</strong> en plus des outils de supervision ci-dessous.
+      </div>
+
       <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-3">
         <div className="flex items-center gap-2 text-lg font-medium">
           <Shield className="w-5 h-5 text-blue-500" />
-          <span>Tour de Contrôle - Clients</span>
+          <span>Gestion des Utilisateurs</span>
         </div>
         <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
-          <li>• <strong>Promotions des grades :</strong> Naviguez dans la liste Clients pour coopter instantanément de nouveaux coachs via les menus options sans délai, les nouveaux droits s'activent pour la prochaine vue.</li>
-          <li>• <strong>Filet de sécurité :</strong> Le système vous prévient des erreurs humaines. Bannissez ceux qui partent, ne craignez pas de bloquer votre propre login et rappelez-vous que le rôle initial 'adhérent' est vital et indélébile dans l'application.</li>
+          <li>• <strong>Promotions :</strong> Depuis la liste Clients ou la page Admin Utilisateurs, promouvez un adhérent en coach ou un coach en admin. Les droits s'appliquent immédiatement.</li>
+          <li>• <strong>Blocage :</strong> Désactivez l'accès d'un utilisateur en un clic. Il ne pourra plus se connecter ni s'inscrire.</li>
+          <li>• <strong>Protection anti-lockout :</strong> Vous ne pouvez pas vous bloquer vous-même ni vous retirer vos propres droits admin — le système refuse silencieusement ces actions.</li>
+          <li>• <strong>Confirmation e-mail :</strong> Forcez la validation de l'e-mail d'un utilisateur si nécessaire.</li>
         </ul>
       </div>
 
       <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-3">
         <div className="flex items-center gap-2 text-lg font-medium">
           <Database className="w-5 h-5 text-destructive" />
-          <span>Surveillance des Abonnements & Factures</span>
+          <span>Surveillance des Abonnements &amp; Paiements</span>
         </div>
         <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
-          <li>• <strong>Tri Automatique :</strong> Fini de retenir qui doit une mensualité. L'onglet affiche tous ceux "En défaut". Faites sauter la sanction en un claquement de doigt, cela supprimera l'avertissement permanent de leur page d'accueil d'abonnés.</li>
-          <li>• <strong>Alertes Programmées :</strong> AGHeal se charge de lancer les protocoles de relance automatiques à J-7 de l'expiration d'un abonnement ainsi qu'à sa date de péremption, en utilisant les tâches planifiées du serveur.</li>
+          <li>• <strong>Statuts de règlement :</strong> Passez manuellement un adhérent en "À jour", "En attente" ou "Bloqué" depuis sa fiche client. Cela supprime ou affiche l'alerte sur son Dashboard.</li>
+          <li>• <strong>Alertes automatiques :</strong> Le système déclenche des e-mails de relance à J-7 et J+1 de la date d'échéance.</li>
+          <li>• <strong>Suppression de règlements :</strong> Seul l'admin peut supprimer une entrée dans l'historique des paiements.</li>
         </ul>
       </div>
 
       <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-3">
         <div className="flex items-center gap-2 text-lg font-medium">
-          <Calendar className="w-5 h-5 text-orange-500" />
-          <span>La structure des Données</span>
+          <BarChart2 className="w-5 h-5 text-indigo-500" />
+          <span>Statistiques Avancées</span>
         </div>
         <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
-          <li>• <strong>Nomenclature Globale :</strong> Verrouillez vos 'Types de cours' en leur assignant des pastilles colorées propres à votre club pour éviter le chaos dans l'affichage du calendrier par vos coachs indépendants, même chose pour adresser correctement les 'Lieux'.</li>
-          <li>• <strong>Totalité des pouvoirs :</strong> Avoir ce rôle vous garantit que vous pourrez assister vos propres coachs et pallier une crise car l'Admin hérite de la rédaction des séances, des e-mails programmés et de la liste santé confidentielle.</li>
+          <li>• Dashboard complet 6 onglets : Séances historisées, taux de présence par type, pyramide des âges, statuts paiements et certificats, CA mensuel, logs d'appels.</li>
+          <li>• Export CSV global (tout l'historique, compatible Excel) et téléchargement JSON par log d'appel.</li>
+        </ul>
+      </div>
+
+      <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-3">
+        <div className="flex items-center gap-2 text-lg font-medium">
+          <Rocket className="w-5 h-5 text-orange-500" />
+          <span>Référentiel Activités &amp; Lieux</span>
+        </div>
+        <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
+          <li>• <strong>Types d'activités :</strong> Définissez vos activités (Yoga, Pilates, HIIT…) avec un lieu par défaut. Ils apparaissent en preset dans le formulaire de création de séance.</li>
+          <li>• <strong>Lieux :</strong> Créez les adresses de vos salles. La suppression d'un lieu met sa référence à NULL dans les séances existantes — l'historique est préservé.</li>
         </ul>
       </div>
     </div>
@@ -259,19 +304,20 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
   /* ------------------------------------------------------------------ */
   const RoadmapContent = () => (
     <div className="space-y-6">
-      <h3 className="text-xl font-semibold text-primary">Nouveautés & Roadmap</h3>
+      <h3 className="text-xl font-semibold text-primary">Nouveautés &amp; Roadmap</h3>
 
       <div className="bg-muted/30 p-4 rounded-xl border border-border/50 space-y-3">
         <div className="flex items-center gap-2 text-lg font-medium text-green-600 dark:text-green-400">
           <Sparkles className="w-5 h-5" />
-          <span>Nouveautés Récentes</span>
+          <span>Nouveautés récentes (v1.9.1)</span>
         </div>
         <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
-          <li>• <span className="font-semibold px-2 py-0.5 rounded text-xs bg-muted border">NOUVEAU</span> <strong>Système de Gestion des Règlements</strong> : Saisie, historique complet et tableau de bord analytique des encaissements (v1.8.0).</li>
-          <li>• <span className="font-semibold px-2 py-0.5 rounded text-xs bg-muted border">NOUVEAU</span> <strong>Notifications Push & Alertes Auto</strong> : Abonnement web push pour recevoir des alertes automatiques d'expiration de certificat (M-1) et abonnement (J-7).</li>
-          <li>• <span className="font-semibold px-2 py-0.5 rounded text-xs bg-muted border">NOUVEAU</span> <strong>Campagnes d'E-mails Programmables</strong> : Les coachs et admins peuvent planifier l'envoi de courriels informatifs ciblés à l'avance.</li>
-          <li>• <strong>Communications ciblées (App)</strong> : L'espace d'affichage "Messages de vos coachs" propose des messages de groupe, personnels, ou globaux, dont les urgences sont en rouge vif.</li>
-          <li>• <strong>Sécurité Renforcée</strong> : Protection totale de l'Admin contre les fautes de frappe de bannissement. Ajout d'audit logs invisibles pour sécuriser la supervision système.</li>
+          <li>• <span className="font-semibold px-2 py-0.5 rounded text-xs bg-green-500/20 border border-green-500/30 text-green-700 dark:text-green-300">NOUVEAU</span> <strong>Dashboard Statistiques 6 onglets</strong> : KPIs globaux, séances historisées, présences, adhérents, paiements, logs — avec exports CSV et JSON.</li>
+          <li>• <span className="font-semibold px-2 py-0.5 rounded text-xs bg-green-500/20 border border-green-500/30 text-green-700 dark:text-green-300">NOUVEAU</span> <strong>Appel Walk-in</strong> : Ajout d'un adhérent non-inscrit directement lors du pointage. Log automatique avec coach, inscrits et présents.</li>
+          <li>• <span className="font-semibold px-2 py-0.5 rounded text-xs bg-green-500/20 border border-green-500/30 text-green-700 dark:text-green-300">AMÉLIORÉ</span> <strong>Planning public</strong> : Les séances passées sont masquées automatiquement. Modification/Suppression rapide depuis le planning.</li>
+          <li>• <span className="font-semibold px-2 py-0.5 rounded text-xs bg-muted border">v1.8.0</span> <strong>Système de Gestion des Règlements</strong> : Saisie, historique complet et dashboard analytique des encaissements.</li>
+          <li>• <span className="font-semibold px-2 py-0.5 rounded text-xs bg-muted border">v1.8.0</span> <strong>Notifications Push &amp; Alertes Auto</strong> : Rappels J-1 séance, M-1 certificat, J-7 abonnement — par e-mail et push navigateur.</li>
+          <li>• <span className="font-semibold px-2 py-0.5 rounded text-xs bg-muted border">v1.7.0</span> <strong>Campagnes e-mail programmées</strong> et communications in-app ciblées (tous / groupe / individuel).</li>
         </ul>
       </div>
 
@@ -281,10 +327,11 @@ export function InfoModal({ open, onOpenChange }: InfoModalProps) {
           <span>En préparation (Roadmap)</span>
         </div>
         <ul className="text-sm text-muted-foreground leading-relaxed space-y-2">
-          <li>• 🏋️ <strong>Suivi de progression personnel</strong> : Accès au bilan, historique et évolution concrète de vos performances (Pour sportifs).</li>
-          <li>• 📲 <strong>Application Mobile PWA</strong> : Installation pure et simple sur l'écran d'accueil avec icône Apple/Android et fonctionnement hors-ligne.</li>
-          <li>• 📅 <strong>Liste d'attente</strong> : Inscriptions secondaires automatiques lors des désistements sur des séances pleines.</li>
-          <li>• 📊 <strong>Export des données</strong> : Fonctionnalité d'export CSV direct des annuaires, plannings, présences et bilans financiers.</li>
+          <li>• 📲 <strong>PWA hors-ligne avancée</strong> : Faire l'appel sans réseau (zone blanche), synchronisation différée des présences au retour en ligne.</li>
+          <li>• 📅 <strong>Synchronisation Calendriers</strong> : Export iCal intégrable dans Google Calendar ou Outlook.</li>
+          <li>• 🏋️ <strong>Suivi de progression</strong> : Bilan personnel, historique de performances, courbes d'évolution.</li>
+          <li>• 📋 <strong>Liste d'attente</strong> : Inscription automatique à la libération d'une place sur une séance complète.</li>
+          <li>• 💳 <strong>Paiement en ligne</strong> : Règlement de cotisation par carte bancaire (Stripe), factures PDF automatiques.</li>
         </ul>
       </div>
     </div>

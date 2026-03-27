@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  ArrowLeft, Plus, Trash2, CreditCard, Banknote, Building2, Filter, BarChart3, TrendingUp, Users, Calendar
+  ArrowLeft, Plus, Trash2, CreditCard, Banknote, Building2, Filter, BarChart3, TrendingUp, Users, Calendar, Download
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -180,6 +180,35 @@ export default function Payments() {
       fetchPayments();
       fetchSummary();
     }
+  };
+
+  // ─── Export CSV ────────────────────────────────────────────────
+  const exportCsv = () => {
+    if (payments.length === 0) {
+      toast.info("Aucun règlement à exporter.");
+      return;
+    }
+    const headers = ["Date", "Adhérent", "Email", "Montant (€)", "Mode", "Reçu par", "Date renouvellement", "Commentaire"];
+    const rows = payments.map((p) => [
+      formatDate(p.payment_date),
+      p.adherent_name,
+      p.adherent_email,
+      p.amount ? Number(p.amount).toFixed(2) : "",
+      p.payment_method ? METHOD_LABELS[p.payment_method] || p.payment_method : "",
+      p.coach_name || "",
+      p.renewal_date ? formatDate(p.renewal_date) : "",
+      p.comment || "",
+    ]);
+    const bom = "\uFEFF";
+    const csv = bom + [headers, ...rows].map((r) => r.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(";")).join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `reglements_agheal_${new Date().toISOString().split("T")[0]}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success(`${payments.length} règlement(s) exporté(s) en CSV.`);
   };
 
   // ─── Helpers ───────────────────────────────────────────────────
@@ -397,9 +426,20 @@ export default function Payments() {
             {/* ─── Liste des règlements ──────────────────────────────── */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-base">
-                  Historique ({payments.length} règlement{payments.length !== 1 && "s"})
-                </CardTitle>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-base">
+                    Historique ({payments.length} règlement{payments.length !== 1 && "s"})
+                  </CardTitle>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={exportCsv}
+                    className="flex items-center gap-2 text-xs"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    Exporter CSV
+                  </Button>
+                </div>
               </CardHeader>
               <CardContent>
                 {payments.length === 0 ? (
