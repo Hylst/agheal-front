@@ -124,7 +124,13 @@ d:\0CODE\AntiGravity\agheal-api\      ← Backend PHP (REPOSITORY: api-agheal)
 │   │   ├── EmailCampaignController.php # Campagnes e-mails programmées
 │   │   ├── PushController.php        # Web Push VAPID
 │   │   ├── ContactController.php     # Formulaire de contact
-│   │   └── HistoryController.php     # Historique messages immuable
+│   │
+│   ├── Repositories/                 # ⭐ Accès BDD (Couche Données)
+│   │   ├── SessionRepository.php     # Requetes SQL liées aux séances
+│   │   ├── AttendanceRepository.php  # Transactions d'appels / présences
+│   │   ├── RegistrationRepository.php# Inscriptions + verrous (FOR UPDATE)
+│   │   ├── ProfileRepository.php     # Données profils + jointures rôles
+│   │   └── StatsRepository.php       # Agrégations complexes BI
 │   │
 │   ├── Middleware/
 │   │   └── AuthMiddleware.php        # Vérification JWT

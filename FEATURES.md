@@ -52,6 +52,14 @@ Toutes les fonctionnalités du coach, plus :
 
 ---
 
+## 🏗️ Architecture & Code
+
+- **Pattern Repository** : Séparation stricte des responsabilités (Single Responsibility Principle). Les contrôleurs gèrent le HTTP et l'authentification, les classes `*Repository` encapsulent toute la logique SQL complexes, les jointures et les transactions concurrentes (ex: `FOR UPDATE`).
+- **Didactique** : Commentaires exhaustifs en français à travers les fichiers clés pour guider l'apprentissage des développeurs juniors.
+- **Tests** : Architecture de tests unitaires (PHPUnit) préparée pour la validation continue de la logique métier.
+
+---
+
 ## 🔐 Sécurité
 
 - **JWT** (JSON Web Tokens) pour toutes les routes protégées. Refresh tokens long-lived.

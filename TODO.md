@@ -9,6 +9,8 @@ Liste des améliorations et fonctionnalités prévues pour les prochaines versio
 
 ## ✅ Terminé récemment (Mars 2026 — v1.9.1)
 
+- [x] **Refactorisation de l'API (Pattern Repository)** : Centralisation des requêtes SQL des contrôleurs principaux (`Session`, `Registration`, `Profile`, `Attendance`, `Stats`) dans des classes dédiées. Code documenté pour les débutants.
+- [x] **Tests Backend** : Initialisation de l'architecture de tests unitaires (PHPUnit).
 - [x] **Présences (Appel)** : Interface de pointage pour les coachs lors de la séance, ajout de walk-ins, traçabilité complète.
 - [x] **Statistiques & Exports** : Dashboard 6 onglets (KPIs, Séances, Présences, Démographie, Paiements, Logs). Export CSV et JSON.
 - [x] **Gestion avancée des Séances** : Fenêtre de réservation J-7, contrôles d'édition contextuels dans le planning public, masquage automatique des séances passées.
@@ -19,8 +21,8 @@ Liste des améliorations et fonctionnalités prévues pour les prochaines versio
 - [x] **Centralisation SQL** : `seed.sql` v2.0 corrigé et centralisé dans `agheal-api/mysql/`. Scripts obsolètes archivés.
 - [x] **Bug Stats 403** : Corrigé (`roles` tableau vs `role` string dans le JWT).
 - [x] **Badge paiement** : Correction `'regle'` → `'a_jour'` dans `Stats.tsx`.
-- [x] **Documentation pédagogique** : `explications_pedagogiques_completes.md` (14 sections) + `conseils_gestion_database.md`.
-- [x] **Audits DB** : `init.sql`, `init_trigger.sql`, `migrate_attendance.sql` synchronisés avec l'API.
+- [x] **Documentation pédagogique** : `explications_pedagogiques_completes.md` et `conseils_gestion_database.md`.
+- [x] **Audits DB** : Scripts SQL synchronisés avec l'API.
 
 ---
 

@@ -471,16 +471,20 @@ agheal-api/
 ├── src/
 │   ├── Auth.php                   ← JWT : sign, verify, requireAuth
 │   ├── Database.php               ← Connexion PDO (Singleton)
-│   ├── Controllers/
+│   ├── Controllers/             ← Logique de routage, vérification droits JWT
 │   │   ├── AuthController.php     ← login, register, refresh
-│   │   ├── SessionController.php  ← CRUD séances
-│   │   ├── AttendanceController.php← Appel et walk-ins
-│   │   ├── StatsController.php    ← Toutes les stats + logs + CSV
-│   │   ├── ProfileController.php  ← Profils membres
-│   │   ├── PaymentController.php  ← Paiements
-│   │   ├── GroupController.php    ← Groupes
-│   │   ├── CommunicationController.php ← Messages
-│   │   └── PushController.php     ← Notifications push
+│   │   ├── SessionController.php  ← endpoints API pour séances
+│   │   ├── AttendanceController.php← endpoints API pour présences
+│   │   ├── StatsController.php    ← endpoints API pour stats et exports CSV
+│   │   ├── ProfileController.php  ← endpoints API pour les membres
+│   │   └── ...                    ← (autres contrôleurs)
+│   ├── Repositories/            ← Logique base de données (Pattern Repository)
+│   │   ├── BaseRepository.php     ← Méthodes factorisées (fetchOne, execute)
+│   │   ├── SessionRepository.php  ← Requêtes SQL : CRUD Séances
+│   │   ├── RegistrationRepository.php ← Requêtes SQL : Inscriptions (avec Lock FOR UPDATE)
+│   │   ├── ProfileRepository.php  ← Requêtes SQL : Profils utilisateurs
+│   │   ├── AttendanceRepository.php ← Requêtes SQL : Appels, walk-ins, logs auto
+│   │   └── StatsRepository.php    ← Requêtes SQL : Tableaux de bord et indicateurs (KPIs)
 │   └── Services/
 │       ├── MailerService.php      ← Envoi d'emails
 │       └── LogService.php         ← Écriture dans la table `logs`
@@ -526,15 +530,24 @@ class Database {
 - **Vue** = la réponse JSON renvoyée
 - **Contrôleur** = la logique métier (le "Et si l'utilisateur est bloqué, on refuse l'inscription")
 
-### 3. Repository / Service Layer (léger)
+### 3. Pattern Repository — `src/Repositories/`
 
-`LogService.php` et `MailerService.php` sont des "services" : des classes dédiées à une tâche transverse (écrire des logs, envoyer des emails) qui peuvent être appelées depuis n'importe quel contrôleur.
+**Problème initial** : Au début, les contrôleurs (`SessionController`) vérifiaient les droits (JWT), calculaient des choses complexes (s'il reste de la place), ET écrivaient eux-mêmes les requêtes SQL. Le fichier devenait énorme (le fameux anti-pattern "Fat Controller").
 
-### 4. Front Controller — `index.php`
+**Solution** : Le **Pattern Repository** extrait absolument toute la logique de base de données dans des classes séparées qu'on appelle des `Repositories`.
+- **Le Contrôleur** devient "idiot" : il vérifie juste qu'on a le droit de faire une action, puis dépanne la tâche : *"Hé SessionRepository, donne-moi toutes les séances du mois !"*.
+- **Le Repository** contient les blocs `SELECT` / `UPDATE` / `INSERT`. 
+*Exemple : `ProfileRepository.php` encapsule toutes les opérations sur la table `profiles` et les préférences de notifications, afin que `ProfileController` soit propre et réutilisable ailleurs.*
+
+### 4. Service Layer (léger)
+
+`LogService.php` et `MailerService.php` sont des "services" : des classes dédiées à une tâche transverse (écrire des logs d'audit, envoyer des emails) qui peuvent être appelées depuis n'importe quel contrôleur ou repository sans avoir à se soucier de "Comment écrit-on un mail concrètement ?".
+
+### 5. Front Controller — `index.php`
 
 Un seul fichier d'entrée gère **toutes** les requêtes. C'est le patron **Front Controller** : un aiguilleur unique qui distribue le travail.
 
-### 5. Hook personnalisé React — `useAuth.tsx`
+### 6. Hook personnalisé React — `useAuth.tsx`
 
 En React, un "hook" est une fonction qui commence par `use` et encapsule de la logique réutilisable. `useAuth()` retourne l'état de connexion actuel depuis n'importe quel composant, sans avoir à repasser les informations de parent en enfant.
 

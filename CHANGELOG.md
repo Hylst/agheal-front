@@ -10,6 +10,12 @@ Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/)
 
 ## [1.9.1] - 26 Mars 2026
 
+### 🔧 Architecture — Pattern Repository
+- **Refonte API Backend** : Centralisation complète de la logique SQL (auparavant dispersée dans les contrôleurs) au sein d'une couche `Repositories` (`SessionRepository`, `RegistrationRepository`, `ProfileRepository`, `AttendanceRepository`, `StatsRepository`).
+- **Principe de Responsabilité Unique (SRP)** : Les contrôleurs ne s'occupent désormais que de valider les requêtes HTTP, vérifier les droits, et retourner le JSON. La base de données est gérée exclusivement par les Repositories.
+- **Sécurisation & Concurrence** : Utilisation de `FOR UPDATE` dans `RegistrationRepository` pour verrouiller proprement les sessions lors d'inscriptions simultanées. Gestion stricte des exceptions SQL converties en réponses HTTP propres (400, 404, 409).
+- **Tests** : Initialisation d'une architecture basique pour les tests PHPUnit (`tests/Repositories/`).
+
 ### 🔧 Base de données — Centralisation & Correction
 - **`seed.sql` v2.0** : Réécriture complète du script de données de test. Corrections de schéma : `password_hash` (au lieu de `password`), `email_confirmed_at` (TIMESTAMP), IDs de groupes en CHAR(36) UUID fixes, IDs de séances valides (≤36 chars), `received_by` (au lieu de `coach_id`), enum `espece` (sans 's'). Ajout d'un bloc de nettoyage en tête pour rendre le script idempotent (rejouable sans erreur).
 - **Centralisation SQL** : Tous les scripts SQL sont maintenant dans `agheal-api/mysql/`. `seed.sql` supprimé du dossier frontend. `*.sql` retiré du `.gitignore` du frontend.
