@@ -1,6 +1,6 @@
 # AGHeal — Application de gestion de séances sportives
 
-> **Version actuelle : 1.9.1** | [Fonctionnalités](./FEATURES.md) | [CHANGELOG](./CHANGELOG.md) | [TODO](./TODO.md) | [Structure](./STRUCTURE.md)
+> **Version actuelle : 1.9.2** | [Fonctionnalités](./FEATURES.md) | [CHANGELOG](./CHANGELOG.md) | [TODO](./TODO.md) | [Structure](./STRUCTURE.md)
 
 ## 👤 Auteur & Droits
 **Geoffroy Streit** - Développeur apprenant.  

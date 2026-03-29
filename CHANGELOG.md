@@ -8,6 +8,22 @@ Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/)
 
 ---
 
+## [1.9.2] - 30 Mars 2026
+
+### 🧪 Tests & Qualité (Backend)
+- **`phpunit.xml`** : Schéma XSD aligné sur PHPUnit 13 (élimine le warning de dépréciation).
+- **`BaseRepositoryTest`** : Rendue `abstract` — élimine le warning "No tests found in class".
+
+### 🔐 Sécurité (Backend)
+- **`firebase/php-jwt`** : Confirmé en `v7.0.4` — CVE-2025-45769 (`<7.0.0`) résolue. `composer audit` clean.
+
+### 📚 Documentation
+- **`STRUCTURE.md`** : Mise à jour complète de la couche Repository (8 classes) + dossier `tests/`.
+- **`README.md` (API)** : Version corrigée à 1.9.2, ajout sections Repositories et Tests PHPUnit.
+- **`.gitignore` (API)** : Exclusion de `phpunit_output.txt` et `.phpunit.cache/`.
+
+---
+
 ## [1.9.1] - 26 Mars 2026
 
 ### 🔧 Architecture — Pattern Repository

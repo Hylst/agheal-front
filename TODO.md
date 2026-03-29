@@ -7,7 +7,15 @@ Liste des améliorations et fonctionnalités prévues pour les prochaines versio
 
 ---
 
-## ✅ Terminé récemment (Mars 2026 — v1.9.1)
+## ✅ Terminé récemment (Mars 2026 — v1.9.2)
+
+- [x] **Vulnérabilité firebase/php-jwt (CVE-2025-45769)** : Confirmée résolue — v7.0.4 déjà installée. `composer audit` clean.
+- [x] **PHPUnit 13 — schema XML** : `phpunit.xml` aligné sur le bon schéma XSD (warning dépréciation éliminé).
+- [x] **BaseRepositoryTest** : Classe rendue `abstract` — élimine le warning "No tests found in class".
+- [x] **STRUCTURE.md** : Mis à jour avec les 8 classes Repository et le dossier `tests/`.
+- [x] **README.md (API)** : Version corrigée, sections Repositories et Tests ajoutées.
+
+## ✅ Terminé précédemment (Mars 2026 — v1.9.1)
 
 - [x] **Refactorisation de l'API (Pattern Repository)** : Centralisation des requêtes SQL des contrôleurs principaux (`Session`, `Registration`, `Profile`, `Attendance`, `Stats`) dans des classes dédiées. Code documenté pour les débutants.
 - [x] **Tests Backend** : Initialisation de l'architecture de tests unitaires (PHPUnit).

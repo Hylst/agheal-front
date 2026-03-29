@@ -2,7 +2,7 @@
 
 **Auteur :** Geoffroy Streit  
 **Année :** 2025–2026  
-**Mis à jour :** 2026-03-26
+**Mis à jour :** 2026-03-30
 
 Ce document décrit l'architecture technique et l'organisation du code source de l'application AGHeal.
 
@@ -126,11 +126,14 @@ d:\0CODE\AntiGravity\agheal-api\      ← Backend PHP (REPOSITORY: api-agheal)
 │   │   ├── ContactController.php     # Formulaire de contact
 │   │
 │   ├── Repositories/                 # ⭐ Accès BDD (Couche Données)
-│   │   ├── SessionRepository.php     # Requetes SQL liées aux séances
-│   │   ├── AttendanceRepository.php  # Transactions d'appels / présences
-│   │   ├── RegistrationRepository.php# Inscriptions + verrous (FOR UPDATE)
-│   │   ├── ProfileRepository.php     # Données profils + jointures rôles
-│   │   └── StatsRepository.php       # Agrégations complexes BI
+│   │   ├── BaseRepository.php        # Classe abstraite : PDO helpers, transactions
+│   │   ├── UserRepository.php        # CRUD users, rôles, OAuth upsert
+│   │   ├── ProfileRepository.php     # Profils, groupes, préférences notifications
+│   │   ├── SessionRepository.php     # Séances — CRUD, filtrage temporel, allowlist update
+│   │   ├── AttendanceRepository.php  # Appels présences, walk-ins, horodatage
+│   │   ├── RegistrationRepository.php# Inscriptions + verrous FOR UPDATE (concurrence)
+│   │   ├── PaymentRepository.php     # Règlements, agrégations dashboard financier
+│   │   └── StatsRepository.php       # Agrégations BI complexes (KPIs, démographie)
 │   │
 │   ├── Middleware/
 │   │   └── AuthMiddleware.php        # Vérification JWT
@@ -138,6 +141,12 @@ d:\0CODE\AntiGravity\agheal-api\      ← Backend PHP (REPOSITORY: api-agheal)
 │   └── Services/
 │       ├── MailerService.php         # PHPMailer (SMTP, templates HTML)
 │       └── LogService.php            # Écriture dans la table `logs`
+│
+├── tests/                            # 🧪 Tests unitaires (PHPUnit 13)
+│   ├── Support/
+│   │   └── RepositoryTestCase.php    # Classe de base abstraite (mock PDO) — hors scan actif
+│   └── Repositories/
+│       └── SessionRepositoryTest.php # Tests SessionRepository (architecture prête)
 │
 ├── mysql/                            # ⭐ SOURCE UNIQUE DE VÉRITÉ SQL
 │   ├── init.sql                      # Schéma complet (CREATE TABLE, VUEs)
@@ -153,6 +162,7 @@ d:\0CODE\AntiGravity\agheal-api\      ← Backend PHP (REPOSITORY: api-agheal)
 ├── vendor/                           # Dépendances Composer (PHPMailer, web-push…)
 ├── .env                              # DB_HOST, DB_USER, DB_PASS, JWT_SECRET…
 ├── composer.json
+├── phpunit.xml                       # Configuration PHPUnit 13
 └── Dockerfile                        # Docker pour déploiement Coolify
 ```
 
